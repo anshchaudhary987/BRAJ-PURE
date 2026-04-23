@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 const CheckIcon = () => (
   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -55,7 +56,7 @@ export default function Products() {
       id="products"
       ref={ref}
       style={{
-        padding: "100px 0",
+        padding: "120px 0 100px",
         background: "#FDFCFA",
         position: "relative",
         overflow: "hidden",
@@ -263,12 +264,12 @@ export default function Products() {
                   ))}
                 </div>
 
-                <a href="#order" className="btn-primary" style={{ textDecoration: "none", width: "100%", justifyContent: "center" }}>
+                <Link href="/order" className="btn-primary" style={{ textDecoration: "none", width: "100%", justifyContent: "center" }}>
                   <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                     Subscribe — {p.priceLabel}
                     <ArrowRight />
                   </span>
-                </a>
+                </Link>
               </div>
             </motion.div>
           ))}
@@ -330,9 +331,9 @@ export default function Products() {
               Start your free trial today. Cancel anytime, no questions asked.
             </div>
           </div>
-          <a href="#order" className="btn-gold" style={{ textDecoration: "none", whiteSpace: "nowrap", position: "relative", zIndex: 1 }}>
+          <Link href="/order" className="btn-gold" style={{ textDecoration: "none", whiteSpace: "nowrap", position: "relative", zIndex: 1 }}>
             <span>Start Free Trial</span>
-          </a>
+          </Link>
         </motion.div>
       </div>
 

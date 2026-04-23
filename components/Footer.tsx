@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 const LeafIcon = ({ size = 18, color = "#F5BC4A" }: { size?: number; color?: string }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75" />
@@ -94,14 +96,14 @@ export default function Footer() {
               Join 500+ families who start their mornings with Braj Pure.
             </div>
           </div>
-          <a href="#order" className="btn-gold" style={{ textDecoration: "none", whiteSpace: "nowrap" }}>
+          <Link href="/order" className="btn-gold" style={{ textDecoration: "none", whiteSpace: "nowrap" }}>
             <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               Start Free Trial
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
               </svg>
             </span>
-          </a>
+          </Link>
         </div>
 
         <div

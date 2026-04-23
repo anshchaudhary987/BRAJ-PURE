@@ -29,7 +29,7 @@ export default function Story() {
       id="story"
       ref={ref}
       style={{
-        padding: "100px 0",
+        padding: "120px 0 100px",
         background: "linear-gradient(180deg, #FFF8E7 0%, #F0F7F0 100%)",
         position: "relative",
         overflow: "hidden",

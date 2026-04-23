@@ -2,13 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
-  { label: "Why A2?", href: "#why-a2" },
-  { label: "Our Story", href: "#story" },
-  { label: "Products", href: "#products" },
-  { label: "Benefits", href: "#benefits" },
-  { label: "Testimonials", href: "#testimonials" },
+  { label: "Why A2?", href: "/#why-a2" },
+  { label: "Our Story", href: "/story" },
+  { label: "Products", href: "/products" },
+  { label: "Benefits", href: "/products#benefits" },
+  { label: "Testimonials", href: "/#testimonials" },
 ];
 
 /* ─── Leaf SVG Icon ─── */
@@ -29,12 +31,23 @@ const ArrowRight = () => (
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href.split("#")[0]) && href.split("#")[0] !== "/";
+  };
 
   return (
     <>
@@ -49,10 +62,10 @@ export default function Navbar() {
           right: 0,
           zIndex: 50,
           transition: "all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-          background: scrolled ? "rgba(255,248,231,0.92)" : "transparent",
-          backdropFilter: scrolled ? "blur(30px) saturate(180%)" : "none",
-          WebkitBackdropFilter: scrolled ? "blur(30px) saturate(180%)" : "none",
-          boxShadow: scrolled ? "0 4px 40px rgba(27,67,50,0.08)" : "none",
+          background: scrolled || pathname !== "/" ? "rgba(255,248,231,0.95)" : "transparent",
+          backdropFilter: scrolled || pathname !== "/" ? "blur(30px) saturate(180%)" : "none",
+          WebkitBackdropFilter: scrolled || pathname !== "/" ? "blur(30px) saturate(180%)" : "none",
+          boxShadow: scrolled || pathname !== "/" ? "0 4px 40px rgba(27,67,50,0.08)" : "none",
         }}
       >
         {/* Thin gold accent line at top */}
@@ -60,9 +73,10 @@ export default function Navbar() {
           style={{
             width: "100%",
             height: "2px",
-            background: scrolled
-              ? "linear-gradient(90deg, var(--forest), var(--saffron), var(--forest))"
-              : "linear-gradient(90deg, transparent, rgba(232,160,32,0.5), transparent)",
+            background:
+              scrolled || pathname !== "/"
+                ? "linear-gradient(90deg, var(--forest), var(--saffron), var(--forest))"
+                : "linear-gradient(90deg, transparent, rgba(232,160,32,0.5), transparent)",
             transition: "background 0.5s ease",
           }}
         />
@@ -80,7 +94,7 @@ export default function Navbar() {
           }}
         >
           {/* Logo */}
-          <a href="#" style={{ textDecoration: "none" }}>
+          <Link href="/" style={{ textDecoration: "none" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <div
                 style={{
@@ -105,7 +119,7 @@ export default function Navbar() {
                     fontSize: "22px",
                     lineHeight: 1,
                     letterSpacing: "0.5px",
-                    color: scrolled ? "#1B4332" : "#FFF8E7",
+                    color: scrolled || pathname !== "/" ? "#1B4332" : "#FFF8E7",
                     transition: "color 0.4s ease",
                   }}
                 >
@@ -127,7 +141,7 @@ export default function Navbar() {
                     fontWeight: 700,
                     letterSpacing: "2.5px",
                     textTransform: "uppercase",
-                    color: scrolled ? "#6B7280" : "rgba(253,252,250,0.55)",
+                    color: scrolled || pathname !== "/" ? "#6B7280" : "rgba(253,252,250,0.55)",
                     transition: "color 0.4s ease",
                     marginTop: "3px",
                   }}
@@ -136,7 +150,7 @@ export default function Navbar() {
                 </div>
               </div>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Nav links */}
           <div
@@ -148,14 +162,18 @@ export default function Navbar() {
             }}
           >
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.label}
                 href={link.href}
                 className="nav-link"
                 style={{
                   textDecoration: "none",
-                  color: scrolled ? "#1B4332" : "rgba(253,252,250,0.85)",
-                  fontWeight: 600,
+                  color: isActive(link.href)
+                    ? "#E8A020"
+                    : scrolled || pathname !== "/"
+                    ? "#1B4332"
+                    : "rgba(253,252,250,0.85)",
+                  fontWeight: isActive(link.href) ? 700 : 600,
                   fontSize: "14px",
                   letterSpacing: "0.3px",
                   position: "relative",
@@ -164,11 +182,26 @@ export default function Navbar() {
                 }}
               >
                 {link.label}
-              </a>
+                {/* Active indicator dot */}
+                {isActive(link.href) && (
+                  <span
+                    style={{
+                      position: "absolute",
+                      bottom: "-2px",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      width: "5px",
+                      height: "5px",
+                      borderRadius: "50%",
+                      background: "#E8A020",
+                    }}
+                  />
+                )}
+              </Link>
             ))}
 
-            <a
-              href="#order"
+            <Link
+              href="/order"
               className="nav-cta"
               style={{
                 textDecoration: "none",
@@ -190,7 +223,7 @@ export default function Navbar() {
             >
               <span>Order Now</span>
               <ArrowRight />
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Hamburger */}
@@ -215,7 +248,7 @@ export default function Navbar() {
                   display: "block",
                   width: "24px",
                   height: "2px",
-                  background: scrolled ? "#1B4332" : "white",
+                  background: scrolled || pathname !== "/" ? "#1B4332" : "white",
                   borderRadius: "2px",
                   transition: "all 0.3s ease",
                   transform:
@@ -232,7 +265,7 @@ export default function Navbar() {
         </div>
       </motion.nav>
 
-      {/* Mobile Full-Screen Menu */}
+      {/* Mobile Slide-in Menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -288,38 +321,36 @@ export default function Navbar() {
             </div>
 
             {navLinks.map((link, i) => (
-              <motion.a
-                key={link.label}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.06 + 0.1 }}
-                style={{
-                  textDecoration: "none",
-                  color: "#1B4332",
-                  fontFamily: "'Playfair Display', serif",
-                  fontWeight: 700,
-                  fontSize: "28px",
-                  padding: "12px 0",
-                  borderBottom: "1px solid rgba(27,67,50,0.08)",
-                }}
-              >
-                {link.label}
-              </motion.a>
+              <motion.div key={link.label} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 + 0.1 }}>
+                <Link
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    textDecoration: "none",
+                    color: isActive(link.href) ? "#E8A020" : "#1B4332",
+                    fontFamily: "'Playfair Display', serif",
+                    fontWeight: 700,
+                    fontSize: "28px",
+                    padding: "12px 0",
+                    borderBottom: "1px solid rgba(27,67,50,0.08)",
+                    display: "block",
+                  }}
+                >
+                  {link.label}
+                </Link>
+              </motion.div>
             ))}
 
-            <motion.a
-              href="#order"
-              onClick={() => setMenuOpen(false)}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="btn-gold"
-              style={{ textDecoration: "none", marginTop: "24px", justifyContent: "center" }}
-            >
-              <span>Order Now</span>
-            </motion.a>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+              <Link
+                href="/order"
+                onClick={() => setMenuOpen(false)}
+                className="btn-gold"
+                style={{ textDecoration: "none", marginTop: "24px", justifyContent: "center", display: "flex" }}
+              >
+                <span>Order Now</span>
+              </Link>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 /* Subtle floating circles instead of emoji particles */
 const floatingDots = Array.from({ length: 18 }, (_, i) => ({
@@ -373,14 +374,14 @@ export default function Hero() {
             transition={{ delay: 0.85, duration: 0.6 }}
             style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}
           >
-            <a href="#order" className="btn-gold" style={{ textDecoration: "none" }}>
+            <Link href="/order" className="btn-gold" style={{ textDecoration: "none" }}>
               <span>Start Free Trial</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
               </svg>
-            </a>
-            <a
-              href="#why-a2"
+            </Link>
+            <Link
+              href="/#why-a2"
               className="btn-outline"
               style={{ textDecoration: "none", color: "rgba(255,255,255,0.85)", borderColor: "rgba(255,255,255,0.3)" }}
             >
@@ -388,7 +389,7 @@ export default function Hero() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 5v14" /><path d="m19 12-7 7-7-7" />
               </svg>
-            </a>
+            </Link>
           </motion.div>
         </div>
 

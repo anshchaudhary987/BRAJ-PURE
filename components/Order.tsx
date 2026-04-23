@@ -41,7 +41,7 @@ export default function Order() {
       id="order"
       ref={ref}
       style={{
-        padding: "100px 0",
+        padding: "120px 0 100px",
         background: "linear-gradient(135deg, #0F2B1F 0%, #1B4332 40%, #2D6A4F 70%, #1a3a28 100%)",
         position: "relative",
         overflow: "hidden",
