@@ -5,12 +5,19 @@ import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 
 const timeline = [
-  { step: "01", icon: "🐄", title: "Pasture Raised", desc: "Our Gir cows roam freely on 20+ acres of organic farmland in the Brij region." },
-  { step: "02", icon: "🌅", title: "Dawn Milking", desc: "Hand-milked every morning at 4am following ancient Vedic traditions of care." },
-  { step: "03", icon: "❄️", title: "Flash Chilled", desc: "Milk is chilled to 4°C within 2 hours to preserve freshness and nutrients." },
-  { step: "04", icon: "🧪", title: "Quality Tested", desc: "Every batch is tested for purity, fat content & SNF before being approved." },
-  { step: "05", icon: "📦", title: "Freshly Packed", desc: "Sealed in food-grade, eco-friendly glass bottles to retain natural goodness." },
-  { step: "06", icon: "🏠", title: "Your Doorstep", desc: "Delivered by 7am — before you wake up. Fresh milk, every single morning." },
+  { step: "01", title: "Pasture Raised", desc: "Our Gir cows roam freely on 20+ acres of organic farmland in the Brij region.", iconPath: "M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75" },
+  { step: "02", title: "Dawn Milking", desc: "Hand-milked every morning at 4am following ancient Vedic traditions of care.", iconPath: "M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83" },
+  { step: "03", title: "Flash Chilled", desc: "Milk is chilled to 4°C within 2 hours to preserve freshness and nutrients.", iconPath: "M12 2a5 5 0 0 1 5 5c0 6-5 8-5 13M12 20h.01" },
+  { step: "04", title: "Quality Tested", desc: "Every batch is tested for purity, fat content & SNF before being approved.", iconPath: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0 1 12 2.944a11.955 11.955 0 0 1-8.618 3.04A12.02 12.02 0 0 0 3 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" },
+  { step: "05", title: "Freshly Packed", desc: "Sealed in food-grade, eco-friendly glass bottles to retain natural goodness.", iconPath: "M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" },
+  { step: "06", title: "Your Doorstep", desc: "Delivered by 7am — before you wake up. Fresh milk, every single morning.", iconPath: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10" },
+];
+
+const badges = [
+  { label: "Organic Feed", iconPath: "M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66" },
+  { label: "No Hormones", iconPath: "M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636" },
+  { label: "Free Range", iconPath: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" },
+  { label: "Lab Tested", iconPath: "M9 3v2m6-2v2M9 19v2m6-2v2M3 9h2m14 0h2M3 15h2m14 0h2M9 9h6v6H9z" },
 ];
 
 export default function Story() {
@@ -37,7 +44,7 @@ export default function Story() {
           width: "600px",
           height: "600px",
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(27,67,50,0.05) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(27,67,50,0.04) 0%, transparent 70%)",
           pointerEvents: "none",
         }}
       />
@@ -68,6 +75,7 @@ export default function Story() {
                 aspectRatio: "4/5",
                 position: "relative",
                 boxShadow: "0 40px 100px rgba(27,67,50,0.2)",
+                border: "2px solid rgba(232,160,32,0.15)",
               }}
             >
               <Image
@@ -114,12 +122,14 @@ export default function Story() {
                 borderRadius: "20px",
                 padding: "16px 20px",
                 boxShadow: "0 8px 40px rgba(27,67,50,0.15)",
-                border: "1px solid rgba(232,160,32,0.3)",
+                border: "1px solid rgba(232,160,32,0.2)",
                 textAlign: "center",
                 minWidth: "110px",
               }}
             >
-              <div style={{ fontSize: "28px" }}>🏆</div>
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E8A020" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ margin: "0 auto 4px" }}>
+                <circle cx="12" cy="8" r="6" /><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
+              </svg>
               <div style={{ fontSize: "11px", fontWeight: 800, color: "#1B4332", marginTop: "4px" }}>
                 FSSAI Certified
               </div>
@@ -132,7 +142,12 @@ export default function Story() {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <span className="section-tag">🐄 Our Story</span>
+            <span className="section-tag">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
+              </svg>
+              Our Story
+            </span>
             <h2
               style={{
                 fontFamily: "'Playfair Display', serif",
@@ -166,13 +181,8 @@ export default function Story() {
               is not just milk — it is a legacy of purity.
             </p>
 
-            <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
-              {[
-                { icon: "🌿", label: "Organic Feed" },
-                { icon: "💉", label: "No Hormones" },
-                { icon: "🏡", label: "Free Range" },
-                { icon: "🧪", label: "Lab Tested" },
-              ].map((badge) => (
+            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+              {badges.map((badge) => (
                 <div
                   key={badge.label}
                   style={{
@@ -180,15 +190,19 @@ export default function Story() {
                     alignItems: "center",
                     gap: "8px",
                     padding: "8px 16px",
-                    background: "rgba(27,67,50,0.07)",
+                    background: "rgba(27,67,50,0.05)",
                     borderRadius: "999px",
                     fontSize: "13px",
                     fontWeight: 700,
                     color: "#1B4332",
-                    border: "1px solid rgba(27,67,50,0.12)",
+                    border: "1px solid rgba(27,67,50,0.1)",
+                    transition: "all 0.3s ease",
                   }}
                 >
-                  {badge.icon} {badge.label}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B4332" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d={badge.iconPath} />
+                  </svg>
+                  {badge.label}
                 </div>
               ))}
             </div>
@@ -209,7 +223,7 @@ export default function Story() {
               marginBottom: "12px",
             }}
           >
-            From 🐄 Cow to 🏠 Your Door
+            From Farm to <span className="gradient-text-gold">Your Door</span>
           </motion.h2>
           <p style={{ color: "#6B7280", fontSize: "15px" }}>
             Every step is handled with care, tradition & science
@@ -229,7 +243,7 @@ export default function Story() {
           <div
             style={{
               position: "absolute",
-              top: "40px",
+              top: "36px",
               left: "8%",
               right: "8%",
               height: "2px",
@@ -259,19 +273,20 @@ export default function Story() {
                   width: "72px",
                   height: "72px",
                   borderRadius: "50%",
-                  background: i % 2 === 0 ? "#1B4332" : "white",
+                  background: i % 2 === 0 ? "linear-gradient(135deg, #1B4332, #2D6A4F)" : "white",
                   border: "3px solid",
                   borderColor: i % 2 === 0 ? "#1B4332" : "#E8A020",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: "28px",
                   marginBottom: "16px",
                   boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
                   flexShrink: 0,
                 }}
               >
-                {item.icon}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={i % 2 === 0 ? "#F5BC4A" : "#1B4332"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d={item.iconPath} />
+                </svg>
               </div>
               <div
                 style={{

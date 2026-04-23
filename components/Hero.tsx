@@ -4,14 +4,15 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-const floatingParticles = Array.from({ length: 12 }, (_, i) => ({
+/* Subtle floating circles instead of emoji particles */
+const floatingDots = Array.from({ length: 18 }, (_, i) => ({
   id: i,
-  size: Math.random() * 8 + 4,
+  size: Math.random() * 6 + 2,
   x: Math.random() * 100,
   y: Math.random() * 100,
   delay: Math.random() * 4,
-  duration: Math.random() * 6 + 5,
-  emoji: ["🌿", "⭐", "✨", "🌾", "💧", "🐄"][Math.floor(Math.random() * 6)],
+  duration: Math.random() * 8 + 6,
+  opacity: Math.random() * 0.15 + 0.05,
 }));
 
 export default function Hero() {
@@ -30,14 +31,17 @@ export default function Hero() {
     resize();
     window.addEventListener("resize", resize);
 
-    // Floating orbs
-    const orbs = Array.from({ length: 8 }, () => ({
+    const orbs = Array.from({ length: 6 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
-      r: Math.random() * 120 + 60,
-      color: ["rgba(232,160,32,0.08)", "rgba(27,67,50,0.06)", "rgba(255,248,231,0.12)"][Math.floor(Math.random() * 3)],
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      r: Math.random() * 150 + 80,
+      color: [
+        "rgba(232,160,32,0.06)",
+        "rgba(27,67,50,0.05)",
+        "rgba(255,248,231,0.08)",
+      ][Math.floor(Math.random() * 3)],
     }));
 
     let raf: number;
@@ -72,7 +76,7 @@ export default function Hero() {
       id="hero"
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(135deg, #1B4332 0%, #2D6A4F 40%, #1a3a28 100%)",
+        background: "linear-gradient(135deg, #0F2B1F 0%, #1B4332 35%, #2D6A4F 65%, #1a3a28 100%)",
         position: "relative",
         display: "flex",
         alignItems: "center",
@@ -85,144 +89,97 @@ export default function Hero() {
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 0 }}
       />
 
-      {/* Radial glow */}
+      {/* Radial glow accents */}
       <div
         style={{
           position: "absolute",
-          top: "20%",
-          right: "10%",
-          width: "600px",
-          height: "600px",
+          top: "15%",
+          right: "5%",
+          width: "700px",
+          height: "700px",
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(232,160,32,0.15) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(232,160,32,0.12) 0%, transparent 70%)",
           zIndex: 0,
-          animation: "float-slow 8s ease-in-out infinite",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          bottom: "-10%",
+          left: "-10%",
+          width: "500px",
+          height: "500px",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(45,106,79,0.2) 0%, transparent 70%)",
+          zIndex: 0,
         }}
       />
 
-      {/* ── Traditional Mandala watermark (background art) ── */}
+      {/* Subtle mandala watermark */}
       <div
         style={{
           position: "absolute",
-          right: "-80px",
+          right: "-100px",
           top: "50%",
           transform: "translateY(-50%)",
-          width: "700px",
-          height: "700px",
-          opacity: 0.04,
+          width: "650px",
+          height: "650px",
+          opacity: 0.03,
           zIndex: 0,
           pointerEvents: "none",
-          animation: "spin-slow 60s linear infinite",
+          animation: "spin-slow 80s linear infinite",
         }}
       >
         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="#F5BC4A">
-          {/* Mandala rings */}
-          {[95,85,75,65,55,45,35,25].map((r, i) => (
-            <circle key={r} cx="100" cy="100" r={r} fill="none" stroke="#F5BC4A" strokeWidth={i % 2 === 0 ? "0.8" : "0.4"} />
+          {[95, 85, 75, 65, 55, 45, 35, 25].map((r, i) => (
+            <circle key={r} cx="100" cy="100" r={r} fill="none" stroke="#F5BC4A" strokeWidth={i % 2 === 0 ? "0.6" : "0.3"} />
           ))}
-          {/* Petal rings */}
-          {Array.from({length: 12}, (_, i) => {
+          {Array.from({ length: 12 }, (_, i) => {
             const angle = (i * 30 * Math.PI) / 180;
             const x = 100 + 72 * Math.cos(angle);
             const y = 100 + 72 * Math.sin(angle);
-            return <ellipse key={i} cx={x} cy={y} rx="6" ry="14" fill="#F5BC4A" transform={`rotate(${i*30} ${x} ${y})`} />;
-          })}
-          {Array.from({length: 8}, (_, i) => {
-            const angle = (i * 45 * Math.PI) / 180;
-            const x = 100 + 50 * Math.cos(angle);
-            const y = 100 + 50 * Math.sin(angle);
-            return <ellipse key={i} cx={x} cy={y} rx="5" ry="12" fill="#F5BC4A" transform={`rotate(${i*45} ${x} ${y})`} />;
-          })}
-          {/* Center lotus */}
-          {Array.from({length: 6}, (_, i) => {
-            const angle = (i * 60 * Math.PI) / 180;
-            const x = 100 + 25 * Math.cos(angle);
-            const y = 100 + 25 * Math.sin(angle);
-            return <ellipse key={i} cx={x} cy={y} rx="4" ry="10" fill="#E8A020" transform={`rotate(${i*60} ${x} ${y})`} />;
+            return <ellipse key={i} cx={x} cy={y} rx="5" ry="13" fill="#F5BC4A" transform={`rotate(${i * 30} ${x} ${y})`} />;
           })}
           <circle cx="100" cy="100" r="8" fill="#F5BC4A" />
           <circle cx="100" cy="100" r="4" fill="#1B4332" />
-          {/* Diagonal lines */}
-          {Array.from({length: 12}, (_, i) => {
-            const angle = i * 30;
-            return <line key={i} x1="100" y1="100" x2={100 + 90 * Math.cos(angle * Math.PI / 180)} y2={100 + 90 * Math.sin(angle * Math.PI / 180)} stroke="#F5BC4A" strokeWidth="0.3" />;
-          })}
         </svg>
       </div>
 
-      {/* ── Traditional border strip across top of hero ── */}
-      <div
-        style={{
-          position: "absolute",
-          top: "70px",
-          left: 0,
-          right: 0,
-          zIndex: 2,
-          pointerEvents: "none",
-        }}
-      >
-        <svg width="100%" height="12" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-          <defs>
-            <pattern id="hero-border" x="0" y="0" width="32" height="12" patternUnits="userSpaceOnUse">
-              <polygon points="16,1 20,6 16,11 12,6" fill="rgba(232,160,32,0.5)" />
-              <circle cx="0" cy="6" r="1.5" fill="rgba(232,160,32,0.3)" />
-              <circle cx="32" cy="6" r="1.5" fill="rgba(232,160,32,0.3)" />
-              <line x1="0" y1="6" x2="10" y2="6" stroke="rgba(232,160,32,0.2)" strokeWidth="0.5" />
-              <line x1="22" y1="6" x2="32" y2="6" stroke="rgba(232,160,32,0.2)" strokeWidth="0.5" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="12" fill="url(#hero-border)" />
-        </svg>
-      </div>
-
-      {/* Floating emoji particles */}
-      {floatingParticles.map((p) => (
+      {/* Subtle floating dots */}
+      {floatingDots.map((p) => (
         <motion.div
           key={p.id}
           style={{
             position: "absolute",
             left: `${p.x}%`,
             top: `${p.y}%`,
-            fontSize: `${p.size + 10}px`,
-            opacity: 0.25,
+            width: `${p.size}px`,
+            height: `${p.size}px`,
+            borderRadius: "50%",
+            background: "rgba(245,188,74,0.5)",
+            opacity: p.opacity,
             zIndex: 0,
             pointerEvents: "none",
           }}
-          animate={{ y: [0, -30, 0], rotate: [0, 10, -10, 0] }}
-          transition={{ duration: p.duration, delay: p.delay, repeat: Infinity, ease: "easeInOut" }}
-        >
-          {p.emoji}
-        </motion.div>
+          animate={{
+            y: [0, -25, 0],
+            opacity: [p.opacity, p.opacity * 2, p.opacity],
+          }}
+          transition={{
+            duration: p.duration,
+            delay: p.delay,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
       ))}
-
-      {/* Spinning badge */}
-      <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        style={{
-          position: "absolute",
-          top: "15%",
-          left: "5%",
-          width: "100px",
-          height: "100px",
-          zIndex: 2,
-        }}
-        className="hidden-sm"
-      >
-        <svg viewBox="0 0 100 100" width="100" height="100">
-          <path id="circle-text" d="M 50 50 m -37 0 a 37 37 0 1 1 74 0 a 37 37 0 1 1 -74 0" fill="none" />
-          <text fontSize="11" fill="rgba(255,248,231,0.7)" fontFamily="Plus Jakarta Sans, sans-serif" fontWeight="700" letterSpacing="4">
-            <textPath href="#circle-text">🐄 A2 DESI COW MILK • PURE & NATURAL •</textPath>
-          </text>
-        </svg>
-      </motion.div>
 
       {/* Content */}
       <div
         style={{
           maxWidth: "1280px",
           margin: "0 auto",
-          padding: "120px 24px 80px",
+          padding: "140px 24px 100px",
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
           gap: "64px",
@@ -239,16 +196,16 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            style={{ marginBottom: "16px" }}
+            style={{ marginBottom: "20px" }}
           >
             <span
               style={{
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "8px",
-                padding: "6px 16px",
-                background: "rgba(232,160,32,0.2)",
-                border: "1px solid rgba(232,160,32,0.4)",
+                padding: "8px 18px",
+                background: "rgba(232,160,32,0.15)",
+                border: "1px solid rgba(232,160,32,0.3)",
                 borderRadius: "999px",
                 fontSize: "11px",
                 fontWeight: 700,
@@ -257,7 +214,10 @@ export default function Hero() {
                 color: "#F5BC4A",
               }}
             >
-              🌿 From Mathura &amp; Vrindavan
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5BC4A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2L12 22" /><path d="M17 8C8 10 5.9 16.17 3.82 21.34" /><path d="M20 5c-1.5 1.5-5 3-9 4s-7 2.5-8.5 4" />
+              </svg>
+              From Mathura &amp; Vrindavan
             </span>
           </motion.div>
 
@@ -303,7 +263,7 @@ export default function Hero() {
             A2 Desi Cow Milk — Pure. Natural. Powerful.
           </motion.p>
 
-          {/* ── Sanskrit Sloka ── */}
+          {/* Sanskrit Sloka */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -311,23 +271,23 @@ export default function Hero() {
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "10px",
-              marginBottom: "20px",
+              gap: "12px",
+              marginBottom: "24px",
             }}
           >
-            <span style={{ color: "rgba(245,188,74,0.4)", fontSize: "12px" }}>◆◆◆</span>
+            <div style={{ width: "24px", height: "1px", background: "rgba(245,188,74,0.4)" }} />
             <span
               style={{
                 fontFamily: "'Playfair Display', serif",
                 fontSize: "13px",
                 fontStyle: "italic",
-                color: "rgba(245,188,74,0.75)",
+                color: "rgba(245,188,74,0.7)",
                 letterSpacing: "1px",
               }}
             >
               गावो विश्वस्य मातरः
             </span>
-            <span style={{ color: "rgba(245,188,74,0.4)", fontSize: "12px" }}>◆◆◆</span>
+            <div style={{ width: "24px", height: "1px", background: "rgba(245,188,74,0.4)" }} />
           </motion.div>
 
           <motion.p
@@ -336,8 +296,8 @@ export default function Hero() {
             transition={{ delay: 0.65, duration: 0.6 }}
             style={{
               fontSize: "16px",
-              lineHeight: 1.75,
-              color: "rgba(253,252,250,0.65)",
+              lineHeight: 1.8,
+              color: "rgba(253,252,250,0.6)",
               maxWidth: "480px",
               marginBottom: "40px",
             }}
@@ -354,7 +314,7 @@ export default function Hero() {
             transition={{ delay: 0.75, duration: 0.6 }}
             style={{
               display: "flex",
-              gap: "32px",
+              gap: "40px",
               marginBottom: "40px",
               flexWrap: "wrap",
             }}
@@ -363,27 +323,32 @@ export default function Hero() {
               { label: "Additives", value: "0%" },
               { label: "Pure A2", value: "100%" },
               { label: "Daily Delivery", value: "✓" },
-            ].map((s) => (
-              <div key={s.label}>
-                <div
-                  style={{
-                    fontFamily: "'Playfair Display', serif",
-                    fontSize: "2rem",
-                    fontWeight: 800,
-                    color: "#F5BC4A",
-                    lineHeight: 1,
-                  }}
-                >
-                  {s.value}
-                </div>
-                <div style={{ fontSize: "12px", color: "rgba(253,252,250,0.55)", fontWeight: 600, letterSpacing: "1px", marginTop: "4px" }}>
-                  {s.label}
+            ].map((s, i) => (
+              <div key={s.label} style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                {i > 0 && (
+                  <div style={{ width: "1px", height: "36px", background: "rgba(255,255,255,0.1)", marginRight: "-8px", marginLeft: "-24px" }} />
+                )}
+                <div>
+                  <div
+                    style={{
+                      fontFamily: "'Playfair Display', serif",
+                      fontSize: "2rem",
+                      fontWeight: 800,
+                      color: "#F5BC4A",
+                      lineHeight: 1,
+                    }}
+                  >
+                    {s.value}
+                  </div>
+                  <div style={{ fontSize: "11px", color: "rgba(253,252,250,0.5)", fontWeight: 600, letterSpacing: "1.5px", marginTop: "4px", textTransform: "uppercase" }}>
+                    {s.label}
+                  </div>
                 </div>
               </div>
             ))}
           </motion.div>
 
-          {/* ── Traditional divider ── */}
+          {/* Divider */}
           <motion.div
             initial={{ opacity: 0, scaleX: 0 }}
             animate={{ opacity: 1, scaleX: 1 }}
@@ -391,13 +356,14 @@ export default function Hero() {
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "10px",
-              marginBottom: "28px",
+              gap: "12px",
+              marginBottom: "32px",
+              maxWidth: "300px",
             }}
           >
-            <div style={{ flex: 1, height: "1px", background: "linear-gradient(90deg, transparent, rgba(232,160,32,0.5))" }} />
-            <span style={{ color: "#F5BC4A", fontSize: "14px" }}>✦ ॐ ✦</span>
-            <div style={{ flex: 1, height: "1px", background: "linear-gradient(90deg, rgba(232,160,32,0.5), transparent)" }} />
+            <div style={{ flex: 1, height: "1px", background: "linear-gradient(90deg, transparent, rgba(232,160,32,0.4))" }} />
+            <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#F5BC4A", opacity: 0.6 }} />
+            <div style={{ flex: 1, height: "1px", background: "linear-gradient(90deg, rgba(232,160,32,0.4), transparent)" }} />
           </motion.div>
 
           {/* CTA Buttons */}
@@ -408,10 +374,20 @@ export default function Hero() {
             style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}
           >
             <a href="#order" className="btn-gold" style={{ textDecoration: "none" }}>
-              <span>🥛 Start Free Trial</span>
+              <span>Start Free Trial</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+              </svg>
             </a>
-            <a href="#why-a2" className="btn-outline" style={{ textDecoration: "none", color: "white", borderColor: "rgba(255,255,255,0.4)" }}>
-              <span>Learn More ↓</span>
+            <a
+              href="#why-a2"
+              className="btn-outline"
+              style={{ textDecoration: "none", color: "rgba(255,255,255,0.85)", borderColor: "rgba(255,255,255,0.3)" }}
+            >
+              <span>Learn More</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 5v14" /><path d="m19 12-7 7-7-7" />
+              </svg>
             </a>
           </motion.div>
         </div>
@@ -427,20 +403,20 @@ export default function Hero() {
           <div
             style={{
               position: "absolute",
-              inset: "-20px",
+              inset: "-30px",
               borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(232,160,32,0.2) 0%, transparent 70%)",
-              animation: "pulse-glow 3s ease-in-out infinite",
+              background: "radial-gradient(circle, rgba(232,160,32,0.15) 0%, transparent 70%)",
+              animation: "pulse-glow 4s ease-in-out infinite",
             }}
           />
 
           <motion.div
-            animate={{ y: [0, -20, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            animate={{ y: [0, -15, 0] }}
+            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
             style={{
               position: "relative",
               width: "100%",
-              maxWidth: "500px",
+              maxWidth: "480px",
               aspectRatio: "1",
             }}
           >
@@ -450,8 +426,9 @@ export default function Hero() {
                 height: "100%",
                 borderRadius: "50%",
                 overflow: "hidden",
-                border: "3px solid rgba(232,160,32,0.3)",
-                boxShadow: "0 40px 120px rgba(0,0,0,0.4), 0 0 60px rgba(232,160,32,0.2)",
+                border: "2px solid rgba(232,160,32,0.25)",
+                boxShadow:
+                  "0 40px 120px rgba(0,0,0,0.4), 0 0 80px rgba(232,160,32,0.15), inset 0 0 60px rgba(0,0,0,0.1)",
               }}
             >
               <Image
@@ -463,49 +440,30 @@ export default function Hero() {
               />
             </div>
 
-            {/* Floating badge */}
-            <motion.div
-              animate={{ y: [0, -8, 0], rotate: [-2, 2, -2] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            {/* Decorative ring around image */}
+            <div
               style={{
                 position: "absolute",
-                bottom: "10%",
-                left: "-15%",
-                background: "rgba(255,248,231,0.95)",
-                borderRadius: "16px",
-                padding: "12px 18px",
-                boxShadow: "0 8px 32px rgba(0,0,0,0.15)",
-                border: "1px solid rgba(232,160,32,0.3)",
+                inset: "-12px",
+                borderRadius: "50%",
+                border: "1px solid rgba(232,160,32,0.12)",
+                pointerEvents: "none",
               }}
-            >
-              <div style={{ fontSize: "20px", marginBottom: "2px" }}>🌿</div>
-              <div style={{ fontSize: "12px", fontWeight: 800, color: "#1B4332" }}>100% Natural</div>
-              <div style={{ fontSize: "10px", color: "#6B7280" }}>No Preservatives</div>
-            </motion.div>
-
-            <motion.div
-              animate={{ y: [0, -10, 0], rotate: [2, -2, 2] }}
-              transition={{ duration: 4, delay: 1, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <div
               style={{
                 position: "absolute",
-                top: "10%",
-                right: "-10%",
-                background: "rgba(27,67,50,0.95)",
-                borderRadius: "16px",
-                padding: "12px 18px",
-                boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
-                border: "1px solid rgba(232,160,32,0.3)",
+                inset: "-24px",
+                borderRadius: "50%",
+                border: "1px solid rgba(232,160,32,0.06)",
+                pointerEvents: "none",
               }}
-            >
-              <div style={{ fontSize: "20px", marginBottom: "2px" }}>🐄</div>
-              <div style={{ fontSize: "12px", fontWeight: 800, color: "#F5BC4A" }}>Gir Cow</div>
-              <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.6)" }}>Purebred A2</div>
-            </motion.div>
+            />
           </motion.div>
         </motion.div>
       </div>
 
-      {/* Bottom wave */}
+      {/* Bottom wave — multi-layered */}
       <div
         style={{
           position: "absolute",
@@ -515,8 +473,10 @@ export default function Hero() {
           zIndex: 2,
         }}
       >
-        <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style={{ display: "block" }}>
-          <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#FFF8E7" />
+        <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style={{ display: "block" }}>
+          <path d="M0,60 C240,90 480,30 720,60 C960,90 1200,30 1440,60 L1440,100 L0,100 Z" fill="rgba(255,248,231,0.3)" />
+          <path d="M0,70 C360,100 1080,40 1440,70 L1440,100 L0,100 Z" fill="rgba(255,248,231,0.5)" />
+          <path d="M0,80 C360,95 1080,65 1440,80 L1440,100 L0,100 Z" fill="#FFF8E7" />
         </svg>
       </div>
 
@@ -525,9 +485,6 @@ export default function Hero() {
           .hero-grid {
             grid-template-columns: 1fr !important;
             text-align: center;
-          }
-          .hidden-sm {
-            display: none !important;
           }
         }
       `}</style>

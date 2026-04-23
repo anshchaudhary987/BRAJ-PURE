@@ -5,46 +5,73 @@ import { motion, useInView } from "framer-motion";
 
 const reasons = [
   {
-    icon: "🧬",
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1B4332" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2a5 5 0 0 1 5 5c0 6-5 8-5 13" /><path d="M12 20h.01" /><circle cx="12" cy="7" r="1" fill="#1B4332" />
+      </svg>
+    ),
     title: "A2 Beta-Casein Protein",
     desc: "Braj Pure milk contains only the A2 type of beta-casein protein — gentler on your gut, closer to human breast milk.",
-    color: "#1B4332",
-    bg: "rgba(27,67,50,0.06)",
+    accent: "#1B4332",
+    accentBg: "rgba(27,67,50,0.07)",
   },
   {
-    icon: "🏥",
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C4831A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+      </svg>
+    ),
     title: "Easier Digestion",
     desc: "No BCM-7 (the opioid peptide found in A1 milk). Reduces bloating, inflammation & digestive discomfort significantly.",
-    color: "#C4831A",
-    bg: "rgba(232,160,32,0.08)",
+    accent: "#C4831A",
+    accentBg: "rgba(232,160,32,0.07)",
   },
   {
-    icon: "💪",
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1B4332" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M6.5 6.5 17.5 17.5" /><path d="M17.5 6.5 6.5 17.5" /><circle cx="12" cy="12" r="10" />
+        <path d="M12 2v4" /><path d="M12 18v4" /><path d="M2 12h4" /><path d="M18 12h4" />
+      </svg>
+    ),
     title: "Superior Nutrition",
     desc: "Rich in Omega-3, CLA, Vitamins A, D, B12 & calcium. Our Gir cows produce milk with a natural golden hue from carotene.",
-    color: "#1B4332",
-    bg: "rgba(27,67,50,0.06)",
+    accent: "#1B4332",
+    accentBg: "rgba(27,67,50,0.07)",
   },
   {
-    icon: "🌱",
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C4831A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75" />
+      </svg>
+    ),
     title: "Zero Additives",
     desc: "No preservatives, no antibiotics, no synthetic hormones. What you get is milk exactly as it comes from our cows — nothing more.",
-    color: "#C4831A",
-    bg: "rgba(232,160,32,0.08)",
+    accent: "#C4831A",
+    accentBg: "rgba(232,160,32,0.07)",
   },
   {
-    icon: "🐄",
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1B4332" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
+        <path d="m9 12 2 2 4-4" />
+      </svg>
+    ),
     title: "Purebred Gir Cows",
     desc: "Our cows are free-range, grass-fed Gir breed — the original Desi cow of India. Treated with love, not chemicals.",
-    color: "#1B4332",
-    bg: "rgba(27,67,50,0.06)",
+    accent: "#1B4332",
+    accentBg: "rgba(27,67,50,0.07)",
   },
   {
-    icon: "📦",
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C4831A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="1" y="3" width="15" height="13" rx="2" /><path d="m16 8 5 3v5l-5 3V8Z" />
+        <path d="M5 16v2" /><path d="M12 16v2" />
+      </svg>
+    ),
     title: "Farm to Doorstep",
     desc: "Milked at dawn. Chilled within the hour. At your door by morning. The freshness you can taste in every sip.",
-    color: "#C4831A",
-    bg: "rgba(232,160,32,0.08)",
+    accent: "#C4831A",
+    accentBg: "rgba(232,160,32,0.07)",
   },
 ];
 
@@ -69,7 +96,12 @@ export default function WhyA2() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
           >
-            <span className="section-tag">🌿 Why Choose A2?</span>
+            <span className="section-tag">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75" />
+              </svg>
+              Why Choose A2?
+            </span>
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
@@ -113,10 +145,11 @@ export default function WhyA2() {
             display: "grid",
             gridTemplateColumns: "repeat(4, 1fr)",
             gap: "1px",
-            background: "rgba(27,67,50,0.1)",
+            background: "rgba(27,67,50,0.08)",
             borderRadius: "20px",
             overflow: "hidden",
             marginBottom: "60px",
+            boxShadow: "0 4px 24px rgba(27,67,50,0.06)",
           }}
           className="counter-grid"
         >
@@ -124,9 +157,10 @@ export default function WhyA2() {
             <div
               key={c.label}
               style={{
-                padding: "32px 24px",
-                background: i % 2 === 0 ? "#FDFCFA" : "#F5EDD4",
+                padding: "36px 24px",
+                background: i % 2 === 0 ? "#FDFCFA" : "#F9F3E3",
                 textAlign: "center",
+                position: "relative",
               }}
             >
               <div
@@ -139,7 +173,7 @@ export default function WhyA2() {
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
                   lineHeight: 1,
-                  marginBottom: "8px",
+                  marginBottom: "10px",
                 }}
               >
                 {c.value}
@@ -147,6 +181,21 @@ export default function WhyA2() {
               <div style={{ fontSize: "13px", color: "#6B7280", fontWeight: 600, letterSpacing: "0.5px" }}>
                 {c.label}
               </div>
+              {/* Bottom accent bar */}
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: "20%",
+                  right: "20%",
+                  height: "3px",
+                  background: i % 2 === 0
+                    ? "linear-gradient(90deg, transparent, #1B4332, transparent)"
+                    : "linear-gradient(90deg, transparent, #E8A020, transparent)",
+                  borderRadius: "999px",
+                  opacity: 0.4,
+                }}
+              />
             </div>
           ))}
         </motion.div>
@@ -166,39 +215,40 @@ export default function WhyA2() {
               initial={{ opacity: 0, y: 40 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.15 * i + 0.3, duration: 0.6 }}
-              className="card-tilt"
+              className="card-premium"
               style={{
                 background: "white",
                 borderRadius: "24px",
                 padding: "32px",
-                border: "1px solid rgba(27,67,50,0.08)",
-                boxShadow: "0 4px 24px rgba(27,67,50,0.06)",
+                border: "1px solid rgba(27,67,50,0.06)",
+                boxShadow: "0 4px 24px rgba(27,67,50,0.05)",
                 position: "relative",
-                overflow: "hidden",
+                cursor: "default",
               }}
             >
-              {/* Corner accent */}
+              {/* Bottom accent line */}
               <div
                 style={{
                   position: "absolute",
-                  top: 0,
-                  right: 0,
-                  width: "80px",
-                  height: "80px",
-                  background: r.bg,
-                  borderRadius: "0 24px 0 80px",
+                  bottom: 0,
+                  left: "16px",
+                  right: "16px",
+                  height: "3px",
+                  background: `linear-gradient(90deg, transparent, ${r.accent}, transparent)`,
+                  borderRadius: "0 0 24px 24px",
+                  opacity: 0.3,
+                  transition: "opacity 0.3s ease",
                 }}
               />
               <div
                 style={{
                   width: "56px",
                   height: "56px",
-                  background: r.bg,
+                  background: r.accentBg,
                   borderRadius: "16px",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: "28px",
                   marginBottom: "20px",
                 }}
               >
@@ -207,7 +257,7 @@ export default function WhyA2() {
               <h3
                 style={{
                   fontFamily: "'Playfair Display', serif",
-                  fontSize: "1.2rem",
+                  fontSize: "1.15rem",
                   fontWeight: 700,
                   color: "#1A1A2E",
                   marginBottom: "12px",

@@ -21,7 +21,6 @@ export default function Order() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // WhatsApp redirect
     const msg = encodeURIComponent(
       `🥛 *New Braj Pure Order*\n\n` +
         `👤 Name: ${formData.name}\n` +
@@ -43,7 +42,7 @@ export default function Order() {
       ref={ref}
       style={{
         padding: "100px 0",
-        background: "linear-gradient(135deg, #1B4332 0%, #2D6A4F 60%, #1a3a28 100%)",
+        background: "linear-gradient(135deg, #0F2B1F 0%, #1B4332 40%, #2D6A4F 70%, #1a3a28 100%)",
         position: "relative",
         overflow: "hidden",
       }}
@@ -53,7 +52,7 @@ export default function Order() {
         style={{
           position: "absolute",
           inset: 0,
-          backgroundImage: `radial-gradient(rgba(232,160,32,0.08) 1px, transparent 1px)`,
+          backgroundImage: `radial-gradient(rgba(232,160,32,0.06) 1px, transparent 1px)`,
           backgroundSize: "40px 40px",
           pointerEvents: "none",
         }}
@@ -63,10 +62,22 @@ export default function Order() {
           position: "absolute",
           top: "-100px",
           right: "-100px",
+          width: "500px",
+          height: "500px",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(232,160,32,0.1) 0%, transparent 70%)",
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          bottom: "-80px",
+          left: "-80px",
           width: "400px",
           height: "400px",
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(232,160,32,0.12) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(45,106,79,0.15) 0%, transparent 70%)",
           pointerEvents: "none",
         }}
       />
@@ -80,9 +91,9 @@ export default function Order() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "8px",
-                padding: "6px 16px",
-                background: "rgba(232,160,32,0.2)",
-                border: "1px solid rgba(232,160,32,0.4)",
+                padding: "8px 20px",
+                background: "rgba(232,160,32,0.15)",
+                border: "1px solid rgba(232,160,32,0.3)",
                 borderRadius: "999px",
                 fontSize: "11px",
                 fontWeight: 700,
@@ -92,7 +103,10 @@ export default function Order() {
                 marginBottom: "20px",
               }}
             >
-              🎁 3 Days Free Trial
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5BC4A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4" /><path d="M4 6v12c0 1.1.9 2 2 2h14v-4" /><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z" />
+              </svg>
+              3 Days Free Trial
             </span>
           </motion.div>
           <motion.h2
@@ -125,7 +139,7 @@ export default function Order() {
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2 }}
-            style={{ fontSize: "16px", color: "rgba(255,255,255,0.65)", maxWidth: "520px", margin: "0 auto" }}
+            style={{ fontSize: "16px", color: "rgba(255,255,255,0.6)", maxWidth: "520px", margin: "0 auto" }}
           >
             Fill the form below and we&apos;ll send you a WhatsApp confirmation. Your first 3 days are completely free.
           </motion.p>
@@ -146,11 +160,13 @@ export default function Order() {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.3, duration: 0.7 }}
             style={{
-              background: "rgba(255,255,255,0.05)",
+              background: "rgba(255,255,255,0.06)",
               borderRadius: "32px",
               padding: "40px",
               border: "1px solid rgba(255,255,255,0.1)",
               backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
             }}
           >
             {submitted ? (
@@ -159,7 +175,12 @@ export default function Order() {
                 animate={{ opacity: 1, scale: 1 }}
                 style={{ textAlign: "center", padding: "40px 0" }}
               >
-                <div style={{ fontSize: "64px", marginBottom: "20px" }}>🥛✅</div>
+                <div style={{ marginBottom: "20px" }}>
+                  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#F5BC4A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ margin: "0 auto" }}>
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <path d="m9 11 3 3L22 4" />
+                  </svg>
+                </div>
                 <h3
                   style={{
                     fontFamily: "'Playfair Display', serif",
@@ -171,9 +192,9 @@ export default function Order() {
                 >
                   Order Sent via WhatsApp!
                 </h3>
-                <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "15px", lineHeight: 1.7 }}>
+                <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "15px", lineHeight: 1.7 }}>
                   We&apos;ll confirm your 3-day free trial shortly. <br />
-                  Check your WhatsApp for a message from us. 🙏
+                  Check your WhatsApp for a message from us.
                 </p>
               </motion.div>
             ) : (
@@ -250,11 +271,20 @@ export default function Order() {
                   </div>
                 </div>
 
-                <button type="submit" className="btn-gold" style={{ width: "100%", justifyContent: "center", fontSize: "16px", padding: "18px 32px" }}>
-                  <span>📱 Send Order via WhatsApp — Start Free Trial</span>
+                <button
+                  type="submit"
+                  className="btn-gold"
+                  style={{ width: "100%", justifyContent: "center", fontSize: "16px", padding: "18px 32px" }}
+                >
+                  <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 2 11 13" /><path d="m22 2-7 20-4-9-9-4z" />
+                    </svg>
+                    Send Order via WhatsApp — Start Free Trial
+                  </span>
                 </button>
 
-                <p style={{ textAlign: "center", fontSize: "12px", color: "rgba(255,255,255,0.4)", marginTop: "16px" }}>
+                <p style={{ textAlign: "center", fontSize: "12px", color: "rgba(255,255,255,0.35)", marginTop: "16px" }}>
                   No payment required. We&apos;ll call you to confirm.
                 </p>
               </form>
@@ -266,13 +296,13 @@ export default function Order() {
             initial={{ opacity: 0, x: 40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.45, duration: 0.7 }}
-            style={{ display: "flex", flexDirection: "column", gap: "20px" }}
+            style={{ display: "flex", flexDirection: "column", gap: "16px" }}
           >
             {/* Price breakdown */}
             <div
               style={{
-                background: "rgba(232,160,32,0.12)",
-                border: "1px solid rgba(232,160,32,0.3)",
+                background: "rgba(232,160,32,0.1)",
+                border: "1px solid rgba(232,160,32,0.25)",
                 borderRadius: "24px",
                 padding: "28px",
               }}
@@ -280,20 +310,18 @@ export default function Order() {
               <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "2px", color: "#F5BC4A", marginBottom: "16px" }}>
                 YOUR PLAN
               </div>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
-                <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "14px" }}>Size</span>
-                <span style={{ color: "white", fontWeight: 700, fontSize: "14px" }}>{formData.size}</span>
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
-                <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "14px" }}>Quantity</span>
-                <span style={{ color: "white", fontWeight: 700, fontSize: "14px" }}>{formData.quantity}/day</span>
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
-                <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "14px" }}>Daily cost</span>
-                <span style={{ color: "white", fontWeight: 700, fontSize: "14px" }}>₹{dailyPrice * parseInt(formData.quantity)}</span>
-              </div>
-              <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", margin: "16px 0" }} />
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
+              {[
+                { label: "Size", value: formData.size },
+                { label: "Quantity", value: `${formData.quantity}/day` },
+                { label: "Daily cost", value: `₹${dailyPrice * parseInt(formData.quantity)}` },
+              ].map((row) => (
+                <div key={row.label} style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
+                  <span style={{ color: "rgba(255,255,255,0.6)", fontSize: "14px" }}>{row.label}</span>
+                  <span style={{ color: "white", fontWeight: 700, fontSize: "14px" }}>{row.value}</span>
+                </div>
+              ))}
+              <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", margin: "16px 0" }} />
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <span style={{ color: "#F5BC4A", fontWeight: 700 }}>Monthly total</span>
                 <span
                   style={{
@@ -310,10 +338,10 @@ export default function Order() {
 
             {/* Guarantees */}
             {[
-              { icon: "🎁", title: "3 Days Free", desc: "No payment for first 3 deliveries" },
-              { icon: "🚫", title: "Cancel Anytime", desc: "No lock-in. Stop whenever you want" },
-              { icon: "⏰", title: "By 7am Daily", desc: "Fresh milk before you wake up" },
-              { icon: "📱", title: "WhatsApp Support", desc: "Instant help, always available" },
+              { title: "3 Days Free", desc: "No payment for first 3 deliveries", iconPath: "M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4M4 6v12c0 1.1.9 2 2 2h14v-4M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z" },
+              { title: "Cancel Anytime", desc: "No lock-in. Stop whenever you want", iconPath: "M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636" },
+              { title: "By 7am Daily", desc: "Fresh milk before you wake up", iconPath: "M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83" },
+              { title: "WhatsApp Support", desc: "Instant help, always available", iconPath: "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" },
             ].map((g) => (
               <div
                 key={g.title}
@@ -321,16 +349,32 @@ export default function Order() {
                   display: "flex",
                   alignItems: "center",
                   gap: "16px",
-                  background: "rgba(255,255,255,0.05)",
+                  background: "rgba(255,255,255,0.04)",
                   borderRadius: "16px",
                   padding: "16px 20px",
-                  border: "1px solid rgba(255,255,255,0.08)",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  transition: "all 0.3s ease",
                 }}
               >
-                <div style={{ fontSize: "24px", flexShrink: 0 }}>{g.icon}</div>
+                <div
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    borderRadius: "12px",
+                    background: "rgba(232,160,32,0.1)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                  }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F5BC4A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d={g.iconPath} />
+                  </svg>
+                </div>
                 <div>
                   <div style={{ fontWeight: 700, fontSize: "14px", color: "white" }}>{g.title}</div>
-                  <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)", marginTop: "2px" }}>{g.desc}</div>
+                  <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.45)", marginTop: "2px" }}>{g.desc}</div>
                 </div>
               </div>
             ))}
@@ -364,7 +408,7 @@ const labelStyle: React.CSSProperties = {
   display: "block",
   fontSize: "12px",
   fontWeight: 700,
-  color: "rgba(255,255,255,0.6)",
+  color: "rgba(255,255,255,0.55)",
   letterSpacing: "1px",
   marginBottom: "8px",
   textTransform: "uppercase",
@@ -373,13 +417,13 @@ const labelStyle: React.CSSProperties = {
 const inputStyle: React.CSSProperties = {
   width: "100%",
   padding: "14px 18px",
-  background: "rgba(255,255,255,0.08)",
-  border: "1px solid rgba(255,255,255,0.15)",
+  background: "rgba(255,255,255,0.07)",
+  border: "1px solid rgba(255,255,255,0.12)",
   borderRadius: "14px",
   color: "white",
   fontSize: "15px",
   fontFamily: "Plus Jakarta Sans, sans-serif",
   outline: "none",
-  transition: "border-color 0.2s ease, box-shadow 0.2s ease",
+  transition: "border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease",
   colorScheme: "dark",
 };

@@ -4,6 +4,18 @@ import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 
+const CheckIcon = () => (
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M20 6 9 17l-5-5" />
+  </svg>
+);
+
+const ArrowRight = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+  </svg>
+);
+
 const products = [
   {
     id: "a2-500",
@@ -12,7 +24,7 @@ const products = [
     price: 50,
     priceLabel: "₹50 / day",
     badge: "Most Popular",
-    badgeColor: "#E8A020",
+    badgeColor: "linear-gradient(135deg, #E8A020, #F5BC4A)",
     desc: "Perfect for 1–2 people. Our signature A2 milk from purebred Gir cows. Rich, creamy and naturally sweet.",
     features: ["500ml daily delivery", "Pure A2 protein", "Zero additives", "Fresh by 7am"],
     image: "/hero-milk.png",
@@ -25,7 +37,7 @@ const products = [
     price: 100,
     priceLabel: "₹100 / day",
     badge: "Family Pack",
-    badgeColor: "#1B4332",
+    badgeColor: "linear-gradient(135deg, #1B4332, #2D6A4F)",
     desc: "Ideal for families of 3–5. Double the goodness, double the nutrition. Same purity, bigger bottle.",
     features: ["1 Litre daily delivery", "Pure A2 protein", "Zero additives", "Fresh by 7am"],
     image: "/milk-pour.png",
@@ -37,19 +49,6 @@ export default function Products() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const [hovered, setHovered] = useState<string | null>(null);
-  const [tilt, setTilt] = useState<{ [key: string]: { x: number; y: number } }>({});
-
-  const handleMouseMove = (e: React.MouseEvent, id: string) => {
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 12;
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 12;
-    setTilt((prev) => ({ ...prev, [id]: { x, y } }));
-  };
-
-  const handleMouseLeave = (id: string) => {
-    setHovered(null);
-    setTilt((prev) => ({ ...prev, [id]: { x: 0, y: 0 } }));
-  };
 
   return (
     <section
@@ -67,7 +66,7 @@ export default function Products() {
         style={{
           position: "absolute",
           inset: 0,
-          backgroundImage: `radial-gradient(rgba(27,67,50,0.04) 1px, transparent 1px)`,
+          backgroundImage: `radial-gradient(rgba(27,67,50,0.03) 1px, transparent 1px)`,
           backgroundSize: "32px 32px",
           pointerEvents: "none",
         }}
@@ -80,7 +79,12 @@ export default function Products() {
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
           >
-            <span className="section-tag">🥛 Our Products</span>
+            <span className="section-tag">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+              </svg>
+              Our Products
+            </span>
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
@@ -125,20 +129,19 @@ export default function Products() {
               initial={{ opacity: 0, y: 50 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: i * 0.15 + 0.2, duration: 0.7 }}
-              onMouseMove={(e) => handleMouseMove(e, p.id)}
               onMouseEnter={() => setHovered(p.id)}
-              onMouseLeave={() => handleMouseLeave(p.id)}
+              onMouseLeave={() => setHovered(null)}
               style={{
                 background: "white",
-                borderRadius: "32px",
+                borderRadius: "28px",
                 overflow: "hidden",
-                border: hovered === p.id ? "2px solid rgba(232,160,32,0.4)" : "2px solid rgba(27,67,50,0.08)",
+                border: hovered === p.id ? "2px solid rgba(232,160,32,0.35)" : "2px solid rgba(27,67,50,0.06)",
                 boxShadow:
                   hovered === p.id
                     ? "0 32px 80px rgba(27,67,50,0.15)"
-                    : "0 8px 32px rgba(27,67,50,0.07)",
-                transform: `perspective(1000px) rotateX(${-(tilt[p.id]?.y || 0)}deg) rotateY(${tilt[p.id]?.x || 0}deg) translateY(${hovered === p.id ? "-8px" : "0"})`,
-                transition: "transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease",
+                    : "0 8px 32px rgba(27,67,50,0.06)",
+                transform: `translateY(${hovered === p.id ? "-8px" : "0"})`,
+                transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
                 cursor: "pointer",
               }}
             >
@@ -159,19 +162,20 @@ export default function Products() {
                     left: "20px",
                     background: p.badgeColor,
                     color: "white",
-                    padding: "6px 14px",
+                    padding: "6px 16px",
                     borderRadius: "999px",
                     fontSize: "11px",
                     fontWeight: 800,
                     letterSpacing: "0.5px",
                     zIndex: 2,
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                   }}
                 >
                   {p.badge}
                 </div>
 
                 <motion.div
-                  animate={{ y: hovered === p.id ? [0, -12, 0] : 0 }}
+                  animate={{ y: hovered === p.id ? [0, -8, 0] : 0 }}
                   transition={{ duration: 2, repeat: hovered === p.id ? Infinity : 0, ease: "easeInOut" }}
                   style={{
                     position: "relative",
@@ -219,7 +223,10 @@ export default function Products() {
                         fontFamily: "'Playfair Display', serif",
                         fontSize: "1.8rem",
                         fontWeight: 900,
-                        color: "#1B4332",
+                        background: "linear-gradient(135deg, #1B4332, #2D6A4F)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
                         lineHeight: 1,
                       }}
                     >
@@ -236,23 +243,20 @@ export default function Products() {
                 {/* Features */}
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "24px" }}>
                   {p.features.map((f) => (
-                    <div key={f} style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: "#374151" }}>
+                    <div key={f} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "13px", color: "#374151" }}>
                       <div
                         style={{
-                          width: "18px",
-                          height: "18px",
+                          width: "20px",
+                          height: "20px",
                           borderRadius: "50%",
                           background: "linear-gradient(135deg, #1B4332, #40916C)",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
                           flexShrink: 0,
-                          fontSize: "9px",
-                          color: "white",
-                          fontWeight: 800,
                         }}
                       >
-                        ✓
+                        <CheckIcon />
                       </div>
                       <span style={{ fontWeight: 500 }}>{f}</span>
                     </div>
@@ -260,7 +264,10 @@ export default function Products() {
                 </div>
 
                 <a href="#order" className="btn-primary" style={{ textDecoration: "none", width: "100%", justifyContent: "center" }}>
-                  <span>Subscribe — {p.priceLabel}</span>
+                  <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    Subscribe — {p.priceLabel}
+                    <ArrowRight />
+                  </span>
                 </a>
               </div>
             </motion.div>
@@ -278,15 +285,30 @@ export default function Products() {
             margin: "48px auto 0",
             background: "linear-gradient(135deg, #1B4332, #2D6A4F)",
             borderRadius: "24px",
-            padding: "32px 40px",
+            padding: "36px 40px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             gap: "24px",
             flexWrap: "wrap",
+            position: "relative",
+            overflow: "hidden",
+            border: "1px solid rgba(232,160,32,0.2)",
           }}
         >
-          <div>
+          {/* Background glow */}
+          <div style={{
+            position: "absolute",
+            top: "-40px",
+            right: "-40px",
+            width: "200px",
+            height: "200px",
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(232,160,32,0.2), transparent)",
+            pointerEvents: "none",
+          }} />
+
+          <div style={{ position: "relative", zIndex: 1 }}>
             <div
               style={{
                 fontFamily: "'Playfair Display', serif",
@@ -294,15 +316,21 @@ export default function Products() {
                 fontWeight: 800,
                 color: "#FFF8E7",
                 marginBottom: "6px",
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
               }}
             >
-              🎁 Try 3 Days Free — No Payment Needed
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5BC4A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4" /><path d="M4 6v12c0 1.1.9 2 2 2h14v-4" /><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z" />
+              </svg>
+              Try 3 Days Free — No Payment Needed
             </div>
-            <div style={{ fontSize: "14px", color: "rgba(255,255,255,0.7)" }}>
+            <div style={{ fontSize: "14px", color: "rgba(255,255,255,0.65)" }}>
               Start your free trial today. Cancel anytime, no questions asked.
             </div>
           </div>
-          <a href="#order" className="btn-gold" style={{ textDecoration: "none", whiteSpace: "nowrap" }}>
+          <a href="#order" className="btn-gold" style={{ textDecoration: "none", whiteSpace: "nowrap", position: "relative", zIndex: 1 }}>
             <span>Start Free Trial</span>
           </a>
         </motion.div>

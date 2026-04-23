@@ -11,58 +11,19 @@ const navLinks = [
   { label: "Testimonials", href: "#testimonials" },
 ];
 
-// Traditional Indian SVG border pattern (rangoli/mandala-inspired dots & diamonds)
-const TopBorder = () => (
-  <div
-    style={{
-      width: "100%",
-      height: "6px",
-      background: "linear-gradient(90deg, #1B4332 0%, #E8A020 25%, #1B4332 50%, #E8A020 75%, #1B4332 100%)",
-      position: "relative",
-      flexShrink: 0,
-    }}
-  >
-    {/* Diamond row overlay */}
-    <div
-      style={{
-        position: "absolute",
-        inset: 0,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: "0px",
-        overflow: "hidden",
-      }}
-    >
-      <svg width="100%" height="6" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-        <defs>
-          <pattern id="border-diamonds" x="0" y="0" width="24" height="6" patternUnits="userSpaceOnUse">
-            <rect width="24" height="6" fill="none" />
-            {/* Diamond */}
-            <polygon points="12,0 16,3 12,6 8,3" fill="#E8A020" opacity="0.9" />
-            {/* Side dots */}
-            <circle cx="0" cy="3" r="1.5" fill="#FFF8E7" opacity="0.8" />
-            <circle cx="24" cy="3" r="1.5" fill="#FFF8E7" opacity="0.8" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="6" fill="url(#border-diamonds)" />
-      </svg>
-    </div>
-  </div>
+/* ─── Leaf SVG Icon ─── */
+const LeafIcon = ({ size = 20, color = "#FFF8E7" }: { size?: number; color?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75" />
+  </svg>
 );
 
-// Second thin accent line
-const AccentLine = ({ scrolled }: { scrolled: boolean }) => (
-  <div
-    style={{
-      width: "100%",
-      height: "1px",
-      background: scrolled
-        ? "linear-gradient(90deg, transparent 0%, rgba(232,160,32,0.4) 30%, rgba(232,160,32,0.8) 50%, rgba(232,160,32,0.4) 70%, transparent 100%)"
-        : "linear-gradient(90deg, transparent 0%, rgba(232,160,32,0.25) 50%, transparent 100%)",
-      transition: "background 0.5s ease",
-    }}
-  />
+/* ─── Arrow Icon for CTA ─── */
+const ArrowRight = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M5 12h14" />
+    <path d="m12 5 7 7-7 7" />
+  </svg>
 );
 
 export default function Navbar() {
@@ -81,102 +42,62 @@ export default function Navbar() {
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className="fixed top-0 left-0 right-0 z-50"
         style={{
-          transition: "background 0.5s ease, box-shadow 0.5s ease",
-          background: scrolled ? "rgba(255,248,231,0.96)" : "transparent",
-          backdropFilter: scrolled ? "blur(24px)" : "none",
-          boxShadow: scrolled ? "0 2px 40px rgba(27,67,50,0.12)" : "none",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 50,
+          transition: "all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          background: scrolled ? "rgba(255,248,231,0.92)" : "transparent",
+          backdropFilter: scrolled ? "blur(30px) saturate(180%)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(30px) saturate(180%)" : "none",
+          boxShadow: scrolled ? "0 4px 40px rgba(27,67,50,0.08)" : "none",
         }}
       >
-        {/* ── Traditional top border strip ── */}
-        <TopBorder />
-
-        {/* ── Rangoli-inspired second border ── */}
+        {/* Thin gold accent line at top */}
         <div
           style={{
             width: "100%",
-            padding: "0 0 2px 0",
-            background: scrolled ? "rgba(255,248,231,0.96)" : "transparent",
+            height: "2px",
+            background: scrolled
+              ? "linear-gradient(90deg, var(--forest), var(--saffron), var(--forest))"
+              : "linear-gradient(90deg, transparent, rgba(232,160,32,0.5), transparent)",
+            transition: "background 0.5s ease",
           }}
-        >
-          <AccentLine scrolled={scrolled} />
-        </div>
+        />
 
-        {/* ── Main navbar row ── */}
+        {/* Main navbar row */}
         <div
           style={{
             maxWidth: "1280px",
             margin: "0 auto",
-            padding: scrolled ? "10px 28px" : "16px 28px",
+            padding: scrolled ? "10px 28px" : "18px 28px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             transition: "padding 0.4s ease",
           }}
         >
-          {/* ─── Logo ─── */}
+          {/* Logo */}
           <a href="#" style={{ textDecoration: "none" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              {/* Icon with traditional border */}
-              <div style={{ position: "relative" }}>
-                <div
-                  style={{
-                    width: "46px",
-                    height: "46px",
-                    borderRadius: "14px",
-                    background: "linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "22px",
-                    boxShadow: "0 4px 16px rgba(27,67,50,0.35), inset 0 1px 0 rgba(255,255,255,0.1)",
-                    position: "relative",
-                    zIndex: 1,
-                  }}
-                >
-                  🐄
-                </div>
-                {/* Saffron corner accent */}
-                <div
-                  style={{
-                    position: "absolute",
-                    bottom: "-3px",
-                    right: "-3px",
-                    width: "14px",
-                    height: "14px",
-                    borderRadius: "4px",
-                    background: "linear-gradient(135deg, #E8A020, #F5BC4A)",
-                    zIndex: 2,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "8px",
-                  }}
-                >
-                  ✦
-                </div>
+              <div
+                style={{
+                  width: "44px",
+                  height: "44px",
+                  borderRadius: "14px",
+                  background: "linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: "0 4px 16px rgba(27,67,50,0.35), inset 0 1px 0 rgba(255,255,255,0.15)",
+                }}
+              >
+                <LeafIcon size={22} color="#F5BC4A" />
               </div>
 
-              {/* Brand name */}
               <div>
-                {/* Sanskrit/decorative tagline above brand name */}
-                <div
-                  style={{
-                    fontSize: "9px",
-                    fontWeight: 700,
-                    letterSpacing: "3px",
-                    textTransform: "uppercase",
-                    color: scrolled ? "#C4831A" : "rgba(245,188,74,0.8)",
-                    lineHeight: 1,
-                    marginBottom: "3px",
-                    fontFamily: "Plus Jakarta Sans, sans-serif",
-                    transition: "color 0.4s ease",
-                  }}
-                >
-                  ॐ  •  शुद्ध  •  प्राकृतिक  •  ॐ
-                </div>
-
                 <div
                   style={{
                     fontFamily: "'Playfair Display', serif",
@@ -200,52 +121,30 @@ export default function Navbar() {
                     Pure
                   </span>
                 </div>
-
-                {/* Below: A2 tag */}
                 <div
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "4px",
-                    marginTop: "2px",
+                    fontSize: "10px",
+                    fontWeight: 700,
+                    letterSpacing: "2.5px",
+                    textTransform: "uppercase",
+                    color: scrolled ? "#6B7280" : "rgba(253,252,250,0.55)",
+                    transition: "color 0.4s ease",
+                    marginTop: "3px",
                   }}
                 >
-                  <span
-                    style={{
-                      fontSize: "9px",
-                      fontWeight: 800,
-                      letterSpacing: "2px",
-                      textTransform: "uppercase",
-                      color: scrolled ? "#6B7280" : "rgba(253,252,250,0.55)",
-                      transition: "color 0.4s ease",
-                    }}
-                  >
-                    A2 Desi Cow Milk
-                  </span>
-                  {/* Tiny dot decorators */}
-                  <span style={{ color: "#E8A020", fontSize: "8px" }}>◆</span>
-                  <span
-                    style={{
-                      fontSize: "9px",
-                      fontWeight: 700,
-                      color: scrolled ? "#C4831A" : "rgba(245,188,74,0.7)",
-                      transition: "color 0.4s ease",
-                    }}
-                  >
-                    Mathura
-                  </span>
+                  A2 Desi Cow Milk
                 </div>
               </div>
             </div>
           </a>
 
-          {/* ─── Desktop Nav links ─── */}
+          {/* Desktop Nav links */}
           <div
             className="hidden-mobile"
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "28px",
+              gap: "32px",
             }}
           >
             {navLinks.map((link) => (
@@ -260,7 +159,7 @@ export default function Navbar() {
                   fontSize: "14px",
                   letterSpacing: "0.3px",
                   position: "relative",
-                  padding: "4px 0",
+                  padding: "6px 0",
                   transition: "color 0.3s ease",
                 }}
               >
@@ -268,9 +167,9 @@ export default function Navbar() {
               </a>
             ))}
 
-            {/* Traditional-styled CTA button */}
             <a
               href="#order"
+              className="nav-cta"
               style={{
                 textDecoration: "none",
                 display: "inline-flex",
@@ -279,30 +178,18 @@ export default function Navbar() {
                 padding: "10px 24px",
                 background: "linear-gradient(135deg, #1B4332, #2D6A4F)",
                 color: "white",
-                borderRadius: "12px",
+                borderRadius: "50px",
                 fontWeight: 700,
                 fontSize: "14px",
                 letterSpacing: "0.5px",
                 boxShadow: "0 4px 20px rgba(27,67,50,0.4)",
-                border: "1px solid rgba(232,160,32,0.4)",
-                transition: "all 0.3s ease",
+                transition: "all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
                 position: "relative",
                 overflow: "hidden",
               }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)";
-                (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 8px 32px rgba(27,67,50,0.5)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(0)";
-                (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 4px 20px rgba(27,67,50,0.4)";
-              }}
             >
-              {/* Decorative corner */}
-              <span style={{ fontSize: "13px" }}>🥛</span>
               <span>Order Now</span>
-              {/* Small diamond accent */}
-              <span style={{ color: "#F5BC4A", fontSize: "10px" }}>◆</span>
+              <ArrowRight />
             </a>
           </div>
 
@@ -343,66 +230,85 @@ export default function Navbar() {
             ))}
           </button>
         </div>
-
-        {/* ── Bottom accent line ── */}
-        <AccentLine scrolled={scrolled} />
       </motion.nav>
 
       {/* Mobile Full-Screen Menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
             style={{
               position: "fixed",
-              inset: 0,
+              top: 0,
+              right: 0,
+              bottom: 0,
+              width: "min(85vw, 400px)",
               background: "rgba(255,248,231,0.98)",
-              backdropFilter: "blur(20px)",
-              zIndex: 49,
+              backdropFilter: "blur(30px)",
+              zIndex: 51,
               display: "flex",
               flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "32px",
+              padding: "100px 40px 40px",
+              gap: "8px",
+              boxShadow: "-20px 0 60px rgba(0,0,0,0.1)",
             }}
           >
-            {/* Traditional decorative top in mobile menu */}
-            <div style={{ position: "absolute", top: 0, left: 0, right: 0 }}>
-              <TopBorder />
-            </div>
+            {/* Close button */}
+            <button
+              onClick={() => setMenuOpen(false)}
+              style={{
+                position: "absolute",
+                top: "24px",
+                right: "24px",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                fontSize: "28px",
+                color: "#1B4332",
+                fontWeight: 300,
+              }}
+            >
+              ✕
+            </button>
+
             <div
               style={{
                 fontFamily: "'Playfair Display', serif",
-                fontSize: "14px",
+                fontSize: "13px",
                 color: "#C4831A",
                 letterSpacing: "3px",
-                marginBottom: "8px",
+                marginBottom: "16px",
+                fontWeight: 600,
               }}
             >
-              ॐ  शुद्ध दूध  ॐ
+              MENU
             </div>
+
             {navLinks.map((link, i) => (
               <motion.a
                 key={link.label}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.07 }}
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.06 + 0.1 }}
                 style={{
                   textDecoration: "none",
                   color: "#1B4332",
                   fontFamily: "'Playfair Display', serif",
                   fontWeight: 700,
-                  fontSize: "32px",
+                  fontSize: "28px",
+                  padding: "12px 0",
+                  borderBottom: "1px solid rgba(27,67,50,0.08)",
                 }}
               >
                 {link.label}
               </motion.a>
             ))}
+
             <motion.a
               href="#order"
               onClick={() => setMenuOpen(false)}
@@ -410,11 +316,29 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
               className="btn-gold"
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: "none", marginTop: "24px", justifyContent: "center" }}
             >
-              <span>🥛 Order Now</span>
+              <span>Order Now</span>
             </motion.a>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Overlay when mobile menu is open */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setMenuOpen(false)}
+            style={{
+              position: "fixed",
+              inset: 0,
+              background: "rgba(0,0,0,0.3)",
+              zIndex: 50,
+            }}
+          />
         )}
       </AnimatePresence>
 
@@ -443,6 +367,10 @@ export default function Navbar() {
         }
         .nav-link:hover {
           color: #E8A020 !important;
+        }
+        .nav-cta:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 32px rgba(27,67,50,0.5);
         }
       `}</style>
     </>
