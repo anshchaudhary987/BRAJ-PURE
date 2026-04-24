@@ -6,43 +6,31 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
-  { label: "Why A2?", href: "/#why-a2" },
-  { label: "Our Story", href: "/story" },
-  { label: "Products", href: "/products" },
-  { label: "Benefits", href: "/products#benefits" },
-  { label: "Testimonials", href: "/#testimonials" },
+  { label: "Why A2?",     href: "/#why-a2" },
+  { label: "Our Story",   href: "/story" },
+  { label: "Products",    href: "/products" },
+  { label: "Benefits",    href: "/products#benefits" },
+  { label: "Testimonials",href: "/#testimonials" },
 ];
 
-/* ─── Leaf SVG Icon ─── */
-const LeafIcon = ({ size = 20, color = "#FFF8E7" }: { size?: number; color?: string }) => (
+const LeafIcon = ({ size = 20, color = "#D4A017" }: { size?: number; color?: string }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75" />
   </svg>
 );
 
-/* ─── Arrow Icon for CTA ─── */
-const ArrowRight = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M5 12h14" />
-    <path d="m12 5 7 7-7 7" />
-  </svg>
-);
-
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled]   = useState(false);
+  const [menuOpen, setMenuOpen]   = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40);
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu on route change
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
+  useEffect(() => { setMenuOpen(false); }, [pathname]);
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -52,148 +40,126 @@ export default function Navbar() {
   return (
     <>
       <motion.nav
-        initial={{ y: -80, opacity: 0 }}
+        initial={{ y: -90, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+        transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
         style={{
           position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
+          top: 0, left: 0, right: 0,
           zIndex: 50,
           transition: "all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-          background: scrolled || pathname !== "/" ? "rgba(255,248,231,0.95)" : "transparent",
-          backdropFilter: scrolled || pathname !== "/" ? "blur(30px) saturate(180%)" : "none",
-          WebkitBackdropFilter: scrolled || pathname !== "/" ? "blur(30px) saturate(180%)" : "none",
-          boxShadow: scrolled || pathname !== "/" ? "0 4px 40px rgba(27,67,50,0.08)" : "none",
+          background: scrolled
+            ? "rgba(6,10,6,0.9)"
+            : "transparent",
+          backdropFilter: scrolled ? "blur(32px) saturate(180%)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(32px) saturate(180%)" : "none",
+          boxShadow: scrolled ? "0 4px 40px rgba(0,0,0,0.5), 0 1px 0 rgba(212,160,23,0.12)" : "none",
         }}
       >
-        {/* Thin gold accent line at top */}
-        <div
-          style={{
-            width: "100%",
-            height: "2px",
-            background:
-              scrolled || pathname !== "/"
-                ? "linear-gradient(90deg, var(--forest), var(--saffron), var(--forest))"
-                : "linear-gradient(90deg, transparent, rgba(232,160,32,0.5), transparent)",
-            transition: "background 0.5s ease",
-          }}
-        />
+        {/* Gold accent line */}
+        <div style={{
+          width: "100%",
+          height: "1px",
+          background: scrolled
+            ? "linear-gradient(90deg, transparent, rgba(212,160,23,0.5), transparent)"
+            : "linear-gradient(90deg, transparent, rgba(212,160,23,0.2), transparent)",
+          transition: "background 0.5s ease",
+        }} />
 
-        {/* Main navbar row */}
-        <div
-          style={{
-            maxWidth: "1280px",
-            margin: "0 auto",
-            padding: scrolled ? "10px 28px" : "18px 28px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            transition: "padding 0.4s ease",
-          }}
-        >
+        <div style={{
+          maxWidth: "1300px",
+          margin: "0 auto",
+          padding: scrolled ? "12px 32px" : "20px 32px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          transition: "padding 0.4s ease",
+        }}>
           {/* Logo */}
           <Link href="/" style={{ textDecoration: "none" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              <div
-                style={{
-                  width: "44px",
-                  height: "44px",
-                  borderRadius: "14px",
-                  background: "linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  boxShadow: "0 4px 16px rgba(27,67,50,0.35), inset 0 1px 0 rgba(255,255,255,0.15)",
-                }}
-              >
-                <LeafIcon size={22} color="#F5BC4A" />
+            <motion.div
+              whileHover={{ scale: 1.03 }}
+              style={{ display: "flex", alignItems: "center", gap: "13px" }}
+            >
+              <div style={{
+                width: "42px",
+                height: "42px",
+                borderRadius: "13px",
+                background: "linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                boxShadow: "0 4px 20px rgba(212,160,23,0.25), inset 0 1px 0 rgba(255,255,255,0.08)",
+                border: "1px solid rgba(212,160,23,0.2)",
+                flexShrink: 0,
+              }}>
+                <LeafIcon size={20} color="#D4A017" />
               </div>
 
               <div>
-                <div
-                  style={{
-                    fontFamily: "'Playfair Display', serif",
-                    fontWeight: 900,
-                    fontSize: "22px",
-                    lineHeight: 1,
-                    letterSpacing: "0.5px",
-                    color: scrolled || pathname !== "/" ? "#1B4332" : "#FFF8E7",
-                    transition: "color 0.4s ease",
-                  }}
-                >
+                <div style={{
+                  fontFamily: "'Cinzel', serif",
+                  fontWeight: 700,
+                  fontSize: "20px",
+                  lineHeight: 1,
+                  letterSpacing: "1.5px",
+                  color: "#F0ECD8",
+                  transition: "color 0.4s ease",
+                }}>
                   Braj{" "}
-                  <span
-                    style={{
-                      background: "linear-gradient(135deg, #E8A020, #F5BC4A)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      backgroundClip: "text",
-                    }}
-                  >
+                  <span style={{
+                    background: "linear-gradient(135deg, #D4A017, #F5CC55)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}>
                     Pure
                   </span>
                 </div>
-                <div
-                  style={{
-                    fontSize: "10px",
-                    fontWeight: 700,
-                    letterSpacing: "2.5px",
-                    textTransform: "uppercase",
-                    color: scrolled || pathname !== "/" ? "#6B7280" : "rgba(253,252,250,0.55)",
-                    transition: "color 0.4s ease",
-                    marginTop: "3px",
-                  }}
-                >
+                <div style={{
+                  fontSize: "9px",
+                  fontWeight: 600,
+                  letterSpacing: "3px",
+                  textTransform: "uppercase",
+                  color: "rgba(212,160,23,0.6)",
+                  marginTop: "3px",
+                }}>
                   A2 Desi Cow Milk
                 </div>
               </div>
-            </div>
+            </motion.div>
           </Link>
 
-          {/* Desktop Nav links */}
-          <div
-            className="hidden-mobile"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "32px",
-            }}
-          >
+          {/* Desktop Nav */}
+          <div className="hide-mobile" style={{ display: "flex", alignItems: "center", gap: "36px" }}>
             {navLinks.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
-                className="nav-link"
                 style={{
                   textDecoration: "none",
-                  color: isActive(link.href)
-                    ? "#E8A020"
-                    : scrolled || pathname !== "/"
-                    ? "#1B4332"
-                    : "rgba(253,252,250,0.85)",
-                  fontWeight: isActive(link.href) ? 700 : 600,
+                  color: isActive(link.href) ? "#D4A017" : "rgba(240,236,216,0.7)",
+                  fontWeight: isActive(link.href) ? 700 : 500,
                   fontSize: "14px",
-                  letterSpacing: "0.3px",
+                  letterSpacing: "0.4px",
                   position: "relative",
                   padding: "6px 0",
                   transition: "color 0.3s ease",
                 }}
+                className="nav-link-dark"
               >
                 {link.label}
-                {/* Active indicator dot */}
                 {isActive(link.href) && (
-                  <span
+                  <motion.span
+                    layoutId="activeIndicator"
                     style={{
                       position: "absolute",
                       bottom: "-2px",
                       left: "50%",
                       transform: "translateX(-50%)",
-                      width: "5px",
-                      height: "5px",
+                      width: "4px",
+                      height: "4px",
                       borderRadius: "50%",
-                      background: "#E8A020",
+                      background: "#D4A017",
+                      boxShadow: "0 0 8px rgba(212,160,23,0.8)",
                     }}
                   />
                 )}
@@ -202,40 +168,26 @@ export default function Navbar() {
 
             <Link
               href="/order"
-              className="nav-cta"
-              style={{
-                textDecoration: "none",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "8px",
-                padding: "10px 24px",
-                background: "linear-gradient(135deg, #1B4332, #2D6A4F)",
-                color: "white",
-                borderRadius: "50px",
-                fontWeight: 700,
-                fontSize: "14px",
-                letterSpacing: "0.5px",
-                boxShadow: "0 4px 20px rgba(27,67,50,0.4)",
-                transition: "all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-                position: "relative",
-                overflow: "hidden",
-              }}
+              className="btn-gold"
+              style={{ padding: "10px 22px", fontSize: "13px" }}
             >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+              </svg>
               <span>Order Now</span>
-              <ArrowRight />
             </Link>
           </div>
 
           {/* Mobile Hamburger */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="mobile-menu-btn"
+            className="hide-desktop"
             style={{
-              display: "none",
               background: "none",
               border: "none",
               cursor: "pointer",
               padding: "8px",
+              display: "flex",
               flexDirection: "column",
               gap: "5px",
             }}
@@ -248,15 +200,12 @@ export default function Navbar() {
                   display: "block",
                   width: "24px",
                   height: "2px",
-                  background: scrolled || pathname !== "/" ? "#1B4332" : "white",
+                  background: "#D4A017",
                   borderRadius: "2px",
                   transition: "all 0.3s ease",
                   transform:
-                    menuOpen && i === 0
-                      ? "rotate(45deg) translateY(7px)"
-                      : menuOpen && i === 2
-                      ? "rotate(-45deg) translateY(-7px)"
-                      : "none",
+                    menuOpen && i === 0 ? "rotate(45deg) translateY(7px)" :
+                    menuOpen && i === 2 ? "rotate(-45deg) translateY(-7px)" : "none",
                   opacity: menuOpen && i === 1 ? 0 : 1,
                 }}
               />
@@ -265,144 +214,129 @@ export default function Navbar() {
         </div>
       </motion.nav>
 
-      {/* Mobile Slide-in Menu */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
-            style={{
-              position: "fixed",
-              top: 0,
-              right: 0,
-              bottom: 0,
-              width: "min(85vw, 400px)",
-              background: "rgba(255,248,231,0.98)",
-              backdropFilter: "blur(30px)",
-              zIndex: 51,
-              display: "flex",
-              flexDirection: "column",
-              padding: "100px 40px 40px",
-              gap: "8px",
-              boxShadow: "-20px 0 60px rgba(0,0,0,0.1)",
-            }}
-          >
-            {/* Close button */}
-            <button
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               onClick={() => setMenuOpen(false)}
               style={{
-                position: "absolute",
-                top: "24px",
-                right: "24px",
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                fontSize: "28px",
-                color: "#1B4332",
-                fontWeight: 300,
+                position: "fixed", inset: 0,
+                background: "rgba(0,0,0,0.6)",
+                backdropFilter: "blur(4px)",
+                zIndex: 49,
               }}
-            >
-              ✕
-            </button>
-
-            <div
+            />
+            <motion.div
+              initial={{ opacity: 0, x: "100%" }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: "100%" }}
+              transition={{ duration: 0.38, ease: [0.25, 0.46, 0.45, 0.94] }}
               style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: "13px",
-                color: "#C4831A",
-                letterSpacing: "3px",
-                marginBottom: "16px",
-                fontWeight: 600,
+                position: "fixed",
+                top: 0, right: 0, bottom: 0,
+                width: "min(80vw, 380px)",
+                background: "linear-gradient(160deg, #0E1A0E, #0A110A)",
+                backdropFilter: "blur(40px)",
+                zIndex: 51,
+                display: "flex",
+                flexDirection: "column",
+                padding: "100px 36px 40px",
+                gap: "4px",
+                boxShadow: "-20px 0 80px rgba(0,0,0,0.6)",
+                borderLeft: "1px solid rgba(212,160,23,0.15)",
               }}
             >
-              MENU
-            </div>
+              {/* Close */}
+              <button
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  position: "absolute", top: "24px", right: "24px",
+                  background: "rgba(212,160,23,0.1)",
+                  border: "1px solid rgba(212,160,23,0.2)",
+                  borderRadius: "10px",
+                  width: "38px", height: "38px",
+                  cursor: "pointer",
+                  fontSize: "18px",
+                  color: "#D4A017",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}
+              >
+                ✕
+              </button>
 
-            {navLinks.map((link, i) => (
-              <motion.div key={link.label} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 + 0.1 }}>
-                <Link
-                  href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  style={{
-                    textDecoration: "none",
-                    color: isActive(link.href) ? "#E8A020" : "#1B4332",
-                    fontFamily: "'Playfair Display', serif",
-                    fontWeight: 700,
-                    fontSize: "28px",
-                    padding: "12px 0",
-                    borderBottom: "1px solid rgba(27,67,50,0.08)",
-                    display: "block",
-                  }}
+              <div style={{
+                fontFamily: "'Cinzel', serif",
+                fontSize: "10px",
+                color: "rgba(212,160,23,0.5)",
+                letterSpacing: "4px",
+                marginBottom: "20px",
+              }}>
+                NAVIGATION
+              </div>
+
+              {navLinks.map((link, i) => (
+                <motion.div
+                  key={link.label}
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.07 + 0.05 }}
                 >
-                  {link.label}
+                  <Link
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    style={{
+                      textDecoration: "none",
+                      color: isActive(link.href) ? "#D4A017" : "rgba(240,236,216,0.75)",
+                      fontFamily: "'Playfair Display', serif",
+                      fontWeight: 700,
+                      fontSize: "26px",
+                      padding: "14px 0",
+                      borderBottom: "1px solid rgba(255,255,255,0.05)",
+                      display: "block",
+                      transition: "color 0.2s ease",
+                    }}
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
+              ))}
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.45 }}
+                style={{ marginTop: "28px" }}
+              >
+                <Link
+                  href="/order"
+                  onClick={() => setMenuOpen(false)}
+                  className="btn-gold"
+                  style={{ justifyContent: "center", display: "flex" }}
+                >
+                  <span>Start Free Trial</span>
                 </Link>
               </motion.div>
-            ))}
-
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
-              <Link
-                href="/order"
-                onClick={() => setMenuOpen(false)}
-                className="btn-gold"
-                style={{ textDecoration: "none", marginTop: "24px", justifyContent: "center", display: "flex" }}
-              >
-                <span>Order Now</span>
-              </Link>
             </motion.div>
-          </motion.div>
+          </>
         )}
       </AnimatePresence>
 
-      {/* Overlay when mobile menu is open */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setMenuOpen(false)}
-            style={{
-              position: "fixed",
-              inset: 0,
-              background: "rgba(0,0,0,0.3)",
-              zIndex: 50,
-            }}
-          />
-        )}
-      </AnimatePresence>
-
-      <style jsx>{`
-        @media (max-width: 900px) {
-          .hidden-mobile {
-            display: none !important;
-          }
-          .mobile-menu-btn {
-            display: flex !important;
-          }
-        }
-        .nav-link::after {
+      <style>{`
+        .nav-link-dark::after {
           content: '';
           position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 0;
-          height: 2px;
-          background: linear-gradient(90deg, #C4831A, #F5BC4A);
+          bottom: 0; left: 0;
+          width: 0; height: 1px;
+          background: linear-gradient(90deg, #D4A017, #F5CC55);
           border-radius: 2px;
           transition: width 0.3s ease;
         }
-        .nav-link:hover::after {
-          width: 100%;
-        }
-        .nav-link:hover {
-          color: #E8A020 !important;
-        }
-        .nav-cta:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 32px rgba(27,67,50,0.5);
-        }
+        .nav-link-dark:hover::after { width: 100%; }
+        .nav-link-dark:hover { color: #E8B835 !important; }
       `}</style>
     </>
   );

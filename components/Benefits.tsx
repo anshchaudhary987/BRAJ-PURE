@@ -13,8 +13,8 @@ const benefits = [
     title: "Stronger Bones & Teeth",
     short: "Superior calcium bioavailability",
     detail:
-      "A2 milk's calcium is paired with Vitamin D and phosphorus in a natural ratio that maximizes absorption. Regular consumption significantly improves bone density and reduces risk of osteoporosis — especially critical for growing children and elderly.",
-    accent: "#1B4332",
+      "A2 milk's calcium is paired with Vitamin D and phosphorus in a natural ratio that maximizes absorption. Regular consumption significantly improves bone density — especially critical for growing children and the elderly.",
+    accentColor: "#D4A017",
   },
   {
     icon: (
@@ -26,7 +26,7 @@ const benefits = [
     short: "Omega-3, B12 & Choline rich",
     detail:
       "Our milk is naturally rich in Omega-3 fatty acids, Vitamin B12, and Choline — all essential for brain health, neural connectivity, and cognitive performance. Better focus, better memory, better you.",
-    accent: "#C4831A",
+    accentColor: "#40916C",
   },
   {
     icon: (
@@ -38,7 +38,7 @@ const benefits = [
     short: "Natural immunoglobulins & antibodies",
     detail:
       "Braj Pure A2 milk contains natural immunoglobulins and colostrum-like proteins that train and boost your immune system. Health-conscious adults report fewer seasonal illnesses within weeks of daily consumption.",
-    accent: "#1B4332",
+    accentColor: "#D4A017",
   },
   {
     icon: (
@@ -50,7 +50,7 @@ const benefits = [
     short: "No BCM-7 peptide",
     detail:
       "A1 milk releases BCM-7 — an opioid peptide that disrupts gut microbiome and causes inflammation. A2 milk doesn't. Switch to Braj Pure and notice reduced bloating, better digestion, and improved gut health within days.",
-    accent: "#C4831A",
+    accentColor: "#40916C",
   },
   {
     icon: (
@@ -62,7 +62,7 @@ const benefits = [
     short: "Complete amino acid profile",
     detail:
       "With 8g of protein per 250ml and a complete essential amino acid profile, Braj Pure A2 milk is the ideal post-workout drink. It's the natural, clean protein that bodybuilders and athletes swear by.",
-    accent: "#1B4332",
+    accentColor: "#D4A017",
   },
   {
     icon: (
@@ -74,30 +74,43 @@ const benefits = [
     short: "Beta-carotene, Vitamin A & E",
     detail:
       "The golden hue of our Gir cow milk isn't just beautiful — it's beta-carotene. Combined with natural Vitamin A and E, regular consumption promotes cell regeneration, clearer skin, stronger hair, and a natural glow from within.",
-    accent: "#C4831A",
+    accentColor: "#40916C",
   },
 ];
 
+const nutritionFacts = [
+  { label: "Protein",   val: "8g" },
+  { label: "Calcium",   val: "290mg" },
+  { label: "Fat",       val: "8g" },
+  { label: "Vitamin D", val: "2.5µg" },
+];
+
 export default function Benefits() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-  const [activeIndex, setActiveIndex] = useState<number | null>(0);
+  const ref         = useRef(null);
+  const inView      = useInView(ref, { once: true, margin: "-100px" });
+  const [active, setActive] = useState<number | null>(0);
 
   return (
     <section
       id="benefits"
       ref={ref}
       style={{
-        padding: "100px 0",
-        background: "linear-gradient(180deg, #F0F7F0 0%, #FFF8E7 100%)",
+        padding: "110px 0",
+        background: "linear-gradient(180deg, #060A06 0%, #080E08 100%)",
+        position: "relative",
+        overflow: "hidden",
       }}
     >
-      <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 24px" }}>
+      {/* Background glows */}
+      <div style={{ position: "absolute", top: "-100px", left: "-100px", width: "500px", height: "500px", borderRadius: "50%", background: "radial-gradient(circle, rgba(212,160,23,0.04) 0%, transparent 70%)", pointerEvents: "none" }} />
+      <div style={{ position: "absolute", bottom: "-100px", right: "-100px", width: "600px", height: "600px", borderRadius: "50%", background: "radial-gradient(circle, rgba(27,67,50,0.08) 0%, transparent 70%)", pointerEvents: "none" }} />
+
+      <div style={{ maxWidth: "1300px", margin: "0 auto", padding: "0 32px" }}>
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: "70px" }}>
+        <div style={{ textAlign: "center", marginBottom: "72px" }}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}}>
             <span className="section-tag">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#D4A017" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
               </svg>
               Health Benefits
@@ -106,152 +119,131 @@ export default function Benefits() {
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.1, duration: 0.6 }}
+            transition={{ delay: 0.1, duration: 0.7 }}
             style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: "clamp(2rem, 4vw, 3.5rem)",
+              fontFamily: "'Cinzel', serif",
+              fontSize: "clamp(2rem, 4vw, 3.2rem)",
               fontWeight: 800,
-              color: "#1A1A2E",
-              lineHeight: 1.2,
-              marginBottom: "16px",
+              color: "#F0ECD8",
+              lineHeight: 1.15,
+              marginBottom: "18px",
+              letterSpacing: "-0.3px",
             }}
           >
-            What Braj Pure does
-            <span className="gradient-text-gold"> for your body</span>
+            What Braj Pure does{" "}
+            <span className="gradient-text-gold">for your body</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2 }}
-            style={{ fontSize: "16px", color: "#6B7280", maxWidth: "520px", margin: "0 auto" }}
+            style={{ fontSize: "16px", color: "rgba(240,236,216,0.4)", maxWidth: "520px", margin: "0 auto" }}
           >
             Science-backed benefits of A2 milk for health-conscious individuals and families.
           </motion.p>
         </div>
 
-        {/* Interactive Benefits */}
+        {/* Layout */}
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
-            gap: "48px",
+            gap: "52px",
             alignItems: "start",
           }}
           className="benefits-layout"
         >
-          {/* Left: Accordion list */}
+          {/* Accordion */}
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
             {benefits.map((b, i) => (
               <motion.div
                 key={b.title}
                 initial={{ opacity: 0, x: -30 }}
                 animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ delay: i * 0.08 + 0.2, duration: 0.5 }}
-                onClick={() => setActiveIndex(activeIndex === i ? null : i)}
+                transition={{ delay: i * 0.07 + 0.2, duration: 0.5 }}
+                onClick={() => setActive(active === i ? null : i)}
                 style={{
-                  background: activeIndex === i ? "white" : "rgba(255,255,255,0.5)",
-                  borderRadius: "20px",
-                  border: activeIndex === i ? "1px solid rgba(232,160,32,0.3)" : "1px solid transparent",
+                  background: active === i
+                    ? "linear-gradient(145deg, #182018, #131F13)"
+                    : "rgba(24,32,24,0.4)",
+                  borderRadius: "18px",
+                  border: active === i
+                    ? `1px solid ${b.accentColor}35`
+                    : "1px solid rgba(255,255,255,0.05)",
                   overflow: "hidden",
                   cursor: "pointer",
-                  boxShadow: activeIndex === i ? "0 8px 40px rgba(27,67,50,0.1)" : "none",
+                  boxShadow: active === i
+                    ? `0 8px 40px rgba(0,0,0,0.3), 0 0 20px ${b.accentColor}10`
+                    : "none",
                   transition: "all 0.3s ease",
                   position: "relative",
                 }}
               >
-                {/* Left accent bar */}
-                {activeIndex === i && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      left: 0,
-                      top: "12px",
-                      bottom: "12px",
-                      width: "3px",
-                      background: b.accent === "#1B4332"
-                        ? "linear-gradient(180deg, #1B4332, #40916C)"
-                        : "linear-gradient(180deg, #C4831A, #F5BC4A)",
-                      borderRadius: "0 3px 3px 0",
-                    }}
-                  />
+                {/* Active left accent bar */}
+                {active === i && (
+                  <div style={{
+                    position: "absolute",
+                    left: 0, top: "12px", bottom: "12px",
+                    width: "3px",
+                    background: `linear-gradient(180deg, ${b.accentColor}, ${b.accentColor}50)`,
+                    borderRadius: "0 3px 3px 0",
+                  }} />
                 )}
 
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "16px",
-                    padding: "20px 24px",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "48px",
-                      height: "48px",
-                      borderRadius: "14px",
-                      background: activeIndex === i
-                        ? (b.accent === "#1B4332" ? "rgba(27,67,50,0.1)" : "rgba(232,160,32,0.1)")
-                        : "rgba(27,67,50,0.04)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
-                      transition: "background 0.3s ease",
-                      color: b.accent,
-                    }}
-                  >
+                <div style={{
+                  display: "flex", alignItems: "center", gap: "16px",
+                  padding: "18px 22px",
+                }}>
+                  <div style={{
+                    width: "46px", height: "46px",
+                    borderRadius: "12px",
+                    background: active === i ? `${b.accentColor}15` : "rgba(255,255,255,0.04)",
+                    border: active === i ? `1px solid ${b.accentColor}30` : "1px solid rgba(255,255,255,0.05)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    flexShrink: 0,
+                    transition: "all 0.3s ease",
+                    color: active === i ? b.accentColor : "rgba(240,236,216,0.4)",
+                  }}>
                     {b.icon}
                   </div>
                   <div style={{ flex: 1 }}>
-                    <div
-                      style={{
-                        fontFamily: "'Playfair Display', serif",
-                        fontWeight: 700,
-                        fontSize: "1rem",
-                        color: "#1A1A2E",
-                        marginBottom: "2px",
-                      }}
-                    >
+                    <div style={{
+                      fontFamily: "'Playfair Display', serif",
+                      fontWeight: 700,
+                      fontSize: "1rem",
+                      color: active === i ? "#F0ECD8" : "rgba(240,236,216,0.7)",
+                      marginBottom: "2px",
+                      transition: "color 0.3s ease",
+                    }}>
                       {b.title}
                     </div>
-                    <div style={{ fontSize: "12px", color: "#6B7280", fontWeight: 500 }}>{b.short}</div>
+                    <div style={{ fontSize: "12px", color: "rgba(240,236,216,0.35)", fontWeight: 500 }}>{b.short}</div>
                   </div>
                   <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke={b.accent}
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    style={{
-                      transition: "transform 0.3s ease",
-                      transform: activeIndex === i ? "rotate(180deg)" : "rotate(0deg)",
-                      flexShrink: 0,
-                    }}
+                    width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke={active === i ? b.accentColor : "rgba(240,236,216,0.3)"}
+                    strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                    style={{ transition: "transform 0.3s ease, stroke 0.3s ease", transform: active === i ? "rotate(180deg)" : "rotate(0deg)", flexShrink: 0 }}
                   >
                     <path d="m6 9 6 6 6-6" />
                   </svg>
                 </div>
 
                 <AnimatePresence>
-                  {activeIndex === i && (
+                  {active === i && (
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.35 }}
+                      transition={{ duration: 0.3 }}
                       style={{ overflow: "hidden" }}
                     >
-                      <div
-                        style={{
-                          padding: "0 24px 20px 88px",
-                          fontSize: "14px",
-                          lineHeight: 1.75,
-                          color: "#4B5563",
-                        }}
-                      >
+                      <div style={{
+                        padding: "0 22px 18px 84px",
+                        fontSize: "13.5px",
+                        lineHeight: 1.8,
+                        color: "rgba(240,236,216,0.45)",
+                      }}>
                         {b.detail}
                       </div>
                     </motion.div>
@@ -261,150 +253,91 @@ export default function Benefits() {
             ))}
           </div>
 
-          {/* Right: Visual panel */}
+          {/* Right visual panel */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.3, duration: 0.7 }}
             style={{ position: "sticky", top: "100px" }}
           >
-            <div
-              style={{
-                background: "linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%)",
-                borderRadius: "32px",
-                padding: "48px 40px",
-                color: "white",
-                textAlign: "center",
-                position: "relative",
-                overflow: "hidden",
-              }}
-            >
-              {/* Decorative circles */}
-              <div
-                style={{
-                  position: "absolute",
-                  top: "-60px",
-                  right: "-60px",
-                  width: "200px",
-                  height: "200px",
-                  borderRadius: "50%",
-                  background: "rgba(232,160,32,0.12)",
-                }}
-              />
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: "-40px",
-                  left: "-40px",
-                  width: "150px",
-                  height: "150px",
-                  borderRadius: "50%",
-                  background: "rgba(255,255,255,0.04)",
-                }}
-              />
+            <div style={{
+              background: "linear-gradient(135deg, #0D2B1D 0%, #182018 50%, #1A1000 100%)",
+              borderRadius: "28px",
+              padding: "48px 40px",
+              color: "#F0ECD8",
+              textAlign: "center",
+              position: "relative",
+              overflow: "hidden",
+              border: "1px solid rgba(212,160,23,0.15)",
+              boxShadow: "0 24px 80px rgba(0,0,0,0.4)",
+            }}>
+              <div style={{ position: "absolute", top: "-60px", right: "-60px", width: "200px", height: "200px", borderRadius: "50%", background: "radial-gradient(circle, rgba(212,160,23,0.1), transparent)", pointerEvents: "none" }} />
+              <div style={{ position: "absolute", bottom: "-40px", left: "-40px", width: "160px", height: "160px", borderRadius: "50%", background: "radial-gradient(circle, rgba(64,145,108,0.06), transparent)", pointerEvents: "none" }} />
 
               <AnimatePresence mode="wait">
-                {activeIndex !== null && (
+                {active !== null && (
                   <motion.div
-                    key={activeIndex}
+                    key={active}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.35 }}
+                    transition={{ duration: 0.3 }}
                     style={{ position: "relative", zIndex: 1 }}
                   >
-                    <div
-                      style={{
-                        width: "72px",
-                        height: "72px",
-                        borderRadius: "20px",
-                        background: "rgba(255,255,255,0.1)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        margin: "0 auto 20px",
-                        color: "#F5BC4A",
-                      }}
-                    >
-                      <div style={{ transform: "scale(1.8)" }}>
-                        {benefits[activeIndex].icon}
-                      </div>
+                    <div style={{
+                      width: "72px", height: "72px",
+                      borderRadius: "20px",
+                      background: `${benefits[active].accentColor}15`,
+                      border: `1px solid ${benefits[active].accentColor}30`,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      margin: "0 auto 22px",
+                      color: benefits[active].accentColor,
+                    }}>
+                      <div style={{ transform: "scale(1.6)" }}>{benefits[active].icon}</div>
                     </div>
-                    <h3
-                      style={{
-                        fontFamily: "'Playfair Display', serif",
-                        fontSize: "1.6rem",
-                        fontWeight: 800,
-                        marginBottom: "16px",
-                        color: "#FFF8E7",
-                      }}
-                    >
-                      {benefits[activeIndex].title}
+                    <h3 style={{
+                      fontFamily: "'Cinzel', serif",
+                      fontSize: "1.4rem",
+                      fontWeight: 800,
+                      marginBottom: "18px",
+                      color: "#F0ECD8",
+                      letterSpacing: "-0.2px",
+                    }}>
+                      {benefits[active].title}
                     </h3>
-                    <p style={{ fontSize: "15px", lineHeight: 1.75, color: "rgba(255,255,255,0.7)" }}>
-                      {benefits[activeIndex].detail}
+                    <p style={{ fontSize: "14px", lineHeight: 1.8, color: "rgba(240,236,216,0.5)" }}>
+                      {benefits[active].detail}
                     </p>
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              {/* Divider */}
-              <div
-                style={{
-                  borderTop: "1px solid rgba(255,255,255,0.1)",
-                  margin: "32px 0",
-                  position: "relative",
-                  zIndex: 1,
-                }}
-              />
+              <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", margin: "32px 0", position: "relative", zIndex: 1 }} />
 
-              {/* Nutrition facts */}
               <div style={{ position: "relative", zIndex: 1 }}>
-                <div
-                  style={{
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    letterSpacing: "2px",
-                    color: "#F5BC4A",
-                    marginBottom: "16px",
-                  }}
-                >
-                  PER 250ML SERVING
+                <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "2.5px", color: "#D4A017", marginBottom: "18px", textTransform: "uppercase", fontFamily: "'Cinzel', serif" }}>
+                  Per 250ml Serving
                 </div>
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
-                    gap: "12px",
-                  }}
-                >
-                  {[
-                    { label: "Protein", val: "8g" },
-                    { label: "Calcium", val: "290mg" },
-                    { label: "Fat", val: "8g" },
-                    { label: "Vitamin D", val: "2.5µg" },
-                  ].map((n) => (
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+                  {nutritionFacts.map((n) => (
                     <div
                       key={n.label}
                       style={{
-                        background: "rgba(255,255,255,0.08)",
+                        background: "rgba(212,160,23,0.06)",
                         borderRadius: "14px",
                         padding: "14px",
-                        backdropFilter: "blur(8px)",
-                        border: "1px solid rgba(255,255,255,0.06)",
+                        border: "1px solid rgba(212,160,23,0.1)",
                       }}
                     >
-                      <div
-                        style={{
-                          fontFamily: "'Playfair Display', serif",
-                          fontSize: "1.4rem",
-                          fontWeight: 800,
-                          color: "#F5BC4A",
-                        }}
-                      >
+                      <div style={{
+                        fontFamily: "'Cinzel', serif",
+                        fontSize: "1.4rem",
+                        fontWeight: 800,
+                        color: "#D4A017",
+                      }}>
                         {n.val}
                       </div>
-                      <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.55)", marginTop: "4px" }}>
+                      <div style={{ fontSize: "11px", color: "rgba(240,236,216,0.4)", marginTop: "4px" }}>
                         {n.label}
                       </div>
                     </div>
@@ -416,11 +349,9 @@ export default function Benefits() {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         @media (max-width: 900px) {
-          .benefits-layout {
-            grid-template-columns: 1fr !important;
-          }
+          .benefits-layout { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </section>

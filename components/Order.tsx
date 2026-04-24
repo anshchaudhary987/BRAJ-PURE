@@ -42,7 +42,7 @@ export default function Order() {
       ref={ref}
       style={{
         padding: "120px 0 100px",
-        background: "linear-gradient(135deg, #0F2B1F 0%, #1B4332 40%, #2D6A4F 70%, #1a3a28 100%)",
+        background: "linear-gradient(135deg, #030705 0%, #060E08 30%, #0A1A0D 60%, #05090A 100%)",
         position: "relative",
         overflow: "hidden",
       }}
@@ -114,12 +114,13 @@ export default function Order() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.1, duration: 0.6 }}
             style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: "clamp(2rem, 4vw, 3.5rem)",
+              fontFamily: "'Cinzel', serif",
+              fontSize: "clamp(1.8rem, 3.5vw, 3.2rem)",
               fontWeight: 800,
-              color: "#FFF8E7",
-              lineHeight: 1.2,
+              color: "#F0ECD8",
+              lineHeight: 1.15,
               marginBottom: "16px",
+              letterSpacing: "-0.3px",
             }}
           >
             Start your Braj Pure journey
@@ -307,7 +308,7 @@ export default function Order() {
                 padding: "28px",
               }}
             >
-              <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "2px", color: "#F5BC4A", marginBottom: "16px" }}>
+              <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "2.5px", color: "#D4A017", marginBottom: "16px", fontFamily: "'Cinzel', serif" }}>
                 YOUR PLAN
               </div>
               {[
@@ -322,13 +323,13 @@ export default function Order() {
               ))}
               <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", margin: "16px 0" }} />
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span style={{ color: "#F5BC4A", fontWeight: 700 }}>Monthly total</span>
+                <span style={{ color: "#D4A017", fontWeight: 700 }}>Monthly total</span>
                 <span
                   style={{
-                    fontFamily: "'Playfair Display', serif",
+                    fontFamily: "'Cinzel', serif",
                     fontSize: "1.5rem",
                     fontWeight: 900,
-                    color: "#F5BC4A",
+                    color: "#D4A017",
                   }}
                 >
                   ₹{monthlyTotal}
@@ -382,7 +383,7 @@ export default function Order() {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         @media (max-width: 900px) {
           .order-layout {
             grid-template-columns: 1fr !important;
