@@ -381,14 +381,14 @@ export default function Hero() {
               <span>Start Free Trial</span>
             </Link>
             <Link
-              href="/#why-a2"
+              href="/products"
               className="btn-outline"
               style={{ textDecoration: "none" }}
             >
-              <span>Learn More</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 5v14" /><path d="m19 12-7 7-7-7" />
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 9h18M3 15h18M3 21h18M3 3h18"/>
               </svg>
+              <span>Explore Products</span>
             </Link>
           </motion.div>
         </div>

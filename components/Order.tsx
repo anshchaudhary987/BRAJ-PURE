@@ -48,18 +48,23 @@ export default function Order() {
     ? dailyPrice * parseInt(formData.quantity || "1") * 30 
     : dailyPrice * parseInt(formData.quantity || "1");
 
+  const isMilkProduct = formData.size.includes("a2") || formData.size.includes("buffalo");
+  const isActuallyMilk = isMilkProduct && !formData.size.includes("ghee") && !formData.size.includes("paneer") && !formData.size.includes("curd") && !formData.size.includes("butter");
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const freeTrialText = isActuallyMilk ? `\n\nPlease confirm my 3-day FREE TRIAL! 🙏` : `\n\nPlease confirm my order! 🙏`;
+    
     const msg = encodeURIComponent(
       `🥛 *New Braj Pure Order*\n\n` +
       `👤 Name: ${formData.name}\n` +
       `📱 Phone: ${formData.phone}\n` +
       `📍 Address: ${formData.address}\n` +
-      `📦 Size: ${formData.size}\n` +
-      `🔢 Quantity: ${formData.quantity} bottle/day\n` +
+      `📦 Item: ${productInfo.name}\n` +
+      `🔢 Quantity: ${formData.quantity}\n` +
       `📅 Start Date: ${formData.startDate}\n` +
-      `💰 Daily Cost: ₹${dailyPrice * parseInt(formData.quantity)}\n\n` +
-      `Please confirm my 3-day FREE TRIAL! 🙏`
+      `💰 Cost: ₹${productInfo.isSubscription ? dailyPrice * parseInt(formData.quantity) + "/day" : monthlyTotal}` +
+      freeTrialText
     );
     window.open(`https://wa.me/919258831914?text=${msg}`, "_blank");
     setSubmitted(true);
@@ -114,30 +119,32 @@ export default function Order() {
       <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 24px", position: "relative" }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: "60px" }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}}>
-            <span
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "8px",
-                padding: "8px 20px",
-                background: "rgba(232,160,32,0.15)",
-                border: "1px solid rgba(232,160,32,0.3)",
-                borderRadius: "999px",
-                fontSize: "11px",
-                fontWeight: 700,
-                letterSpacing: "2.5px",
-                textTransform: "uppercase",
-                color: "#F5BC4A",
-                marginBottom: "20px",
-              }}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5BC4A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4" /><path d="M4 6v12c0 1.1.9 2 2 2h14v-4" /><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z" />
-              </svg>
-              3 Days Free Trial
-            </span>
-          </motion.div>
+          {isActuallyMilk && (
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}}>
+              <span
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "8px 20px",
+                  background: "rgba(232,160,32,0.15)",
+                  border: "1px solid rgba(232,160,32,0.3)",
+                  borderRadius: "999px",
+                  fontSize: "11px",
+                  fontWeight: 700,
+                  letterSpacing: "2.5px",
+                  textTransform: "uppercase",
+                  color: "#F5BC4A",
+                  marginBottom: "20px",
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5BC4A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4" /><path d="M4 6v12c0 1.1.9 2 2 2h14v-4" /><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z" />
+                </svg>
+                3 Days Free Trial
+              </span>
+            </motion.div>
+          )}
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -171,7 +178,9 @@ export default function Order() {
             transition={{ delay: 0.2 }}
             style={{ fontSize: "16px", color: "rgba(255,255,255,0.6)", maxWidth: "520px", margin: "0 auto" }}
           >
-            Fill the form below and we&apos;ll send you a WhatsApp confirmation. Your first 3 days are completely free.
+            {isActuallyMilk 
+              ? "Fill the form below and we'll send you a WhatsApp confirmation. Your first 3 days are completely free."
+              : "Fill the form below to order our premium dairy products. We'll confirm your delivery shortly via WhatsApp."}
           </motion.p>
         </div>
 
@@ -324,7 +333,7 @@ export default function Order() {
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M22 2 11 13" /><path d="m22 2-7 20-4-9-9-4z" />
                     </svg>
-                    Send Order via WhatsApp — Start Free Trial
+                    {isActuallyMilk ? "Send Order via WhatsApp — Start Free Trial" : "Send Order via WhatsApp"}
                   </span>
                 </button>
 
