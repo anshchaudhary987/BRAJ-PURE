@@ -29,6 +29,9 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
+        <meta name="theme-color" content="#030705" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icon.png" />
       </head>
       <body>
         <Navbar />
