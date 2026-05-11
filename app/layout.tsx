@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PWAInstall from "@/components/PWAInstall";
 
 export const metadata: Metadata = {
   title: "Braj Pure | A2 Desi Cow Milk — Pure. Natural. Powerful.",
@@ -35,6 +36,7 @@ export default function RootLayout({
       </head>
       <body>
         <Navbar />
+        <PWAInstall />
         <main>{children}</main>
         <Footer />
 

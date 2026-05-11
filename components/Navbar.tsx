@@ -319,6 +319,24 @@ export default function Navbar() {
                 >
                   <span>Start Free Trial</span>
                 </Link>
+
+                <div 
+                  onClick={() => {
+                    const event = new CustomEvent('show-pwa-install');
+                    window.dispatchEvent(event);
+                    setMenuOpen(false);
+                  }}
+                  style={{ 
+                    marginTop: "12px",
+                    textAlign: "center", 
+                    color: "rgba(212,160,23,0.8)", 
+                    fontSize: "14px",
+                    cursor: "pointer",
+                    textDecoration: "underline"
+                  }}
+                >
+                  Download Mobile App
+                </div>
               </motion.div>
             </motion.div>
           </>
