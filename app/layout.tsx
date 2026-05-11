@@ -37,7 +37,7 @@ export default function RootLayout({
 
         {/* Floating WhatsApp CTA */}
         <a
-          href="https://wa.me/919999999999?text=Hi%20Braj%20Pure!%20I'd%20like%20to%20start%20my%20free%20trial."
+          href="https://wa.me/919258831914?text=Hi%20Braj%20Pure!%20I'd%20like%20to%20start%20my%20free%20trial."
           target="_blank"
           rel="noopener noreferrer"
           className="whatsapp-float"

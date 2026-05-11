@@ -10,29 +10,58 @@ export default function Order() {
     name: "",
     phone: "",
     address: "",
-    size: "500ml",
+    size: "a2-500",
     quantity: "1",
     startDate: "",
   });
   const [submitted, setSubmitted] = useState(false);
 
-  const dailyPrice = formData.size === "500ml" ? 50 : 100;
-  const monthlyTotal = dailyPrice * parseInt(formData.quantity || "1") * 30;
+  const prices: Record<string, number> = {
+    "a2-500": 40,
+    "a2-1l": 79,
+    "buffalo-500": 50,
+    "buffalo-1l": 89,
+    "ghee-500": 999,
+    "ghee-1l": 1849,
+    "paneer-500": 400,
+    "curd-500": 80,
+    "butter-250": 250,
+    "buttermilk-500": 50,
+  };
+
+  const productDetails: Record<string, { name: string; isSubscription: boolean }> = {
+    "a2-500": { name: "A2 Cow Milk (500ml)", isSubscription: true },
+    "a2-1l": { name: "A2 Cow Milk (1L)", isSubscription: true },
+    "buffalo-500": { name: "Buffalo Milk (500ml)", isSubscription: true },
+    "buffalo-1l": { name: "Buffalo Milk (1L)", isSubscription: true },
+    "ghee-500": { name: "A2 Ghee (500ml)", isSubscription: false },
+    "ghee-1l": { name: "A2 Ghee (1L)", isSubscription: false },
+    "paneer-500": { name: "Fresh Paneer (500g)", isSubscription: false },
+    "curd-500": { name: "A2 Curd (500g)", isSubscription: true },
+    "butter-250": { name: "White Butter (250g)", isSubscription: false },
+    "buttermilk-500": { name: "Buttermilk (500ml)", isSubscription: true },
+  };
+
+  const dailyPrice = prices[formData.size] || 0;
+  const productInfo = productDetails[formData.size] || { name: formData.size, isSubscription: false };
+  const monthlyTotal = productInfo.isSubscription 
+    ? dailyPrice * parseInt(formData.quantity || "1") * 30 
+    : dailyPrice * parseInt(formData.quantity || "1");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const msg = encodeURIComponent(
       `🥛 *New Braj Pure Order*\n\n` +
-        `👤 Name: ${formData.name}\n` +
-        `📱 Phone: ${formData.phone}\n` +
-        `📍 Address: ${formData.address}\n` +
-        `📦 Size: ${formData.size}\n` +
-        `🔢 Quantity: ${formData.quantity} bottle/day\n` +
-        `📅 Start Date: ${formData.startDate}\n` +
-        `💰 Daily Cost: ₹${dailyPrice * parseInt(formData.quantity)}\n\n` +
-        `Please confirm my 3-day FREE TRIAL! 🙏`
+      `👤 Name: ${formData.name}\n` +
+      `📱 Phone: ${formData.phone}\n` +
+      `📍 Address: ${formData.address}\n` +
+      `📦 Size: ${formData.size}\n` +
+      `🔢 Quantity: ${formData.quantity} bottle/day\n` +
+      `📅 Start Date: ${formData.startDate}\n` +
+      `💰 Daily Cost: ₹${dailyPrice * parseInt(formData.quantity)}\n\n` +
+      `Please confirm my 3-day FREE TRIAL! 🙏`
     );
-    window.open(`https://wa.me/919999999999?text=${msg}`, "_blank");
+    window.open(`https://wa.me/919258831914?text=${msg}`, "_blank");
     setSubmitted(true);
   };
 
@@ -242,8 +271,22 @@ export default function Order() {
                       onChange={(e) => setFormData((p) => ({ ...p, size: e.target.value }))}
                       style={inputStyle}
                     >
-                      <option value="500ml">500ml — ₹50/day</option>
-                      <option value="1L">1 Litre — ₹100/day</option>
+                      <optgroup label="A2 Desi Cow Milk">
+                        <option value="a2-500">500ml — ₹40/day</option>
+                        <option value="a2-1l">1 Litre — ₹79/day</option>
+                      </optgroup>
+                      <optgroup label="Fresh Buffalo Milk">
+                        <option value="buffalo-500">500ml — ₹50/day</option>
+                        <option value="buffalo-1l">1 Litre — ₹89/day</option>
+                      </optgroup>
+                      <optgroup label="Premium Dairy">
+                        <option value="ghee-500">A2 Cow Ghee (500ml) — ₹999</option>
+                        <option value="ghee-1l">A2 Cow Ghee (1L) — ₹1849</option>
+                        <option value="paneer-500">A2 Fresh Paneer (500g) — ₹400</option>
+                        <option value="curd-500">A2 Traditional Curd (500g) — ₹80</option>
+                        <option value="butter-250">A2 White Butter (250g) — ₹250</option>
+                        <option value="buttermilk-500">A2 Buttermilk (500ml) — ₹50</option>
+                      </optgroup>
                     </select>
                   </div>
                   <div>
@@ -312,18 +355,20 @@ export default function Order() {
                 YOUR PLAN
               </div>
               {[
-                { label: "Size", value: formData.size },
-                { label: "Quantity", value: `${formData.quantity}/day` },
-                { label: "Daily cost", value: `₹${dailyPrice * parseInt(formData.quantity)}` },
+                { label: "Product", value: productInfo.name },
+                { label: "Quantity", value: `${formData.quantity} pack(s)` },
+                ...(productInfo.isSubscription ? [{ label: "Daily cost", value: `₹${dailyPrice * parseInt(formData.quantity)}` }] : []),
               ].map((row) => (
                 <div key={row.label} style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
                   <span style={{ color: "rgba(255,255,255,0.6)", fontSize: "14px" }}>{row.label}</span>
-                  <span style={{ color: "white", fontWeight: 700, fontSize: "14px" }}>{row.value}</span>
+                  <span style={{ color: "white", fontWeight: 700, fontSize: "14px", textAlign: "right" }}>{row.value}</span>
                 </div>
               ))}
               <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", margin: "16px 0" }} />
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span style={{ color: "#D4A017", fontWeight: 700 }}>Monthly total</span>
+                <span style={{ color: "#D4A017", fontWeight: 700 }}>
+                  {productInfo.isSubscription ? "Estimated Monthly Bill" : "Total Order Amount"}
+                </span>
                 <span
                   style={{
                     fontFamily: "'Cinzel', serif",
