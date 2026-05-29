@@ -131,7 +131,7 @@ export default function Footer() {
               Ready to taste the difference?
             </div>
             <div style={{ fontSize: "14px", color: "rgba(240,236,216,0.4)" }}>
-              Join 500+ families who start their mornings with Braj Pure.
+              Join 500+ families who start their mornings with Naransh Dairy Farm.
             </div>
           </div>
           <Link href="/order" className="btn-gold" style={{ textDecoration: "none", whiteSpace: "nowrap", position: "relative", zIndex: 1 }}>
@@ -166,7 +166,7 @@ export default function Footer() {
               </div>
               <div>
                 <div style={{ fontFamily: "'Cinzel', serif", fontWeight: 800, fontSize: "18px", color: "#F0ECD8", lineHeight: 1, letterSpacing: "1px" }}>
-                  Braj Pure
+                  Naransh Dairy Farm
                 </div>
                 <div style={{ fontSize: "9px", fontWeight: 600, letterSpacing: "3px", textTransform: "uppercase", color: "rgba(212,160,23,0.5)", marginTop: "3px" }}>
                   A2 Desi Cow Milk
@@ -258,7 +258,7 @@ export default function Footer() {
           gap: "14px",
         }}>
           <div style={{ fontSize: "12px", color: "rgba(240,236,216,0.25)" }}>
-            © 2025 Braj Pure. All rights reserved. Crafted with care in Mathura, UP.
+            © 2025 Naransh Dairy Farm. All rights reserved. Crafted with care in Mathura, UP.
           </div>
           <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
             {certBadges.map((badge) => (

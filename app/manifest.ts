@@ -2,8 +2,8 @@ import type { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Braj Pure - Premium Dairy',
-    short_name: 'Braj Pure',
+    name: 'Naransh Dairy Farm - Premium Dairy',
+    short_name: 'Naransh Dairy Farm',
     description: 'Pure Desi Cow & Buffalo Milk Delivered Fresh',
     start_url: '/',
     display: 'standalone',

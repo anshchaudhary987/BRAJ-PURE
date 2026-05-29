@@ -76,7 +76,7 @@ const products = [
     badgeGradient: "linear-gradient(135deg, #7A5C10, #D4A017)",
     badgeTextColor: "#F0ECD8",
     desc: "Hand-churned using the Vedic Bilona method. Pure golden liquid gold from Gir cows. Authentic aroma and rich texture.",
-    features: ["Bilona method Ghee", "High smoke point", "Boosts immunity", "Braj Pure Branding"],
+    features: ["Bilona method Ghee", "High smoke point", "Boosts immunity", "Naransh Dairy Farm Branding"],
     image: "/ghee.png",
     accentColor: "#D4A017",
     bg: "linear-gradient(135deg, rgba(212,160,23,0.08), rgba(212,160,23,0.02))",
@@ -91,7 +91,7 @@ const products = [
     badgeGradient: "linear-gradient(135deg, #1B4332, #D4A017)",
     badgeTextColor: "#F0ECD8",
     desc: "The large family pack of our premium Bilona Ghee. Traditional health in every drop, preserved in glass.",
-    features: ["Bilona method Ghee", "High smoke point", "Best for cooking", "Braj Pure Branding"],
+    features: ["Bilona method Ghee", "High smoke point", "Best for cooking", "Naransh Dairy Farm Branding"],
     image: "/ghee.png",
     accentColor: "#D4A017",
     bg: "linear-gradient(135deg, rgba(212,160,23,0.08), rgba(212,160,23,0.02))",
@@ -289,7 +289,7 @@ export default function Products() {
                 >
                   <Image
                     src={p.image}
-                    alt={`Braj Pure ${p.name} ${p.size}`}
+                    alt={`Naransh Dairy Farm ${p.name} ${p.size}`}
                     fill
                     style={{ objectFit: "cover" }}
                   />

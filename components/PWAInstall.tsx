@@ -108,7 +108,7 @@ export default function PWAInstall() {
                 </svg>
               </div>
               <div style={{ textAlign: "left" }}>
-                <div style={{ fontSize: "14px", fontWeight: 700, lineHeight: 1.2 }}>Install Braj Pure App</div>
+                <div style={{ fontSize: "14px", fontWeight: 700, lineHeight: 1.2 }}>Install Naransh Dairy Farm App</div>
                 <div style={{ fontSize: "11px", opacity: 0.7 }}>Order faster & track history</div>
               </div>
               <button 

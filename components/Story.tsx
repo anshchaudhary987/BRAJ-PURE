@@ -67,7 +67,7 @@ export default function Story() {
             }}>
               <Image
                 src="/farm-cow.png"
-                alt="Braj Pure farm — Gir cows grazing in Brij region"
+                alt="Naransh Dairy Farm farm — Gir cows grazing in Brij region"
                 fill
                 style={{ objectFit: "cover" }}
               />
@@ -134,7 +134,7 @@ export default function Story() {
             <div className="divider-gold" />
 
             <p style={{ fontSize: "16px", lineHeight: 1.85, color: "rgba(240,236,216,0.5)", marginBottom: "18px", marginTop: "22px" }}>
-              Braj Pure was born from a simple belief — that the families of Mathura,
+              Naransh Dairy Farm was born from a simple belief — that the families of Mathura,
               Vrindavan and Agra deserve milk that is as pure as the holy land itself.
               We are farmers first, and businessmen second.
             </p>

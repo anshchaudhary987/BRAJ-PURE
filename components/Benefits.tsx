@@ -37,7 +37,7 @@ const benefits = [
     title: "Stronger Immunity",
     short: "Natural immunoglobulins & antibodies",
     detail:
-      "Braj Pure A2 milk contains natural immunoglobulins and colostrum-like proteins that train and boost your immune system. Health-conscious adults report fewer seasonal illnesses within weeks of daily consumption.",
+      "Naransh Dairy Farm A2 milk contains natural immunoglobulins and colostrum-like proteins that train and boost your immune system. Health-conscious adults report fewer seasonal illnesses within weeks of daily consumption.",
     accentColor: "#D4A017",
   },
   {
@@ -49,7 +49,7 @@ const benefits = [
     title: "Happy Gut Microbiome",
     short: "No BCM-7 peptide",
     detail:
-      "A1 milk releases BCM-7 — an opioid peptide that disrupts gut microbiome and causes inflammation. A2 milk doesn't. Switch to Braj Pure and notice reduced bloating, better digestion, and improved gut health within days.",
+      "A1 milk releases BCM-7 — an opioid peptide that disrupts gut microbiome and causes inflammation. A2 milk doesn't. Switch to Naransh Dairy Farm and notice reduced bloating, better digestion, and improved gut health within days.",
     accentColor: "#40916C",
   },
   {
@@ -61,7 +61,7 @@ const benefits = [
     title: "Muscle Growth & Recovery",
     short: "Complete amino acid profile",
     detail:
-      "With 8g of protein per 250ml and a complete essential amino acid profile, Braj Pure A2 milk is the ideal post-workout drink. It's the natural, clean protein that bodybuilders and athletes swear by.",
+      "With 8g of protein per 250ml and a complete essential amino acid profile, Naransh Dairy Farm A2 milk is the ideal post-workout drink. It's the natural, clean protein that bodybuilders and athletes swear by.",
     accentColor: "#D4A017",
   },
   {
@@ -130,7 +130,7 @@ export default function Benefits() {
               letterSpacing: "-0.3px",
             }}
           >
-            What Braj Pure does{" "}
+            What Naransh Dairy Farm does{" "}
             <span className="gradient-text-gold">for your body</span>
           </motion.h2>
           <motion.p

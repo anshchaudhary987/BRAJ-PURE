@@ -56,7 +56,7 @@ export default function Order() {
     const freeTrialText = isActuallyMilk ? `\n\nPlease confirm my 3-day FREE TRIAL! 🙏` : `\n\nPlease confirm my order! 🙏`;
     
     const msg = encodeURIComponent(
-      `🥛 *New Braj Pure Order*\n\n` +
+      `🥛 *New Naransh Dairy Farm Order*\n\n` +
       `👤 Name: ${formData.name}\n` +
       `📱 Phone: ${formData.phone}\n` +
       `📍 Address: ${formData.address}\n` +
@@ -159,7 +159,7 @@ export default function Order() {
               letterSpacing: "-0.3px",
             }}
           >
-            Start your Braj Pure journey
+            Start your Naransh Dairy Farm journey
             <span
               style={{
                 display: "block",

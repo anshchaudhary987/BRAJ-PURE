@@ -5,12 +5,12 @@ import Footer from "@/components/Footer";
 import PWAInstall from "@/components/PWAInstall";
 
 export const metadata: Metadata = {
-  title: "Braj Pure | A2 Desi Cow Milk — Pure. Natural. Powerful.",
+  title: "Naransh Dairy Farm | A2 Desi Cow Milk — Pure. Natural. Powerful.",
   description:
-    "Braj Pure delivers farm-fresh A2 Desi Cow Milk straight to your door in Mathura, Vrindavan & Agra. No additives, no preservatives — just 100% pure goodness from our Gir cows.",
-  keywords: "A2 milk, desi cow milk, Braj Pure, pure milk, Mathura milk, Vrindavan, organic milk, health milk",
+    "Naransh Dairy Farm delivers farm-fresh A2 Desi Cow Milk straight to your door in Mathura, Vrindavan & Agra. No additives, no preservatives — just 100% pure goodness from our Gir cows.",
+  keywords: "A2 milk, desi cow milk, Naransh Dairy Farm, pure milk, Mathura milk, Vrindavan, organic milk, health milk",
   openGraph: {
-    title: "Braj Pure | A2 Desi Cow Milk",
+    title: "Naransh Dairy Farm | A2 Desi Cow Milk",
     description: "Farm-fresh A2 Desi Cow Milk delivered daily. Pure, natural, unadulterated.",
     type: "website",
   },

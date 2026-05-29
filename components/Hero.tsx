@@ -437,7 +437,7 @@ export default function Hero() {
             }}>
               <Image
                 src="/hero-milk.png"
-                alt="Braj Pure A2 Desi Cow Milk — fresh and natural"
+                alt="Naransh Dairy Farm A2 Desi Cow Milk — fresh and natural"
                 fill
                 style={{ objectFit: "cover" }}
                 priority

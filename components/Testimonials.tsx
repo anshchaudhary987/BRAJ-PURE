@@ -10,7 +10,7 @@ const testimonials = [
     rating: 5,
     initials: "PS",
     role: "Mother of 2",
-    text: "My kids refused to drink packaged milk. The moment we switched to Braj Pure, they started loving it. The taste is incomparable — creamy, naturally sweet, so fresh. It's been 6 months and we won't go back.",
+    text: "My kids refused to drink packaged milk. The moment we switched to Naransh Dairy Farm, they started loving it. The taste is incomparable — creamy, naturally sweet, so fresh. It's been 6 months and we won't go back.",
     accentColor: "#D4A017",
   },
   {
@@ -19,7 +19,7 @@ const testimonials = [
     rating: 5,
     initials: "AM",
     role: "Fitness Enthusiast",
-    text: "I've tried every protein supplement out there. Nothing comes close to Braj Pure A2 milk for post-workout recovery. Pure protein, no bloating, delivered to my door. Nature's perfect protein shake.",
+    text: "I've tried every protein supplement out there. Nothing comes close to Naransh Dairy Farm A2 milk for post-workout recovery. Pure protein, no bloating, delivered to my door. Nature's perfect protein shake.",
     accentColor: "#40916C",
   },
   {
@@ -28,7 +28,7 @@ const testimonials = [
     rating: 5,
     initials: "SA",
     role: "Senior Citizen",
-    text: "My doctor recommended A2 milk for my digestive issues. Braj Pure has been a blessing — my stomach is calmer, my energy is better, and I feel lighter after every glass. The quality is absolutely authentic.",
+    text: "My doctor recommended A2 milk for my digestive issues. Naransh Dairy Farm has been a blessing — my stomach is calmer, my energy is better, and I feel lighter after every glass. The quality is absolutely authentic.",
     accentColor: "#D4A017",
   },
   {
@@ -46,7 +46,7 @@ const testimonials = [
     rating: 5,
     initials: "KS",
     role: "Nutritionist",
-    text: "As a nutritionist, I recommend Braj Pure to all my clients. The fat profile, the A2 protein, the natural vitamins — it's clinically superior. This is what real, traditional Indian milk should taste like.",
+    text: "As a nutritionist, I recommend Naransh Dairy Farm to all my clients. The fat profile, the A2 protein, the natural vitamins — it's clinically superior. This is what real, traditional Indian milk should taste like.",
     accentColor: "#D4A017",
   },
   {
@@ -55,7 +55,7 @@ const testimonials = [
     rating: 5,
     initials: "DY",
     role: "Yoga Instructor",
-    text: "Pure milk is a cornerstone of Ayurvedic wellness. Braj Pure understands this deeply. I've been recommending it to all my students. Ethical sourcing, pristine product, perfect delivery.",
+    text: "Pure milk is a cornerstone of Ayurvedic wellness. Naransh Dairy Farm understands this deeply. I've been recommending it to all my students. Ethical sourcing, pristine product, perfect delivery.",
     accentColor: "#40916C",
   },
 ];
@@ -249,7 +249,7 @@ export default function Testimonials() {
           transition={{ delay: 0.2 }}
           style={{ fontSize: "16px", color: "rgba(240,236,216,0.4)", maxWidth: "500px", margin: "0 auto" }}
         >
-          500+ families across Mathura, Vrindavan &amp; Agra trust Braj Pure every morning.
+          500+ families across Mathura, Vrindavan &amp; Agra trust Naransh Dairy Farm every morning.
         </motion.p>
       </div>
 
