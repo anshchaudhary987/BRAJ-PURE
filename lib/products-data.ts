@@ -264,7 +264,7 @@ export const productsData: Record<string, ProductDetail> = {
       { q: "Is this salted like yellow butter?", a: "No, this is completely unsalted, raw white butter (makhan), carrying a fresh, milky, slightly tangy flavor." }
     ],
     sizes: {
-      "250g": { id: "butter-250", sizeLabel: "250 g Tub", price: 250, priceLabel: "₹250 / pack" }
+      "250g": { id: "butter-250", sizeLabel: "250 g Tub", price: 199, priceLabel: "₹199 / pack" }
     },
     defaultSize: "250g",
     isSubscription: false
