@@ -158,6 +158,31 @@ const products = [
   },
 ];
 
+const getProductRoute = (id: string) => {
+  if (id.startsWith("a2-")) {
+    return { slug: "a2-cow-milk", size: id === "a2-500" ? "500ml" : "1l" };
+  }
+  if (id.startsWith("buffalo-")) {
+    return { slug: "buffalo-milk", size: id === "buffalo-500" ? "500ml" : "1l" };
+  }
+  if (id.startsWith("ghee-")) {
+    return { slug: "a2-ghee", size: id === "ghee-500" ? "500ml" : "1l" };
+  }
+  if (id === "paneer-500") {
+    return { slug: "a2-paneer", size: "500g" };
+  }
+  if (id === "curd-500") {
+    return { slug: "a2-curd", size: "500g" };
+  }
+  if (id === "butter-250") {
+    return { slug: "a2-butter", size: "250g" };
+  }
+  if (id === "buttermilk-500") {
+    return { slug: "a2-buttermilk", size: "500ml" };
+  }
+  return { slug: "", size: "" };
+};
+
 export default function Products() {
   const ref     = useRef(null);
   const inView  = useInView(ref, { once: true, margin: "-100px" });
@@ -235,159 +260,168 @@ export default function Products() {
           }}
           className="products-grid"
         >
-          {products.map((p, i) => (
-            <motion.div
-              key={p.id}
-              initial={{ opacity: 0, y: 50 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.15 + 0.2, duration: 0.7 }}
-              onMouseEnter={() => setHovered(p.id)}
-              onMouseLeave={() => setHovered(null)}
-              style={{
-                background: "linear-gradient(145deg, #182018, #131F13)",
-                borderRadius: "26px",
-                overflow: "hidden",
-                border: hovered === p.id
-                  ? `1px solid ${p.accentColor}50`
-                  : "1px solid rgba(255,255,255,0.06)",
-                boxShadow: hovered === p.id
-                  ? `0 32px 80px rgba(0,0,0,0.5), 0 0 40px ${p.accentColor}20`
-                  : "0 8px 40px rgba(0,0,0,0.4)",
-                transform: `translateY(${hovered === p.id ? "-8px" : "0"})`,
-                transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-                cursor: "pointer",
-              }}
-            >
-              {/* Image area */}
-              <div style={{
-                height: "240px",
-                position: "relative",
-                background: p.bg,
-                overflow: "hidden",
-              }}>
-                {/* Badge */}
-                <div style={{
-                  position: "absolute",
-                  top: "18px", left: "18px",
-                  background: p.badgeGradient,
-                  color: p.badgeTextColor,
-                  padding: "6px 16px",
-                  borderRadius: "999px",
-                  fontSize: "11px",
-                  fontWeight: 800,
-                  letterSpacing: "0.5px",
-                  zIndex: 2,
-                  boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
-                }}>
-                  {p.badge}
-                </div>
+          {products.map((p, i) => {
+            const { slug, size } = getProductRoute(p.id);
+            const detailUrl = `/products/${slug}${size ? `?size=${size}` : ""}`;
 
+            return (
+              <Link
+                key={p.id}
+                href={detailUrl}
+                style={{ textDecoration: "none", color: "inherit", display: "block" }}
+              >
                 <motion.div
-                  animate={{ y: hovered === p.id ? [0, -8, 0] : 0 }}
-                  transition={{ duration: 2.5, repeat: hovered === p.id ? Infinity : 0, ease: "easeInOut" }}
-                  style={{ position: "relative", width: "100%", height: "100%" }}
-                >
-                  <Image
-                    src={p.image}
-                    alt={`Naransh Dairy Farm ${p.name} ${p.size}`}
-                    fill
-                    style={{ objectFit: "cover" }}
-                  />
-                </motion.div>
-
-                {/* Bottom fade */}
-                <div style={{
-                  position: "absolute", bottom: 0, left: 0, right: 0, height: "60px",
-                  background: "linear-gradient(to top, #182018, transparent)",
-                }} />
-              </div>
-
-              {/* Content */}
-              <div style={{ padding: "28px" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "14px" }}>
-                  <div>
-                    <div style={{
-                      fontFamily: "'Playfair Display', serif",
-                      fontSize: "1.25rem",
-                      fontWeight: 800,
-                      color: "#F0ECD8",
-                    }}>
-                      {p.name}
-                    </div>
-                    <div style={{ fontSize: "12px", color: "rgba(240,236,216,0.4)", fontWeight: 600, marginTop: "2px" }}>
-                      {p.size} Pack
-                    </div>
-                  </div>
-                  <div style={{ textAlign: "right" }}>
-                    <div style={{
-                      fontFamily: "'Cinzel', serif",
-                      fontSize: "1.8rem",
-                      fontWeight: 900,
-                      color: p.accentColor,
-                      lineHeight: 1,
-                    }}>
-                      ₹{p.price}
-                    </div>
-                    <div style={{ fontSize: "10px", color: "rgba(240,236,216,0.35)", marginTop: "2px" }}>per day</div>
-                  </div>
-                </div>
-
-                <p style={{ fontSize: "13.5px", color: "rgba(240,236,216,0.45)", lineHeight: 1.75, marginBottom: "20px" }}>
-                  {p.desc}
-                </p>
-
-                {/* Features */}
-                <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "24px" }}>
-                  {p.features.map((f) => (
-                    <div key={f} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "13px", color: "rgba(240,236,216,0.6)" }}>
-                      <div style={{
-                        width: "18px", height: "18px",
-                        borderRadius: "50%",
-                        background: `linear-gradient(135deg, ${p.accentColor}20, ${p.accentColor}10)`,
-                        border: `1px solid ${p.accentColor}40`,
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        flexShrink: 0,
-                      }}>
-                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke={p.accentColor} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M20 6 9 17l-5-5" />
-                        </svg>
-                      </div>
-                      <span style={{ fontWeight: 500 }}>{f}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <Link
-                  href="/order"
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: i * 0.15 + 0.2, duration: 0.7 }}
+                  onMouseEnter={() => setHovered(p.id)}
+                  onMouseLeave={() => setHovered(null)}
                   style={{
-                    textDecoration: "none",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "8px",
-                    padding: "13px 24px",
-                    background: hovered === p.id
-                      ? p.accentColor === "#D4A017"
-                        ? "linear-gradient(135deg, #7A5C10, #D4A017, #F5CC55)"
-                        : "linear-gradient(135deg, #1B4332, #40916C)"
-                      : "rgba(255,255,255,0.04)",
-                    color: hovered === p.id ? (p.accentColor === "#D4A017" ? "#0A0A0A" : "#F0ECD8") : "rgba(240,236,216,0.6)",
-                    borderRadius: "999px",
-                    fontWeight: 700,
-                    fontSize: "14px",
-                    border: `1px solid ${p.accentColor}30`,
-                    transition: "all 0.4s ease",
-                    width: "100%",
+                    background: "linear-gradient(145deg, #182018, #131F13)",
+                    borderRadius: "26px",
+                    overflow: "hidden",
+                    border: hovered === p.id
+                      ? `1px solid ${p.accentColor}50`
+                      : "1px solid rgba(255,255,255,0.06)",
+                    boxShadow: hovered === p.id
+                      ? `0 32px 80px rgba(0,0,0,0.5), 0 0 40px ${p.accentColor}20`
+                      : "0 8px 40px rgba(0,0,0,0.4)",
+                    transform: `translateY(${hovered === p.id ? "-8px" : "0"})`,
+                    transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                    cursor: "pointer",
+                    height: "100%",
                   }}
                 >
-                  Subscribe — {p.priceLabel}
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
-                  </svg>
-                </Link>
-              </div>
-            </motion.div>
-          ))}
+                  {/* Image area */}
+                  <div style={{
+                    height: "240px",
+                    position: "relative",
+                    background: p.bg,
+                    overflow: "hidden",
+                  }}>
+                    {/* Badge */}
+                    <div style={{
+                      position: "absolute",
+                      top: "18px", left: "18px",
+                      background: p.badgeGradient,
+                      color: p.badgeTextColor,
+                      padding: "6px 16px",
+                      borderRadius: "999px",
+                      fontSize: "11px",
+                      fontWeight: 800,
+                      letterSpacing: "0.5px",
+                      zIndex: 2,
+                      boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
+                    }}>
+                      {p.badge}
+                    </div>
+
+                    <motion.div
+                      animate={{ y: hovered === p.id ? [0, -8, 0] : 0 }}
+                      transition={{ duration: 2.5, repeat: hovered === p.id ? Infinity : 0, ease: "easeInOut" }}
+                      style={{ position: "relative", width: "100%", height: "100%" }}
+                    >
+                      <Image
+                        src={p.image}
+                        alt={`Naransh Dairy Farm ${p.name} ${p.size}`}
+                        fill
+                        style={{ objectFit: "cover" }}
+                      />
+                    </motion.div>
+
+                    {/* Bottom fade */}
+                    <div style={{
+                      position: "absolute", bottom: 0, left: 0, right: 0, height: "60px",
+                      background: "linear-gradient(to top, #182018, transparent)",
+                    }} />
+                  </div>
+
+                  {/* Content */}
+                  <div style={{ padding: "28px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "14px" }}>
+                      <div>
+                        <div style={{
+                          fontFamily: "'Playfair Display', serif",
+                          fontSize: "1.25rem",
+                          fontWeight: 800,
+                          color: "#F0ECD8",
+                        }}>
+                          {p.name}
+                        </div>
+                        <div style={{ fontSize: "12px", color: "rgba(240,236,216,0.4)", fontWeight: 600, marginTop: "2px" }}>
+                          {p.size} Pack
+                        </div>
+                      </div>
+                      <div style={{ textAlign: "right" }}>
+                        <div style={{
+                          fontFamily: "'Cinzel', serif",
+                          fontSize: "1.8rem",
+                          fontWeight: 900,
+                          color: p.accentColor,
+                          lineHeight: 1,
+                        }}>
+                          ₹{p.price}
+                        </div>
+                        <div style={{ fontSize: "10px", color: "rgba(240,236,216,0.35)", marginTop: "2px" }}>per day</div>
+                      </div>
+                    </div>
+
+                    <p style={{ fontSize: "13.5px", color: "rgba(240,236,216,0.45)", lineHeight: 1.75, marginBottom: "20px" }}>
+                      {p.desc}
+                    </p>
+
+                    {/* Features */}
+                    <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "24px" }}>
+                      {p.features.map((f) => (
+                        <div key={f} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "13px", color: "rgba(240,236,216,0.6)" }}>
+                          <div style={{
+                            width: "18px", height: "18px",
+                            borderRadius: "50%",
+                            background: `linear-gradient(135deg, ${p.accentColor}20, ${p.accentColor}10)`,
+                            border: `1px solid ${p.accentColor}40`,
+                            display: "flex", alignItems: "center", justifyContent: "center",
+                            flexShrink: 0,
+                          }}>
+                            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke={p.accentColor} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M20 6 9 17l-5-5" />
+                            </svg>
+                          </div>
+                          <span style={{ fontWeight: 500 }}>{f}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "8px",
+                        padding: "13px 24px",
+                        background: hovered === p.id
+                          ? p.accentColor === "#D4A017"
+                            ? "linear-gradient(135deg, #7A5C10, #D4A017, #F5CC55)"
+                            : "linear-gradient(135deg, #1B4332, #40916C)"
+                          : "rgba(255,255,255,0.04)",
+                        color: hovered === p.id ? (p.accentColor === "#D4A017" ? "#0A0A0A" : "#F0ECD8") : "rgba(240,236,216,0.6)",
+                        borderRadius: "999px",
+                        fontWeight: 700,
+                        fontSize: "14px",
+                        border: `1px solid ${p.accentColor}30`,
+                        transition: "all 0.4s ease",
+                        width: "100%",
+                      }}
+                    >
+                      Explore & Subscribe
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
+                </motion.div>
+              </Link>
+            );
+          })}
         </div>
 
         {/* Free trial banner */}

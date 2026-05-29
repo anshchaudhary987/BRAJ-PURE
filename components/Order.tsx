@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
+import { useSearchParams } from "next/navigation";
 
 export default function Order() {
   const ref = useRef(null);
@@ -41,6 +42,15 @@ export default function Order() {
     "butter-250": { name: "White Butter (250g)", isSubscription: false },
     "buttermilk-500": { name: "Buttermilk (500ml)", isSubscription: true },
   };
+
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const sizeParam = searchParams.get("size");
+    if (sizeParam && prices[sizeParam] !== undefined) {
+      setFormData((prev) => ({ ...prev, size: sizeParam }));
+    }
+  }, [searchParams]);
 
   const dailyPrice = prices[formData.size] || 0;
   const productInfo = productDetails[formData.size] || { name: formData.size, isSubscription: false };
