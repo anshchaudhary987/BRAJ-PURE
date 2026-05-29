@@ -24,7 +24,8 @@ export default function Order() {
     "buffalo-1l": 89,
     "ghee-500": 999,
     "ghee-1l": 1849,
-    "paneer-500": 400,
+    "paneer-500": 225,
+    "paneer-1kg": 449,
     "curd-500": 80,
     "butter-250": 250,
     "buttermilk-500": 50,
@@ -38,6 +39,7 @@ export default function Order() {
     "ghee-500": { name: "A2 Ghee (500ml)", isSubscription: false },
     "ghee-1l": { name: "A2 Ghee (1L)", isSubscription: false },
     "paneer-500": { name: "Fresh Paneer (500g)", isSubscription: false },
+    "paneer-1kg": { name: "Fresh Paneer (1kg)", isSubscription: false },
     "curd-500": { name: "A2 Curd (500g)", isSubscription: true },
     "butter-250": { name: "White Butter (250g)", isSubscription: false },
     "buttermilk-500": { name: "Buttermilk (500ml)", isSubscription: true },
@@ -301,7 +303,8 @@ export default function Order() {
                       <optgroup label="Premium Dairy">
                         <option value="ghee-500">A2 Cow Ghee (500ml) — ₹999</option>
                         <option value="ghee-1l">A2 Cow Ghee (1L) — ₹1849</option>
-                        <option value="paneer-500">A2 Fresh Paneer (500g) — ₹400</option>
+                        <option value="paneer-500">A2 Fresh Paneer (500g) — ₹225</option>
+                        <option value="paneer-1kg">A2 Fresh Paneer (1kg) — ₹449</option>
                         <option value="curd-500">A2 Traditional Curd (500g) — ₹80</option>
                         <option value="butter-250">A2 White Butter (250g) — ₹250</option>
                         <option value="buttermilk-500">A2 Buttermilk (500ml) — ₹50</option>

@@ -185,7 +185,8 @@ export const productsData: Record<string, ProductDetail> = {
       { q: "Why is your paneer so soft?", a: "We do not extract fat from the milk before making paneer, and we use organic curd/lemon extracts instead of industrial citric acid. This keeps the protein bonds soft and hydrated." }
     ],
     sizes: {
-      "500g": { id: "paneer-500", sizeLabel: "500 g Pack", price: 400, priceLabel: "₹400 / pack" }
+      "500g": { id: "paneer-500", sizeLabel: "500 g Pack", price: 225, priceLabel: "₹225 / pack" },
+      "1kg": { id: "paneer-1kg", sizeLabel: "1 kg Pack", price: 449, priceLabel: "₹449 / pack" }
     },
     defaultSize: "500g",
     isSubscription: false

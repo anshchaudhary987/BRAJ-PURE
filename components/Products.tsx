@@ -100,13 +100,28 @@ const products = [
     id: "paneer-500",
     name: "A2 Fresh Paneer",
     size: "500 g",
-    price: 400,
-    priceLabel: "₹400 / pack",
+    price: 225,
+    priceLabel: "₹225 / pack",
     badge: "Freshly Made",
     badgeGradient: "linear-gradient(135deg, #F0ECD8, #F5CC55)",
     badgeTextColor: "#0A0A0A",
     desc: "Super soft and creamy A2 paneer. Made fresh daily with no preservatives or thickening agents.",
     features: ["Made fresh daily", "No citric acid", "High protein", "Soft texture"],
+    image: "/paneer.png",
+    accentColor: "#E8B835",
+    bg: "linear-gradient(135deg, rgba(232,184,53,0.08), rgba(232,184,53,0.02))",
+  },
+  {
+    id: "paneer-1kg",
+    name: "A2 Fresh Paneer",
+    size: "1 kg",
+    price: 449,
+    priceLabel: "₹449 / pack",
+    badge: "Value Pack",
+    badgeGradient: "linear-gradient(135deg, #1B4332, #E8B835)",
+    badgeTextColor: "#F0ECD8",
+    desc: "Super soft and creamy A2 paneer in a family size pack. Made fresh daily with no preservatives.",
+    features: ["Made fresh daily", "No citric acid", "1kg family pack", "Pure A2 goodness"],
     image: "/paneer.png",
     accentColor: "#E8B835",
     bg: "linear-gradient(135deg, rgba(232,184,53,0.08), rgba(232,184,53,0.02))",
@@ -168,8 +183,8 @@ const getProductRoute = (id: string) => {
   if (id.startsWith("ghee-")) {
     return { slug: "a2-ghee", size: id === "ghee-500" ? "500ml" : "1l" };
   }
-  if (id === "paneer-500") {
-    return { slug: "a2-paneer", size: "500g" };
+  if (id.startsWith("paneer-")) {
+    return { slug: "a2-paneer", size: id === "paneer-500" ? "500g" : "1kg" };
   }
   if (id === "curd-500") {
     return { slug: "a2-curd", size: "500g" };
