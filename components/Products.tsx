@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import Magnetic from "./Magnetic";
 
 const products = [
   {
@@ -406,32 +407,34 @@ export default function Products() {
                       ))}
                     </div>
 
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: "8px",
-                        padding: "13px 24px",
-                        background: hovered === p.id
-                          ? p.accentColor === "#D4A017"
-                            ? "linear-gradient(135deg, #7A5C10, #D4A017, #F5CC55)"
-                            : "linear-gradient(135deg, #1B4332, #40916C)"
-                          : "rgba(255,255,255,0.04)",
-                        color: hovered === p.id ? (p.accentColor === "#D4A017" ? "#0A0A0A" : "#F0ECD8") : "rgba(240,236,216,0.6)",
-                        borderRadius: "999px",
-                        fontWeight: 700,
-                        fontSize: "14px",
-                        border: `1px solid ${p.accentColor}30`,
-                        transition: "all 0.4s ease",
-                        width: "100%",
-                      }}
-                    >
-                      Explore & Subscribe
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
-                      </svg>
-                    </div>
+                    <Magnetic>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: "8px",
+                          padding: "13px 24px",
+                          background: hovered === p.id
+                            ? p.accentColor === "#D4A017"
+                              ? "linear-gradient(135deg, #7A5C10, #D4A017, #F5CC55)"
+                              : "linear-gradient(135deg, #1B4332, #40916C)"
+                            : "rgba(255,255,255,0.04)",
+                          color: hovered === p.id ? (p.accentColor === "#D4A017" ? "#0A0A0A" : "#F0ECD8") : "rgba(240,236,216,0.6)",
+                          borderRadius: "999px",
+                          fontWeight: 700,
+                          fontSize: "14px",
+                          border: `1px solid ${p.accentColor}30`,
+                          transition: "all 0.4s ease",
+                          width: "100%",
+                        }}
+                      >
+                        Explore & Subscribe
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+                        </svg>
+                      </div>
+                    </Magnetic>
                   </div>
                 </motion.div>
               </Link>
@@ -481,12 +484,14 @@ export default function Products() {
               Start your free trial today. Cancel anytime, no questions asked.
             </div>
           </div>
-          <Link href="/order" className="btn-gold" style={{ textDecoration: "none", whiteSpace: "nowrap", position: "relative", zIndex: 1 }}>
-            <span>Start Free Trial</span>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
-            </svg>
-          </Link>
+          <Magnetic>
+            <Link href="/order" className="btn-gold" style={{ textDecoration: "none", whiteSpace: "nowrap", position: "relative", zIndex: 1 }}>
+              <span>Start Free Trial</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+              </svg>
+            </Link>
+          </Magnetic>
         </motion.div>
       </div>
 

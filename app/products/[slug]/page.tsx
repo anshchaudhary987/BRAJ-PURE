@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { productsData, ProductDetail } from "@/lib/products-data";
+import Magnetic from "@/components/Magnetic";
 
 export default function ProductDetailPage({
   params,
@@ -347,28 +348,32 @@ export default function ProductDetailPage({
 
             {/* CTAs */}
             <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", marginBottom: "20px" }}>
-              <Link 
-                href={`/order?size=${selectedSize.id}&quantity=${quantity}`}
-                className="btn-gold" 
-                style={{ flex: 1.3, justifyContent: "center", padding: "16px 36px" }}
-              >
-                <span>
-                  {product.isSubscription ? "Start 3 Days Free Trial" : "Order Now"}
-                </span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
-                </svg>
-              </Link>
-              <button 
-                onClick={handleProductWhatsApp}
-                className="btn-outline" 
-                style={{ padding: "16px 28px", display: "flex", alignItems: "center", gap: "8px" }}
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005 0-3.974-.5-5.729-1.448L0 24zm6.59-4.017c1.52.9 3.088 1.375 4.946 1.378 5.58.003 10.118-4.519 10.121-10.111.002-2.71-1.05-5.257-2.96-7.17-1.91-1.912-4.45-2.965-7.161-2.967-5.59 0-10.129 4.52-10.133 10.115-.001 1.892.493 3.738 1.433 5.345l-.968 3.535 3.622-.925z" />
-                </svg>
-                <span>Ask on WhatsApp</span>
-              </button>
+              <Magnetic style={{ flex: 1.3, display: "flex" }}>
+                <Link 
+                  href={`/order?size=${selectedSize.id}&quantity=${quantity}`}
+                  className="btn-gold" 
+                  style={{ width: "100%", justifyContent: "center", padding: "16px 36px" }}
+                >
+                  <span>
+                    {product.isSubscription ? "Start 3 Days Free Trial" : "Order Now"}
+                  </span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+                  </svg>
+                </Link>
+              </Magnetic>
+              <Magnetic style={{ display: "flex" }}>
+                <button 
+                  onClick={handleProductWhatsApp}
+                  className="btn-outline" 
+                  style={{ width: "100%", padding: "16px 28px", display: "flex", alignItems: "center", gap: "8px" }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005 0-3.974-.5-5.729-1.448L0 24zm6.59-4.017c1.52.9 3.088 1.375 4.946 1.378 5.58.003 10.118-4.519 10.121-10.111.002-2.71-1.05-5.257-2.96-7.17-1.91-1.912-4.45-2.965-7.161-2.967-5.59 0-10.129 4.52-10.133 10.115-.001 1.892.493 3.738 1.433 5.345l-.968 3.535 3.622-.925z" />
+                  </svg>
+                  <span>Ask on WhatsApp</span>
+                </button>
+              </Magnetic>
             </div>
 
             {/* Delivery Info Strip */}

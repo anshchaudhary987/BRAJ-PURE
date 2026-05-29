@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import ThreeBottle from "./ThreeBottle";
+import Magnetic from "./Magnetic";
 
 /* ─── Floating particles ─── */
 const particles = Array.from({ length: 22 }, (_, i) => ({
@@ -374,22 +376,26 @@ export default function Hero() {
             transition={{ delay: 0.88, duration: 0.6 }}
             style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}
           >
-            <Link href="/order" className="btn-gold" style={{ textDecoration: "none" }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
-              </svg>
-              <span>Start Free Trial</span>
-            </Link>
-            <Link
-              href="/products"
-              className="btn-outline"
-              style={{ textDecoration: "none" }}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 9h18M3 15h18M3 21h18M3 3h18"/>
-              </svg>
-              <span>Explore Products</span>
-            </Link>
+            <Magnetic>
+              <Link href="/order" className="btn-gold" style={{ textDecoration: "none" }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+                </svg>
+                <span>Start Free Trial</span>
+              </Link>
+            </Magnetic>
+            <Magnetic>
+              <Link
+                href="/products"
+                className="btn-outline"
+                style={{ textDecoration: "none" }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 9h18M3 15h18M3 21h18M3 3h18"/>
+                </svg>
+                <span>Explore Products</span>
+              </Link>
+            </Magnetic>
           </motion.div>
         </div>
 
@@ -435,18 +441,7 @@ export default function Hero() {
               border: "1.5px solid rgba(212,160,23,0.2)",
               boxShadow: "0 40px 120px rgba(0,0,0,0.6), 0 0 80px rgba(212,160,23,0.12), inset 0 0 60px rgba(0,0,0,0.2)",
             }}>
-              <Image
-                src="/hero-milk.png"
-                alt="Naransh Dairy Farm A2 Desi Cow Milk — fresh and natural"
-                fill
-                style={{ objectFit: "cover" }}
-                priority
-              />
-              {/* Dark overlay for cohesion */}
-              <div style={{
-                position: "absolute", inset: 0,
-                background: "linear-gradient(135deg, rgba(0,0,0,0.1) 0%, transparent 50%, rgba(212,160,23,0.05) 100%)",
-              }} />
+              <ThreeBottle />
             </div>
 
             <div style={{ position: "absolute", inset: "-14px", borderRadius: "50%", border: "1px solid rgba(212,160,23,0.1)", pointerEvents: "none" }} />

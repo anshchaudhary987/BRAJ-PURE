@@ -1,8 +1,12 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const timeline = [
   { step: "01", title: "Pasture Raised", desc: "Our Gir cows roam freely on 20+ acres of organic farmland in the Brij region.", iconPath: "M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75" },
@@ -21,15 +25,50 @@ const badges = [
 ];
 
 export default function Story() {
-  const ref    = useRef(null);
+  const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Pinned horizontal scroll animation specifically for desktop viewports
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(min-width: 901px)", () => {
+        const scrollEl = scrollRef.current;
+        const sectionEl = sectionRef.current;
+        if (!scrollEl || !sectionEl) return;
+
+        const scrollWidth = scrollEl.scrollWidth;
+        const windowWidth = window.innerWidth;
+        // Scroll translation amount
+        const xVal = -(scrollWidth - windowWidth + 120);
+
+        gsap.to(scrollEl, {
+          x: xVal,
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionEl,
+            pin: true,
+            scrub: 1,
+            start: "top top",
+            end: () => `+=${scrollWidth - windowWidth + 200}`,
+            invalidateOnRefresh: true,
+          },
+        });
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section
       id="story"
       ref={ref}
       style={{
-        padding: "120px 0 100px",
+        padding: "120px 0 0",
         background: "linear-gradient(180deg, #080E08 0%, #060A06 100%)",
         position: "relative",
         overflow: "hidden",
@@ -170,107 +209,168 @@ export default function Story() {
             </div>
           </motion.div>
         </div>
+      </div>
 
-        {/* Timeline */}
-        <div style={{ textAlign: "center", marginBottom: "52px" }}>
+      {/* Horizontal Storyboard Section */}
+      <div 
+        ref={sectionRef} 
+        className="pinned-timeline-container"
+        style={{
+          position: "relative",
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          overflow: "hidden",
+          background: "linear-gradient(180deg, #060A06 0%, #030503 100%)",
+        }}
+      >
+        {/* Title Pinned in center top */}
+        <div 
+          style={{
+            position: "absolute",
+            top: "60px",
+            left: 0,
+            right: 0,
+            textAlign: "center",
+            zIndex: 10,
+          }}
+          className="timeline-title-area"
+        >
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.3, duration: 0.6 }}
             style={{
               fontFamily: "'Cinzel', serif",
-              fontSize: "clamp(1.8rem, 3vw, 2.6rem)",
+              fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)",
               fontWeight: 800,
               color: "#F0ECD8",
-              marginBottom: "12px",
+              marginBottom: "10px",
               letterSpacing: "-0.3px",
             }}
           >
-            From Farm to{" "}
-            <span className="gradient-text-gold">Your Door</span>
+            From Farm to <span className="gradient-text-gold">Your Door</span>
           </motion.h2>
-          <p style={{ color: "rgba(240,236,216,0.4)", fontSize: "15px" }}>
-            Every step is handled with care, tradition &amp; science
+          <p style={{ color: "rgba(240,236,216,0.45)", fontSize: "14px", fontWeight: 500 }}>
+            Every step is handled with care, tradition &amp; science (Scroll to follow the journey)
           </p>
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(6, 1fr)",
-            gap: "14px",
-            position: "relative",
-          }}
-          className="timeline-grid"
-        >
-          {/* Connecting line */}
+        {/* Horizontal scroll track */}
+        <div style={{ overflow: "hidden", width: "100%" }}>
           <div
+            ref={scrollRef}
             style={{
-              position: "absolute",
-              top: "36px",
-              left: "8%", right: "8%",
-              height: "1px",
-              background: "linear-gradient(90deg, transparent, #D4A017, #40916C, #D4A017, transparent)",
-              zIndex: 0,
-              opacity: 0.3,
+              display: "flex",
+              gap: "36px",
+              width: "max-content",
+              padding: "160px 10vw 80px",
+              alignItems: "stretch",
             }}
-            className="timeline-line"
-          />
+            className="horizontal-scroll-track"
+          >
+            {timeline.map((item, i) => (
+              <div
+                key={item.step}
+                className="glass-premium timeline-card"
+                style={{
+                  width: "360px",
+                  padding: "40px 32px",
+                  borderRadius: "24px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                  position: "relative",
+                  zIndex: 1,
+                  flexShrink: 0,
+                  border: "1px solid rgba(212, 160, 23, 0.12)",
+                  boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
+                  transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                }}
+              >
+                {/* Step number badge */}
+                <div style={{
+                  position: "absolute",
+                  top: "24px",
+                  right: "28px",
+                  fontFamily: "'Cinzel', serif",
+                  fontSize: "24px",
+                  fontWeight: 900,
+                  color: "rgba(212, 160, 23, 0.08)",
+                }}>
+                  {item.step}
+                </div>
 
-          {timeline.map((item, i) => (
-            <motion.div
-              key={item.step}
-              initial={{ opacity: 0, y: 40 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.1 * i + 0.4, duration: 0.5 }}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                textAlign: "center",
-                position: "relative",
-                zIndex: 1,
-              }}
-            >
-              <div style={{
-                width: "68px",
-                height: "68px",
-                borderRadius: "50%",
-                background: i % 2 === 0
-                  ? "linear-gradient(135deg, #1B4332, #0D2B1D)"
-                  : "linear-gradient(135deg, #1A1000, #2A1A00)",
-                border: `2px solid ${i % 2 === 0 ? "rgba(64,145,108,0.4)" : "rgba(212,160,23,0.4)"}`,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                marginBottom: "16px",
-                boxShadow: `0 8px 30px ${i % 2 === 0 ? "rgba(27,67,50,0.4)" : "rgba(212,160,23,0.2)"}`,
-                flexShrink: 0,
-              }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={i % 2 === 0 ? "#40916C" : "#D4A017"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <path d={item.iconPath} />
-                </svg>
+                {/* Circle Icon */}
+                <div style={{
+                  width: "72px",
+                  height: "72px",
+                  borderRadius: "50%",
+                  background: i % 2 === 0
+                    ? "linear-gradient(135deg, #1B4332, #0D2B1D)"
+                    : "linear-gradient(135deg, #1A1000, #2A1A00)",
+                  border: `2px solid ${i % 2 === 0 ? "rgba(64,145,108,0.4)" : "rgba(212,160,23,0.4)"}`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  marginBottom: "24px",
+                  boxShadow: `0 8px 30px ${i % 2 === 0 ? "rgba(27,67,50,0.3)" : "rgba(212,160,23,0.15)"}`,
+                  flexShrink: 0,
+                }}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={i % 2 === 0 ? "#40916C" : "#D4A017"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d={item.iconPath} />
+                  </svg>
+                </div>
+
+                <div style={{ fontSize: "10px", fontWeight: 800, letterSpacing: "2.5px", color: "rgba(212,160,23,0.5)", marginBottom: "8px", textTransform: "uppercase", fontFamily: "'Cinzel', serif" }}>
+                  Step {item.step}
+                </div>
+                <h3 style={{ fontWeight: 800, fontSize: "18px", color: "#F0ECD8", marginBottom: "12px", fontFamily: "'Playfair Display', serif" }}>
+                  {item.title}
+                </h3>
+                <p style={{ fontSize: "13px", color: "rgba(240,236,216,0.45)", lineHeight: 1.7 }}>
+                  {item.desc}
+                </p>
               </div>
-              <div style={{ fontSize: "9px", fontWeight: 800, letterSpacing: "2px", color: "rgba(212,160,23,0.5)", marginBottom: "6px", textTransform: "uppercase" }}>
-                Step {item.step}
-              </div>
-              <div style={{ fontWeight: 700, fontSize: "12px", color: "#F0ECD8", marginBottom: "8px", fontFamily: "'Playfair Display', serif" }}>
-                {item.title}
-              </div>
-              <div style={{ fontSize: "11px", color: "rgba(240,236,216,0.35)", lineHeight: 1.6 }}>
-                {item.desc}
-              </div>
-            </motion.div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
       <style>{`
+        .timeline-card:hover {
+          transform: translateY(-8px);
+          border-color: rgba(212, 160, 23, 0.4) !important;
+          box-shadow: 0 24px 60px rgba(212, 160, 23, 0.12), 0 12px 48px rgba(0,0,0,0.6) !important;
+        }
         @media (max-width: 900px) {
-          .story-grid    { grid-template-columns: 1fr !important; }
-          .timeline-grid { grid-template-columns: repeat(3, 1fr) !important; }
-          .timeline-line { display: none !important; }
+          .story-grid { grid-template-columns: 1fr !important; }
+          .pinned-timeline-container {
+            min-height: auto !important;
+            padding: 60px 0 40px !important;
+          }
+          .timeline-title-area {
+            position: relative !important;
+            top: auto !important;
+            margin-bottom: 40px !important;
+          }
+          .horizontal-scroll-track {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            width: 100% !important;
+            padding: 24px !important;
+            gap: 24px !important;
+            transform: none !important;
+            margin-top: 0 !important;
+          }
+          .timeline-card {
+            width: 100% !important;
+          }
         }
         @media (max-width: 600px) {
-          .timeline-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .horizontal-scroll-track {
+            grid-template-columns: 1fr !important;
+          }
         }
       `}</style>
     </section>
