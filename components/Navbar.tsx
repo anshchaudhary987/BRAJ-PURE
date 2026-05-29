@@ -104,14 +104,14 @@ export default function Navbar() {
                   color: "#F0ECD8",
                   transition: "color 0.4s ease",
                 }}>
-                  Braj{" "}
+                  Naransh{" "}
                   <span style={{
                     background: "linear-gradient(135deg, #D4A017, #F5CC55)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
                   }}>
-                    Pure
+                    Dairy Farm
                   </span>
                 </div>
                 <div style={{

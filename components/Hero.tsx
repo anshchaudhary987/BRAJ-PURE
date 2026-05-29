@@ -253,7 +253,7 @@ export default function Hero() {
               letterSpacing: "-0.5px",
             }}
           >
-            Braj
+            Naransh
             <span style={{
               display: "block",
               background: "linear-gradient(135deg, #7A5C10, #D4A017, #F5CC55, #D4A017)",
@@ -263,7 +263,7 @@ export default function Hero() {
               backgroundSize: "200% auto",
               animation: "shimmer 4s linear infinite",
             }}>
-              Pure
+              Dairy Farm
             </span>
           </motion.h1>
 
