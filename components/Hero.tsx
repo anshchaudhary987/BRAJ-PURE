@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import ThreeBottle from "./ThreeBottle";
+import LiquidVortex from "./LiquidVortex";
 import Magnetic from "./Magnetic";
 
 /* ─── Floating particles ─── */
@@ -429,23 +429,17 @@ export default function Hero() {
           />
 
           <motion.div
-            animate={{ y: [0, -18, 0] }}
-            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-            style={{ position: "relative", width: "100%", maxWidth: "460px", aspectRatio: "1" }}
+            animate={{ y: [0, -15, 0] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            style={{ position: "relative", width: "100%", maxWidth: "540px", aspectRatio: "0.95" }}
           >
             <div style={{
               width: "100%",
               height: "100%",
-              borderRadius: "50%",
-              overflow: "hidden",
-              border: "1.5px solid rgba(212,160,23,0.2)",
-              boxShadow: "0 40px 120px rgba(0,0,0,0.6), 0 0 80px rgba(212,160,23,0.12), inset 0 0 60px rgba(0,0,0,0.2)",
+              overflow: "visible",
             }}>
-              <ThreeBottle />
+              <LiquidVortex />
             </div>
-
-            <div style={{ position: "absolute", inset: "-14px", borderRadius: "50%", border: "1px solid rgba(212,160,23,0.1)", pointerEvents: "none" }} />
-            <div style={{ position: "absolute", inset: "-28px", borderRadius: "50%", border: "1px solid rgba(212,160,23,0.05)", pointerEvents: "none" }} />
 
             {/* Floating badge */}
             <motion.div
