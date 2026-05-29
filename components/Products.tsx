@@ -131,12 +131,27 @@ const products = [
     id: "curd-500",
     name: "A2 Traditional Curd",
     size: "500 g",
-    price: 80,
-    priceLabel: "₹80 / day",
+    price: 39,
+    priceLabel: "₹39 / pack",
     badge: "Thick & Creamy",
     badgeGradient: "linear-gradient(135deg, #1B4332, #40916C)",
     badgeTextColor: "#F0ECD8",
     desc: "Traditional clay-pot style curd made from pure A2 milk. Rich in probiotics and natural sweetness.",
+    features: ["Set in clay pots", "No added starch", "Probiotic rich", "Daily fresh delivery"],
+    image: "/curd.png",
+    accentColor: "#40916C",
+    bg: "linear-gradient(135deg, rgba(64,145,108,0.08), rgba(64,145,108,0.02))",
+  },
+  {
+    id: "curd-1kg",
+    name: "A2 Traditional Curd",
+    size: "1 kg",
+    price: 75,
+    priceLabel: "₹75 / pack",
+    badge: "Value Pack",
+    badgeGradient: "linear-gradient(135deg, #1B4332, #40916C)",
+    badgeTextColor: "#F0ECD8",
+    desc: "Traditional clay-pot style curd made from pure A2 milk in a family size pack. Rich in probiotics.",
     features: ["Set in clay pots", "No added starch", "Probiotic rich", "Daily fresh delivery"],
     image: "/curd.png",
     accentColor: "#40916C",
@@ -187,8 +202,8 @@ const getProductRoute = (id: string) => {
   if (id.startsWith("paneer-")) {
     return { slug: "a2-paneer", size: id === "paneer-500" ? "500g" : "1kg" };
   }
-  if (id === "curd-500") {
-    return { slug: "a2-curd", size: "500g" };
+  if (id === "curd-500" || id === "curd-1kg") {
+    return { slug: "a2-curd", size: id === "curd-500" ? "500g" : "1kg" };
   }
   if (id === "butter-250") {
     return { slug: "a2-butter", size: "250g" };

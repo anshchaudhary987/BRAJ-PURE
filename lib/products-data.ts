@@ -225,7 +225,8 @@ export const productsData: Record<string, ProductDetail> = {
       { q: "Is it sour?", a: "No, our curd is set fresh and delivered immediately under cold storage, so it remains sweet and delicious." }
     ],
     sizes: {
-      "500g": { id: "curd-500", sizeLabel: "500 g Pack", price: 80, priceLabel: "₹80 / pack" }
+      "500g": { id: "curd-500", sizeLabel: "500 g Pack", price: 39, priceLabel: "₹39 / pack" },
+      "1kg": { id: "curd-1kg", sizeLabel: "1 kg Pack", price: 75, priceLabel: "₹75 / pack" }
     },
     defaultSize: "500g",
     isSubscription: true
