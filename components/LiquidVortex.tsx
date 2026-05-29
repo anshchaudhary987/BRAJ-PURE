@@ -6,6 +6,10 @@ import * as THREE from "three";
 export default function LiquidVortex() {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const uniformsRef = useRef({
+    uTime: { value: 0 },
+    uMouse: { value: new THREE.Vector2(-10, -10) },
+  });
   const [hasWebGL, setHasWebGL] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -113,26 +117,52 @@ export default function LiquidVortex() {
     scene.environment = genEnvMap();
 
     // ─── SCENE LIGHTING ───
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.75);
     scene.add(ambientLight);
 
-    const dirLight1 = new THREE.DirectionalLight(0xffffff, 2.5);
+    const dirLight1 = new THREE.DirectionalLight(0xffffff, 2.8);
     dirLight1.position.set(5, 5, 5);
     scene.add(dirLight1);
 
-    const dirLight2 = new THREE.DirectionalLight(0xd4a017, 4.0);
+    const dirLight2 = new THREE.DirectionalLight(0xd4a017, 4.5);
     dirLight2.position.set(-6, 4, -5);
     scene.add(dirLight2);
 
-    const dirLight3 = new THREE.DirectionalLight(0x40916c, 1.5);
+    const dirLight3 = new THREE.DirectionalLight(0x40916c, 1.8);
     dirLight3.position.set(-3, -3, 3);
     scene.add(dirLight3);
+
+    // ─── BACKGROUND AMBIENT HALO ───
+    const haloGeo = new THREE.PlaneGeometry(9, 9);
+    const genHaloTexture = () => {
+      const canvasHalo = document.createElement("canvas");
+      canvasHalo.width = 256;
+      canvasHalo.height = 256;
+      const ctx = canvasHalo.getContext("2d")!;
+      const grad = ctx.createRadialGradient(128, 128, 0, 128, 128, 128);
+      grad.addColorStop(0, "rgba(212, 160, 23, 0.08)");
+      grad.addColorStop(0.5, "rgba(64, 145, 108, 0.03)");
+      grad.addColorStop(1, "rgba(0, 0, 0, 0)");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 256, 256);
+      return new THREE.CanvasTexture(canvasHalo);
+    };
+    const haloMaterial = new THREE.MeshBasicMaterial({
+      map: genHaloTexture(),
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      side: THREE.DoubleSide,
+    });
+    const haloMesh = new THREE.Mesh(haloGeo, haloMaterial);
+    haloMesh.position.set(0, 0, -2);
+    scene.add(haloMesh);
 
     // ─── DOUBLE INTERTWINING HELIX GEOMETRY ───
     const heightRange = 6.0;
     const steps = 60;
-    const radius = 0.7;
-    const turns = 1.4;
+    const radius = 0.75;
+    const turns = 1.35;
 
     // Generate points along helix formulas
     const milkPoints = [];
@@ -159,14 +189,10 @@ export default function LiquidVortex() {
     const gheeCurve = new THREE.CatmullRomCurve3(gheePoints);
 
     // Create Tubes
-    const milkGeometry = new THREE.TubeGeometry(milkCurve, 120, 0.28, 24, false);
-    const gheeGeometry = new THREE.TubeGeometry(gheeCurve, 120, 0.22, 24, false);
+    const milkGeometry = new THREE.TubeGeometry(milkCurve, 120, 0.3, 24, false);
+    const gheeGeometry = new THREE.TubeGeometry(gheeCurve, 120, 0.23, 24, false);
 
-    // Save original position attributes for displacement math
-    const originalMilkPositions = milkGeometry.attributes.position.clone();
-    const originalGheePositions = gheeGeometry.attributes.position.clone();
-
-    // Silken A2 Milk material (Warm White Glossy Physical)
+    // Silken A2 Milk material (Warm White Glossy Physical with GPU-displacement)
     const milkMaterial = new THREE.MeshPhysicalMaterial({
       color: 0xfbfaf6,
       roughness: 0.1,
@@ -176,7 +202,35 @@ export default function LiquidVortex() {
       side: THREE.DoubleSide,
     });
 
-    // Liquid Gold Ghee material (High Metal Clearcoat Gold)
+    milkMaterial.onBeforeCompile = (shader) => {
+      shader.uniforms.uTime = uniformsRef.current.uTime;
+      shader.uniforms.uMouse = uniformsRef.current.uMouse;
+
+      shader.vertexShader = `
+        uniform float uTime;
+        uniform vec2 uMouse;
+      ` + shader.vertexShader;
+
+      shader.vertexShader = shader.vertexShader.replace(
+        "#include <begin_vertex>",
+        `
+        #include <begin_vertex>
+        vec4 worldPos = modelMatrix * vec4(transformed, 1.0);
+        float dist = distance(worldPos.xy, uMouse);
+        
+        float wave = sin(transformed.y * 2.5 - uTime * 2.8) * 0.038 + cos(transformed.x * 2.2 + uTime * 1.6) * 0.016;
+        
+        float mouseDeform = 0.0;
+        if (dist < 1.6 && uMouse.x > -8.0) {
+          mouseDeform = (1.6 - dist) * 0.18 * sin(uTime * 6.5 - dist * 4.5);
+        }
+        
+        transformed += normal * (wave + mouseDeform);
+        `
+      );
+    };
+
+    // Liquid Gold Ghee material (High Metal Clearcoat Gold with GPU-displacement)
     const gheeMaterial = new THREE.MeshPhysicalMaterial({
       color: 0xd4a017,
       roughness: 0.05,
@@ -186,13 +240,58 @@ export default function LiquidVortex() {
       side: THREE.DoubleSide,
     });
 
+    gheeMaterial.onBeforeCompile = (shader) => {
+      shader.uniforms.uTime = uniformsRef.current.uTime;
+      shader.uniforms.uMouse = uniformsRef.current.uMouse;
+
+      shader.vertexShader = `
+        uniform float uTime;
+        uniform vec2 uMouse;
+      ` + shader.vertexShader;
+
+      shader.vertexShader = shader.vertexShader.replace(
+        "#include <begin_vertex>",
+        `
+        #include <begin_vertex>
+        vec4 worldPos = modelMatrix * vec4(transformed, 1.0);
+        float dist = distance(worldPos.xy, uMouse);
+        
+        float wave = sin(transformed.y * 2.2 - uTime * 2.4 + 3.14159) * 0.032 + cos(transformed.x * 2.5 + uTime * 1.8) * 0.016;
+        
+        float mouseDeform = 0.0;
+        if (dist < 1.6 && uMouse.x > -8.0) {
+          mouseDeform = -((1.6 - dist) * 0.18 * sin(uTime * 6.5 - dist * 4.5));
+        }
+        
+        transformed += normal * (wave + mouseDeform);
+        `
+      );
+    };
+
+    // Main Helix Group for elastic swaying
+    const helixGroup = new THREE.Group();
+    scene.add(helixGroup);
+
     const milkMesh = new THREE.Mesh(milkGeometry, milkMaterial);
-    scene.add(milkMesh);
+    helixGroup.add(milkMesh);
 
     const gheeMesh = new THREE.Mesh(gheeGeometry, gheeMaterial);
-    scene.add(gheeMesh);
+    helixGroup.add(gheeMesh);
 
-    // ─── FLOATING ORBITING ORBS ───
+    // ─── ULTRA-LUXURY GLASS DEW DROPS & ORBITING ORBS ───
+    // Glass refraction material
+    const glassOrbMaterial = new THREE.MeshPhysicalMaterial({
+      color: 0xffffff,
+      roughness: 0.015,
+      metalness: 0.05,
+      transmission: 0.96,
+      ior: 1.52,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.015,
+      transparent: true,
+      opacity: 0.95,
+    });
+
     const orbCount = 14;
     const orbs: {
       mesh: THREE.Mesh;
@@ -207,9 +306,12 @@ export default function LiquidVortex() {
     const sphereGeo = new THREE.SphereGeometry(1, 16, 16);
 
     for (let i = 0; i < orbCount; i++) {
-      const isGold = Math.random() > 0.45;
-      const material = isGold ? gheeMaterial : milkMaterial;
-      const size = Math.random() * 0.12 + 0.04;
+      // 4 Gold, 4 Milk, 6 Clear Glass
+      let material = glassOrbMaterial;
+      if (i < 4) material = gheeMaterial;
+      else if (i < 8) material = milkMaterial;
+
+      const size = Math.random() * 0.11 + 0.045;
       const mesh = new THREE.Mesh(sphereGeo, material);
       mesh.scale.set(size, size, size);
 
@@ -224,11 +326,60 @@ export default function LiquidVortex() {
         baseX: Math.cos(angle) * dist,
         baseY: height,
         baseZ: Math.sin(angle) * dist,
-        speed: (Math.random() * 0.8 + 0.4) * (Math.random() > 0.5 ? 1 : -1),
+        speed: (Math.random() * 0.7 + 0.35) * (Math.random() > 0.5 ? 1 : -1),
         orbitRadius: dist,
         phase: Math.random() * 100,
       });
     }
+
+    // ─── UPWARD-FLOWING GOLD PARTICLE STREAM ───
+    const particleCount = 130;
+    const particleGeometry = new THREE.BufferGeometry();
+    const particlePositions = new Float32Array(particleCount * 3);
+    const particlesData: {
+      y: number;
+      speed: number;
+      angleOffset: number;
+      jitterX: number;
+      jitterZ: number;
+    }[] = [];
+
+    for (let i = 0; i < particleCount; i++) {
+      const y = (Math.random() - 0.5) * heightRange;
+      const isMilkFlow = Math.random() > 0.5;
+      const angleOffset = isMilkFlow ? 0 : Math.PI;
+      const speed = Math.random() * 0.016 + 0.008;
+
+      const jitterAngle = Math.random() * Math.PI * 2;
+      const jitterDist = Math.random() * 0.16 + 0.04;
+
+      particlesData.push({
+        y,
+        speed,
+        angleOffset,
+        jitterX: Math.cos(jitterAngle) * jitterDist,
+        jitterZ: Math.sin(jitterAngle) * jitterDist,
+      });
+
+      // Initial positions
+      particlePositions[i * 3] = 0;
+      particlePositions[i * 3 + 1] = y;
+      particlePositions[i * 3 + 2] = 0;
+    }
+
+    particleGeometry.setAttribute("position", new THREE.BufferAttribute(particlePositions, 3));
+
+    const particleMaterial = new THREE.PointsMaterial({
+      color: 0xf5cc55, // Glowing gold
+      size: 0.05,
+      transparent: true,
+      opacity: 0.75,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+
+    const particleSystem = new THREE.Points(particleGeometry, particleMaterial);
+    scene.add(particleSystem);
 
     setIsLoaded(true);
 
@@ -240,7 +391,6 @@ export default function LiquidVortex() {
       const rect = container.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       const y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-      // Project into 3D scene coordinate space
       targetMouse3D.set(x * 3.2, y * 3.5);
     };
 
@@ -253,9 +403,6 @@ export default function LiquidVortex() {
 
     // ─── ANIMATION LOOP ───
     let animationFrameId: number;
-    const milkPositions = milkGeometry.attributes.position;
-    const gheePositions = gheeGeometry.attributes.position;
-    const count = milkPositions.count;
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
@@ -266,83 +413,40 @@ export default function LiquidVortex() {
       mouse3D.x += (targetMouse3D.x - mouse3D.x) * 0.07;
       mouse3D.y += (targetMouse3D.y - mouse3D.y) * 0.07;
 
-      // 1. Slow automatic rotation of the whole sculpture
-      milkMesh.rotation.y = time * 0.2;
-      gheeMesh.rotation.y = time * 0.2;
+      // Update uniforms for GPU shader displacement
+      uniformsRef.current.uTime.value = time;
+      uniformsRef.current.uMouse.value.copy(mouse3D);
 
-      // 2. Liquid normal-displacement math for Milk Stream
-      for (let i = 0; i < count; i++) {
-        const ox = originalMilkPositions.getX(i);
-        const oy = originalMilkPositions.getY(i);
-        const oz = originalMilkPositions.getZ(i);
+      // 1. Automatic slow rotation of the helix
+      helixGroup.rotation.y = time * 0.2;
 
-        const nx = milkGeometry.attributes.normal.getX(i);
-        const ny = milkGeometry.attributes.normal.getY(i);
-        const nz = milkGeometry.attributes.normal.getZ(i);
-
-        // Fluid noise: bulges and ripples
-        let displacement = Math.sin(oy * 2.5 - time * 3.0) * 0.035 + Math.cos(ox * 2.0 + time * 1.5) * 0.015;
-
-        // Mouse proximity warp
-        // Transform original point with mesh rotation to match world space
-        const worldX = ox * Math.cos(milkMesh.rotation.y) - oz * Math.sin(milkMesh.rotation.y);
-        const worldY = oy;
-        const dx = worldX - mouse3D.x;
-        const dy = worldY - mouse3D.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < 1.6 && mouse3D.x > -8) {
-          const force = (1.6 - dist) * 0.16 * Math.sin(time * 7 - dist * 4);
-          displacement += force;
-        }
-
-        milkPositions.setXYZ(i, ox + nx * displacement, oy + ny * displacement, oz + nz * displacement);
+      // Elastic swaying of the entire sculpture towards the cursor
+      if (mouse3D.x > -8) {
+        helixGroup.rotation.z += (mouse3D.x * 0.06 - helixGroup.rotation.z) * 0.05;
+        helixGroup.rotation.x += (-mouse3D.y * 0.06 - helixGroup.rotation.x) * 0.05;
+      } else {
+        helixGroup.rotation.z += (0 - helixGroup.rotation.z) * 0.05;
+        helixGroup.rotation.x += (0 - helixGroup.rotation.x) * 0.05;
       }
-      milkGeometry.computeVertexNormals();
-      milkPositions.needsUpdate = true;
 
-      // 3. Liquid normal-displacement math for Ghee Stream
-      for (let i = 0; i < count; i++) {
-        const ox = originalGheePositions.getX(i);
-        const oy = originalGheePositions.getY(i);
-        const oz = originalGheePositions.getZ(i);
+      // Soft breathing pulse for background halo
+      const pulse = 1.0 + Math.sin(time * 1.5) * 0.08;
+      haloMesh.scale.set(pulse, pulse, 1);
 
-        const nx = gheeGeometry.attributes.normal.getX(i);
-        const ny = gheeGeometry.attributes.normal.getY(i);
-        const nz = gheeGeometry.attributes.normal.getZ(i);
-
-        let displacement = Math.sin(oy * 2.2 - time * 2.6) * 0.03 + Math.cos(ox * 2.5 + time * 1.8) * 0.015;
-
-        const worldX = ox * Math.cos(gheeMesh.rotation.y) - oz * Math.sin(gheeMesh.rotation.y);
-        const worldY = oy;
-        const dx = worldX - mouse3D.x;
-        const dy = worldY - mouse3D.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < 1.6 && mouse3D.x > -8) {
-          const force = (1.6 - dist) * 0.16 * Math.sin(time * 7 - dist * 4);
-          displacement -= force; // Opposing deformation direction
-        }
-
-        gheePositions.setXYZ(i, ox + nx * displacement, oy + ny * displacement, oz + nz * displacement);
-      }
-      gheeGeometry.computeVertexNormals();
-      gheePositions.needsUpdate = true;
-
-      // 4. Animate and pull orbiting orbs
+      // 2. Animate and pull orbiting orbs
       orbs.forEach((orb) => {
-        orb.phase += 0.007 * orb.speed;
+        orb.phase += 0.0075 * orb.speed;
 
         let tx = Math.cos(orb.phase) * orb.orbitRadius;
-        let ty = orb.baseY + Math.sin(orb.phase * 2.2) * 0.2;
+        let ty = orb.baseY + Math.sin(orb.phase * 2.2) * 0.22;
         let tz = Math.sin(orb.phase) * orb.orbitRadius;
 
-        // Attract to mouse
+        // Gravity pull to mouse
         const dx = tx - mouse3D.x;
         const dy = ty - mouse3D.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < 2.0 && mouse3D.x > -8) {
-          const pull = (2.0 - dist) * 0.35;
+          const pull = (2.0 - dist) * 0.38;
           tx += (mouse3D.x - tx) * pull;
           ty += (mouse3D.y - ty) * pull;
         }
@@ -351,6 +455,29 @@ export default function LiquidVortex() {
         orb.mesh.position.y += (ty - orb.mesh.position.y) * 0.1;
         orb.mesh.position.z += (tz - orb.mesh.position.z) * 0.1;
       });
+
+      // 3. Update flowing gold particle stream positions
+      const posAttr = particleGeometry.attributes.position as THREE.BufferAttribute;
+      for (let i = 0; i < particleCount; i++) {
+        const data = particlesData[i];
+        data.y += data.speed;
+
+        // Loop back to bottom when particle reaches top
+        if (data.y > heightRange / 2) {
+          data.y = -heightRange / 2;
+        }
+
+        // Align particles to helix curves with rotation offset matching helixGroup rotation
+        const t = data.y / heightRange;
+        const angle = t * Math.PI * 2 * turns + data.angleOffset + helixGroup.rotation.y;
+
+        const px = Math.cos(angle) * radius + data.jitterX;
+        const py = data.y;
+        const pz = Math.sin(angle) * radius + data.jitterZ;
+
+        posAttr.setXYZ(i, px, py, pz);
+      }
+      posAttr.needsUpdate = true;
 
       renderer.render(scene, camera);
     };
@@ -378,7 +505,12 @@ export default function LiquidVortex() {
       milkMaterial.dispose();
       gheeGeometry.dispose();
       gheeMaterial.dispose();
+      glassOrbMaterial.dispose();
       sphereGeo.dispose();
+      particleGeometry.dispose();
+      particleMaterial.dispose();
+      haloGeo.dispose();
+      haloMaterial.dispose();
       renderer.dispose();
     };
   }, [isMobile]);
