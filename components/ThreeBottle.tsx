@@ -61,52 +61,53 @@ export default function ThreeBottle() {
     );
     camera.position.set(0, 0, 7.5);
 
-    // Renderer with anti-aliasing and transparency
+    // Renderer with anti-aliasing, transparency, and high performance
     const renderer = new THREE.WebGLRenderer({
       canvas,
       antialias: true,
       alpha: true,
       powerPreference: "high-performance",
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    // Set 100% native device pixel ratio for crystal-clear retina render resolution
+    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.shadowMap.enabled = true;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.15;
+    renderer.toneMappingExposure = 1.25;
 
-    // ─── PROCEDURAL ENVIRONMENT MAP GENERATION (STUDIO REFLECTIONS) ───
+    // ─── PROCEDURAL ENVIRONMENT MAP GENERATION (CRISP STUDIO REFLECTIONS) ───
     const genEnvMap = () => {
       const canvas = document.createElement("canvas");
       canvas.width = 512;
       canvas.height = 256;
       const ctx = canvas.getContext("2d")!;
 
-      // Dark studio backdrop space
-      ctx.fillStyle = "#040804";
+      // Deep dark rich backdrop space (increases contrast)
+      ctx.fillStyle = "#010301";
       ctx.fillRect(0, 0, 512, 256);
 
-      // Left vertical softbox light strip (neutral white)
-      const gradLeft = ctx.createLinearGradient(120, 0, 180, 0);
+      // Left vertical softbox light strip (neutral crisp white, full opacity)
+      const gradLeft = ctx.createLinearGradient(110, 0, 190, 0);
       gradLeft.addColorStop(0, "rgba(255, 255, 255, 0)");
-      gradLeft.addColorStop(0.5, "rgba(255, 255, 255, 0.9)");
+      gradLeft.addColorStop(0.5, "rgba(255, 255, 255, 1.0)");
       gradLeft.addColorStop(1, "rgba(255, 255, 255, 0)");
       ctx.fillStyle = gradLeft;
-      ctx.fillRect(120, 0, 60, 256);
+      ctx.fillRect(110, 0, 80, 256);
 
-      // Right vertical softbox light strip (warm golden tint)
-      const gradRight = ctx.createLinearGradient(320, 0, 390, 0);
+      // Right vertical softbox light strip (warm golden glow, full opacity)
+      const gradRight = ctx.createLinearGradient(310, 0, 400, 0);
       gradRight.addColorStop(0, "rgba(255, 245, 220, 0)");
-      gradRight.addColorStop(0.5, "rgba(255, 235, 190, 0.95)");
+      gradRight.addColorStop(0.5, "rgba(255, 230, 170, 1.0)");
       gradRight.addColorStop(1, "rgba(255, 245, 220, 0)");
       ctx.fillStyle = gradRight;
-      ctx.fillRect(320, 0, 70, 256);
+      ctx.fillRect(310, 0, 90, 256);
 
       // Top softbox ambient glow
-      const gradTop = ctx.createLinearGradient(0, 30, 0, 90);
-      gradTop.addColorStop(0, "rgba(255, 255, 255, 0.5)");
+      const gradTop = ctx.createLinearGradient(0, 20, 0, 100);
+      gradTop.addColorStop(0, "rgba(255, 255, 255, 0.75)");
       gradTop.addColorStop(1, "rgba(255, 255, 255, 0)");
       ctx.fillStyle = gradTop;
-      ctx.fillRect(0, 0, 512, 90);
+      ctx.fillRect(0, 0, 512, 100);
 
       const texture = new THREE.CanvasTexture(canvas);
       texture.mapping = THREE.EquirectangularReflectionMapping;
@@ -117,26 +118,26 @@ export default function ThreeBottle() {
     scene.environment = envMapTexture;
 
     // ─── LIGHTING ───
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.55);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
     scene.add(ambientLight);
 
     // Key Light (warm gold highlight from top right)
-    const keyLight = new THREE.DirectionalLight(0xfff8e7, 2.0);
+    const keyLight = new THREE.DirectionalLight(0xfff8e7, 2.2);
     keyLight.position.set(4, 5, 4);
     scene.add(keyLight);
 
     // Rim Light (backlit gold accent to trace the glass curves)
-    const rimLight = new THREE.DirectionalLight(0xd4a017, 3.8);
+    const rimLight = new THREE.DirectionalLight(0xd4a017, 4.2);
     rimLight.position.set(-6, 3, -6);
     scene.add(rimLight);
 
     // Soft Fill Light (forest green tint from left bottom)
-    const fillLight = new THREE.DirectionalLight(0x40916c, 0.85);
+    const fillLight = new THREE.DirectionalLight(0x40916c, 0.95);
     fillLight.position.set(-4, -2, 2);
     scene.add(fillLight);
 
     // Core Point Light (illuminates the internal milk body)
-    const pointLight = new THREE.PointLight(0xffffff, 1.5, 12);
+    const pointLight = new THREE.PointLight(0xffffff, 1.6, 12);
     pointLight.position.set(0, 0, 3);
     scene.add(pointLight);
 
@@ -171,17 +172,16 @@ export default function ThreeBottle() {
 
     const glassGeometry = new THREE.LatheGeometry(glassPoints, segments);
     
+    // Physical clear glass (Transmission removed to eliminate downsampled blur buffer)
     const glassMaterial = new THREE.MeshPhysicalMaterial({
       color: 0xffffff,
       transparent: true,
+      opacity: 0.28,             // Elegant glass transparency
       roughness: 0.015,
-      metalness: 0.02,
-      transmission: 0.97,        // High-end glass refraction
-      ior: 1.52,                 // Glass index of refraction
-      thickness: 0.12,           // Depth refraction simulation
-      specularIntensity: 1.2,
+      metalness: 0.08,
       clearcoat: 1.0,
       clearcoatRoughness: 0.015,
+      ior: 1.52,                 // Glass index of refraction
       side: THREE.DoubleSide,
       shadowSide: THREE.DoubleSide,
     });
@@ -201,7 +201,7 @@ export default function ThreeBottle() {
     const milkGeometry = new THREE.LatheGeometry(milkPoints, segments);
     const milkMaterial = new THREE.MeshStandardMaterial({
       color: 0xfdfdfa,           // Warm organic milk color
-      roughness: 0.6,
+      roughness: 0.5,
       metalness: 0.0,
     });
 
@@ -213,38 +213,39 @@ export default function ThreeBottle() {
     // Label wraps around the main cylindrical body: Y height from -0.8 to 0.4
     const labelGeo = new THREE.CylinderGeometry(0.92, 0.92, 1.15, segments, 1, true);
 
+    // Dynamic High-Resolution Label Texture (2048 x 1024)
     const genLabelTexture = () => {
       const labelCanvas = document.createElement("canvas");
-      labelCanvas.width = 1024;
-      labelCanvas.height = 512;
+      labelCanvas.width = 2048;   // High-res retina scale
+      labelCanvas.height = 1024;  // High-res retina scale
       const ctx = labelCanvas.getContext("2d")!;
 
       // 1. Forest Green Background
       ctx.fillStyle = "#0c1b12";
-      ctx.fillRect(0, 0, 1024, 512);
+      ctx.fillRect(0, 0, 2048, 1024);
 
       // 2. Gold Borders
       ctx.strokeStyle = "#d4a017";
-      ctx.lineWidth = 8;
-      ctx.strokeRect(20, 20, 984, 472);
-      ctx.lineWidth = 2;
-      ctx.strokeRect(32, 32, 960, 448);
+      ctx.lineWidth = 16;
+      ctx.strokeRect(40, 40, 1968, 944);
+      ctx.lineWidth = 4;
+      ctx.strokeRect(64, 64, 1920, 896);
 
-      // 3. Subtle Mandala Watermark background
+      // 3. Subtle Mandala Watermark background (Retina scale)
       ctx.globalAlpha = 0.09;
       ctx.strokeStyle = "#d4a017";
-      ctx.lineWidth = 1.5;
-      for (let r = 80; r <= 220; r += 35) {
+      ctx.lineWidth = 3.0;
+      for (let r = 160; r <= 440; r += 70) {
         ctx.beginPath();
-        ctx.arc(512, 256, r, 0, Math.PI * 2);
+        ctx.arc(1024, 512, r, 0, Math.PI * 2);
         ctx.stroke();
       }
       // Inner star rays
       for (let j = 0; j < 12; j++) {
         const angle = (j * Math.PI) / 6;
         ctx.beginPath();
-        ctx.moveTo(512 + 40 * Math.cos(angle), 256 + 40 * Math.sin(angle));
-        ctx.lineTo(512 + 230 * Math.cos(angle), 256 + 230 * Math.sin(angle));
+        ctx.moveTo(1024 + 80 * Math.cos(angle), 512 + 80 * Math.sin(angle));
+        ctx.lineTo(1024 + 460 * Math.cos(angle), 512 + 460 * Math.sin(angle));
         ctx.stroke();
       }
       ctx.globalAlpha = 1.0;
@@ -255,37 +256,36 @@ export default function ThreeBottle() {
       ctx.textBaseline = "middle";
 
       // Main Brand Name
-      ctx.font = "bold 64px 'Cinzel', 'Playfair Display', 'Georgia', serif";
-      ctx.fillText("N A R A N S H", 512, 190);
+      ctx.font = "bold 120px 'Cinzel', 'Playfair Display', 'Georgia', serif";
+      ctx.fillText("N A R A N S H", 1024, 380);
 
       // Border Divider Line
       ctx.fillStyle = "rgba(212, 160, 23, 0.4)";
-      ctx.fillRect(362, 246, 300, 2);
+      ctx.fillRect(724, 492, 600, 4);
 
       // Sub-brand Title
       ctx.fillStyle = "#f0ecd8";
-      ctx.font = "bold 20px 'Plus Jakarta Sans', sans-serif";
-      // Fallback for letterSpacing property in canvas context
+      ctx.font = "bold 38px 'Plus Jakarta Sans', sans-serif";
       if ("letterSpacing" in ctx) {
-        (ctx as any).letterSpacing = "6px";
+        (ctx as any).letterSpacing = "12px";
       }
-      ctx.fillText("DAIRY FARM", 512, 275);
+      ctx.fillText("DAIRY FARM", 1024, 550);
       if ("letterSpacing" in ctx) {
         (ctx as any).letterSpacing = "0px";
       }
 
       // Tagline
       ctx.fillStyle = "#d4a017";
-      ctx.font = "italic 26px 'Playfair Display', serif";
-      ctx.fillText("A2 Desi Cow Milk", 512, 335);
+      ctx.font = "italic 52px 'Playfair Display', serif";
+      ctx.fillText("A2 Desi Cow Milk", 1024, 670);
 
       // Decorative stars
-      ctx.font = "24px 'Georgia'";
-      ctx.fillText("✦  ✦  ✦", 512, 395);
+      ctx.font = "46px 'Georgia'";
+      ctx.fillText("✦  ✦  ✦", 1024, 790);
 
       const texture = new THREE.CanvasTexture(labelCanvas);
       texture.wrapS = THREE.RepeatWrapping;
-      texture.repeat.x = -1; // Correct layout mirroring inside cylinder geometries
+      texture.repeat.x = -1;
       return texture;
     };
 
@@ -297,7 +297,6 @@ export default function ThreeBottle() {
     });
 
     const labelMesh = new THREE.Mesh(labelGeo, labelMaterial);
-    // Align label vertically with the milk body center
     labelMesh.position.y = -0.5;
     bottleGroup.add(labelMesh);
 
@@ -328,7 +327,7 @@ export default function ThreeBottle() {
       const ctx = shadowCanvas.getContext("2d")!;
 
       const grad = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
-      grad.addColorStop(0, "rgba(2, 6, 2, 0.72)"); // dark green/black shadow core
+      grad.addColorStop(0, "rgba(2, 6, 2, 0.72)");
       grad.addColorStop(0.4, "rgba(2, 6, 2, 0.3)");
       grad.addColorStop(1, "rgba(2, 6, 2, 0)");
 
@@ -341,12 +340,12 @@ export default function ThreeBottle() {
     const shadowMaterial = new THREE.MeshBasicMaterial({
       map: genShadowTexture(),
       transparent: true,
-      depthWrite: false, // Prevents clipping with the grid or floor
+      depthWrite: false,
     });
 
     const shadowMesh = new THREE.Mesh(shadowGeo, shadowMaterial);
     shadowMesh.rotation.x = -Math.PI / 2;
-    shadowMesh.position.y = -2.4; // Located below the bottle mesh height
+    shadowMesh.position.y = -2.4;
     scene.add(shadowMesh);
 
     setIsLoaded(true);
