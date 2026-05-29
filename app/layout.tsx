@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PWAInstall from "@/components/PWAInstall";
+import PageRevealWrapper from "@/components/PageRevealWrapper";
 
 export const metadata: Metadata = {
   title: "Naransh Dairy Farm | A2 Desi Cow Milk — Pure. Natural. Powerful.",
@@ -35,14 +36,16 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icon.png" />
       </head>
       <body>
-        <Navbar />
-        <PWAInstall />
-        <main>{children}</main>
-        <Footer />
+        <PageRevealWrapper>
+          <Navbar />
+          <PWAInstall />
+          <main>{children}</main>
+          <Footer />
+        </PageRevealWrapper>
 
         {/* Floating WhatsApp CTA */}
         <a
-          href="https://wa.me/919258831914?text=Hi%20Braj%20Pure!%20I'd%20like%20to%20start%20my%20free%20trial."
+          href="https://wa.me/919258831914?text=Hi%20Naransh%20Dairy%20Farm!%20I'd%20like%20to%20start%20my%20free%20trial."
           target="_blank"
           rel="noopener noreferrer"
           className="whatsapp-float"
